@@ -2,7 +2,7 @@
 (must "Admission" Admission)
 
 (menu ,"Admission"
-   (idForm ,"Admission" '(choAdm) 'number '+Admission T '(may Delete) '((: number))
+   (idForm ,"Admission" '(choAdm) 'nr '+Admission T '(may Delete) '((: nr))
       (<grid> 4
          ,"Date" NIL
          (gui '(+E/R +DateField) '(dat : home obj) 10)

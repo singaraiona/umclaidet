@@ -13,15 +13,19 @@
    *Blob "db/app/blob/"
    *Salt (16 . "$6$@1$") )
 
+(locale "RU" "ru" "app/loc/")
+
 (load "app/er.l" "app/lib.l" "app/gui.l")
 
 (permission
-   Supplier    ,"Поставщик"
-   Report      ,"Отчет"
-   RoleAdmin   ,"Роль Администратор"
-   UserAdmin   ,"Пользователь Администратор"
-   Password    ,"Пароль"
-   Delete      ,"Удалить" )
+   Product     ,"Product"
+   Supplier    ,"Supplier"
+   Admission   ,"Admission"
+   Report      ,"Report"
+   RoleAdmin   ,"Role Administration"
+   UserAdmin   ,"User Administration"
+   Password    ,"Password"
+   Delete      ,"Delete" )
 
 # Entry point
 (de main ()
@@ -29,8 +33,6 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") ) )
-
-(locale "RU" "ru" "app/loc/")
 
 (de go (Rpc)
    (when Rpc
