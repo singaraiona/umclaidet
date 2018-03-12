@@ -23,7 +23,7 @@
    (and (app) (setq *Menu 3))
    (menu "Учет товаров"
       (<h2> NIL "Учет товаров")
-      (<img> "@img/collect.png" "Logo" NIL "100%")
+      (<img> "img/collect.png" "Logo" NIL "100%")
       (----)
       (loginForm) ) )
 

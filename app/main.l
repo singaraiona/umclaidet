@@ -1,5 +1,5 @@
 
-(allowed ("app/")
+(allowed ("app/" "img/")
    "!work" "!stop" "@lib.css" "!psh" )
 
 (scl 2)
@@ -16,14 +16,12 @@
 (load "app/er.l" "app/lib.l" "app/gui.l")
 
 (permission
-   Customer    ,"Customer"
-   Item        ,"Item"
-   Order       ,"Order"
-   Report      ,"Report"
-   RoleAdmin   ,"Role Administration"
-   UserAdmin   ,"User Administration"
-   Password    ,"Password"
-   Delete      ,"Delete" )
+   Supplier    ,"Поставщик"
+   Report      ,"Отчет"
+   RoleAdmin   ,"Роль Администратор"
+   UserAdmin   ,"Пользователь Администратор"
+   Password    ,"Пароль"
+   Delete      ,"Удалить" )
 
 # Entry point
 (de main ()
