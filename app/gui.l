@@ -67,4 +67,52 @@
             'name *SupNm )
          (cancelButton) ) ) )
 
-
+(de choProd (Dst)
+   (diaform '(Dst)
+      (<grid> "-.-.-.-.-.-."
+         ,"Number" (gui 'nr '(+Focus +Var +NumField) '*ProdNr 10)
+         ,"Brand" (gui 'brand '(+Var +TextField) '*ProdBr 30)
+         ,"Name" (gui 'name '(+Var +TextField) '*ProdNm 30)
+         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 20)
+         (searchButton '(init> (: home query)))
+         (resetButton '(nr brand name supplier query)) )
+      (gui 'query '(+QueryChart) (cho)
+         '(goal
+            (quote
+               @Nr (and *ProdNr (cons @ T))
+               @Br *ProdBr
+               @Nm *ProdNm
+               @Sup *ProdSup
+               (select (@@)
+                  ((nr +Product @Nr)
+                        (brand +Product @Br)
+                        (name +Product @Nm)
+                        (name +Supplier @Sup
+                              (supplier +Product)) )
+                  (range @Nr @@ nr)
+                  (tolr @Br @@ brand)
+                  (tolr @Nm @@ name)
+                  (tolr @Sup @@ supplier name) ) ) )
+         5
+         '((This) (list This (: nr) This (: name)) ) )
+      (<table> 'chart (choTtl ,"Products" 'nr '+Product)
+         (quote
+            (btn)
+            (align "#")
+            (NIL ,"Brand")
+            (NIL ,"Name")
+            (NIL ,"Supplier") )
+         (do (cho)
+            (<row> (alternating)
+               (gui 1 '(+DstButton) Dst)
+               (gui 2 '(+NumField))
+               (gui 3 '(+ObjView +TextField) '(: brand))
+               (gui 4 '(+ObjView +TextField) '(: name))
+               (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
+      (<spread>
+         (scroll (cho))
+         (newButton T Dst '(+Product)
+            '(nr genKey 'nr '+Product)
+            'brand *ProdBr
+            'name *ProdNm )
+         (cancelButton) ) ) )
