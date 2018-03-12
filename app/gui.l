@@ -69,11 +69,11 @@
 
 (de choProd (Dst)
    (diaform '(Dst)
-      (<grid> "-.-.-.-.-.-."
+      (<grid> "-.-.-.-.--"
          ,"Number" (gui 'nr '(+Focus +Var +NumField) '*ProdNr 10)
          ,"Brand" (gui 'brand '(+Var +TextField) '*ProdBr 30)
          ,"Name" (gui 'name '(+Var +TextField) '*ProdNm 30)
-         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 20)
+         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          (searchButton '(init> (: home query)))
          (resetButton '(nr brand name supplier query)) )
       (gui 'query '(+QueryChart) (cho)
@@ -90,11 +90,11 @@
                         (name +Supplier @Sup
                               (supplier +Product)) )
                   (range @Nr @@ nr)
-                  (tolr @Br @@ brand)
-                  (tolr @Nm @@ name)
+                  (part @Br @@ brand)
+                  (part @Nm @@ name)
                   (tolr @Sup @@ supplier name) ) ) )
          5
-         '((This) (list This (: nr) This (: name)) ) )
+         '((This) (list This (: nr) This This (: supplier)) ) )
       (<table> 'chart (choTtl ,"Products" 'nr '+Product)
          (quote
             (btn)
