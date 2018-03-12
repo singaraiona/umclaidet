@@ -30,6 +30,8 @@
    (unless (seq *DB)
       (load "app/init.l") ) )
 
+(locale "RU" "ru" "app/loc/")
+
 (de go (Rpc)
    (when Rpc
       (task (port @)  # Set up query server in the background
