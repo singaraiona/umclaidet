@@ -163,7 +163,7 @@
                (gui 3 '(+ObjView +DateField) '(: date))
                (gui 4 '(+ObjView +TextField) '(: name))
                (gui 5 '(+ObjView +FixField) '(: price) 2)
-               (gui 5 '(+ObjView +NumField) '(: quantity)) ) ) )
+               (gui 6 '(+ObjView +NumField) '(: quantity)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Admission)
