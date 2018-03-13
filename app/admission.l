@@ -1,49 +1,16 @@
 
-(must "Admission" Admission)
+(must "Admissions" Admission)
 
-(menu ,"Admission"
-   (idForm ,"Admission" '(choAdm) 'nr '+Admission T '(may Delete) '((: nr))
-      (<grid> 4
-         ,"Date" NIL
-         (gui '(+E/R +DateField) '(dat : home obj) 10)
-         (gui '(+View +TextField)
-            '(text ,"(@1 Positions)" (length (: home obj pos))) )
-         ,"Customer" (choCuSu 0)
-         (gui '(+E/R +Obj +TextField) '(cus : home obj) '(nm +CuSu) 30)
-         (gui '(+View +TextField) '(field -1 'obj 'ort) 30) )
-      (--)
-      (gui '(+Set +E/R +Chart) '((L) (filter bool L)) '(pos : home obj) 8
-         '((Pos I)
-            (with Pos
-               (list I NIL (: itm) (or (: pr) (: itm pr)) (: cnt) (sum> Pos)) ) )
-         '((L D)
-            (cond
-               (D
-                  (put!> D 'itm (caddr L))
-                  (put!> D 'pr (cadddr L))
-                  (put!> D 'cnt (; L 5))
-                  (and (; D itm) D) )
-               ((caddr L)
-                  (new! '(+Pos) 'itm @) ) ) ) )
-      (<table> NIL NIL
-         '(("align em2") (btn) (NIL ,"Item") (NIL ,"Price") (NIL ,"Quantity") (NIL ,"Total"))
-         (do 8
-            (<row> NIL
-               (gui 1 '(+NumField))
-               (choItem 2)
-               (gui 3 '(+Obj +TextField) '(nm +Item) 30)
-               (gui 4 '(+FixField) 2 12)
-               (gui 5 '(+NumField) 8)
-               (gui 6 '(+Sgn +Lock +FixField) 2 12)
-               (gui 7 '(+DelRowButton))
-               (gui 8 '(+BubbleButton)) ) )
-         (<row> NIL NIL NIL (scroll 8 T) NIL NIL
-            (gui '(+Sgn +View +FixField) '(sum> (: home obj)) 2 12) ) )
-      (<spread>
-         (gui '(+Rid +Button) ,"PDF-Print"
-            '(if (check> (: home obj))
-               (note ,"Can't print order" (uniq @))
-               (url (ps> (: home obj))) ) )
-         (editButton T) ) ) )
+(menu, "Admissions"
+   (idForm ,"Admission" '(choAdm) 'nr '+Admission T '(may Delete)
+      '((: nr))
+      (<hr>)
+      (<grid> 3
+         ,"Number" NIL    (gui '(+E/R +NumField) '(nr : home obj) 10)
+         ,"Date" NIL      (gui '(+E/R +Cue +DateField) '(date : home obj) ,"Date" 20)
+         ,"Product name"  (choProd 0)
+            (gui '(+E/R +Obj +Cue +TextField) '(product : home obj) '(name +Product) ,"Product name" 20)
+         ,"Buy price" NIL (gui '(+E/R +Cue +FixField) '(price : home obj) ,"Buy price" 2 20)
+         ,"Quantity" NIL  (gui '(+E/R +Cue +NumField) '(quantity : home obj) ,"Quantity" 20) )
+      (<hr>)) )
 
-# vi:et:ts=3:sw=3

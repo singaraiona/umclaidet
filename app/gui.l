@@ -116,3 +116,57 @@
             'brand *ProdBr
             'name *ProdNm )
          (cancelButton) ) ) )
+
+(de choAdm (Dst)
+   (diaform '(Dst)
+      (<grid> "-.-.--"
+         ,"Number"       (gui 'nr '(+Focus +Var +NumField) '*AdmNr 10)
+         ,"Date"         (gui 'date '(+Var +DateField) '*AdmDat 10)
+         ,"Product name" (gui 'product '(+Var +TextField) '*AdmProd 10)
+         ,"Buy price"    (gui 'price '(+Var +FixField) '*AdmPr 2 10)
+         ,"Quantity"     (gui 'quantity '(+Var +NumField) '*AdmQt 10)
+         (searchButton '(init> (: home query)))
+         (resetButton '(nr date product price quantity query)) )
+      (gui 'query '(+QueryChart) (cho)
+         '(goal
+            (quote
+               @Nr (and *AdmNr (cons @ T))
+               @Dt *AdmDat
+               @Prd *AdmProd
+               @Pr *AdmPr
+               @Qt *AdmQt
+               (select (@@)
+                  ((nr +Admission @Nr)
+                        (date +Admission @Dt)
+                        (name +Product @Prd (product +Admission))
+                        (price +Admission @Pr)
+                        (quantity +Admission @Qt) )
+                  (range @Nr @@ nr)
+                  (range @Dt @@ date)
+                  (tolr @Prd @@ product name)
+                  (range @Pr @@ price)
+                  (range @Qt @@ quantity) ) ) )
+         6
+         '((This) (list This (: nr) This (: product) This This) ) )
+      (<table> 'chart (choTtl ,"Products" 'nr '+Product)
+         (quote
+            (btn)
+            (align "#")
+            (NIL ,"Date")
+            (NIL ,"Product")
+            (NIL ,"Price")
+            (NIL ,"Quantity") )
+         (do (cho)
+            (<row> (alternating)
+               (gui 1 '(+DstButton) Dst)
+               (gui 2 '(+NumField))
+               (gui 3 '(+ObjView +DateField) '(: date))
+               (gui 4 '(+ObjView +TextField) '(: name))
+               (gui 5 '(+ObjView +FixField) '(: price) 2)
+               (gui 5 '(+ObjView +NumField) '(: quantity)) ) ) )
+      (<spread>
+         (scroll (cho))
+         (newButton T Dst '(+Admission)
+            '(nr genKey 'nr '+Admission)
+            'date (date) )
+         (cancelButton) ) ) )
