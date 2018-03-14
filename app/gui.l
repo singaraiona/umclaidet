@@ -15,7 +15,9 @@
                      (T ,"Data"
                         (,"Products" (and (may Product) "app/product.l"))
                         (,"Suppliers" (and (may Supplier) "app/supplier.l"))
-                        (,"Admissions" (and (may Admission) "app/admission.l")) ) ) )
+                        (,"Admissions" (and (may Admission) "app/admission.l")) )
+                     (T ,"Report"
+                        (,"Inventory" (and (may Report) "app/inventory.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
