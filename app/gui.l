@@ -13,8 +13,8 @@
                      (,"Logout" (and *Login "!stop"))
                      (NIL (<hr>))
                      (T ,"Data"
-                        (,"Products" (and (may Product) "app/product.l"))
                         (,"Suppliers" (and (may Supplier) "app/supplier.l"))
+                        (,"Products" (and (may Product) "app/product.l"))
                         (,"Admissions" (and (may Admission) "app/admission.l")) )
                      (T ,"Report"
                         (,"Inventory" (and (may Report) "app/inventory.l")) ) ) )
@@ -55,7 +55,7 @@
       (<table> 'chart (choTtl ,"Suppliers" 'nr '+Supplier)
          (quote
             (btn)
-            (align "№")
+            (align "#")
             (NIL ,"Name") )
          (do (cho)
             (<row> (alternating)
@@ -133,10 +133,11 @@
          '(goal
             (quote
                @Nr (and *AdmNr (cons @ T))
-               @Dt *AdmDat
+               # @Dt (cons (or *AdmDat T))
+               @Dt (and *AdmDat (cons @ T))
                @Prd *AdmProd
-               @Pr *AdmPr
-               @Qt *AdmQt
+               @Pr (and *AdmPr (cons @ T))
+               @Qt (and *AdmQt (cons @ T))
                (select (@@)
                   ((nr +Admission @Nr)
                         (date +Admission @Dt)
@@ -164,8 +165,8 @@
                (gui 2 '(+NumField))
                (gui 3 '(+ObjView +DateField) '(: date))
                (gui 4 '(+ObjView +TextField) '(: name))
-               (gui 5 '(+ObjView +FixField) '(: price) 2)
-               (gui 6 '(+ObjView +NumField) '(: quantity)) ) ) )
+               (gui 5 '(+ObjView +FixField)  '(: price) 2)
+               (gui 6 '(+ObjView +NumField)  '(: quantity)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Admission)

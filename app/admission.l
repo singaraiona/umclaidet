@@ -5,7 +5,7 @@
    (idForm ,"Admission" '(choAdm) 'nr '+Admission T '(may Delete)
       '((: nr))
       (<hr>)
-      (<grid> 3
+      (<grid> 6
          ,"Number" NIL    (gui '(+E/R +NumField) '(nr : home obj) 10)
          ,"Date" NIL      (gui '(+E/R +Cue +DateField) '(date : home obj) ,"Date" 10)
          ,"Product name"  (choProd 0)
