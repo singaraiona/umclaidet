@@ -7,15 +7,16 @@
       (<grid> "-.-"
          ,"Number" NIL
          (prog
-            (gui '(+Var +NumField) '*InvNrFrom 10)
+            (gui 'nrfrom '(+Var +NumField) '*InvNrFrom 10)
             (prin " - ")
-            (gui '(+Var +NumField) '*InvNrTill 10) )
+            (gui 'nrtill '(+Var +NumField) '*InvNrTill 10) )
          ,"Date" NIL
          (prog
-            (gui '(+Var +DateField) '*InvDtFrom 10)
+            (gui 'datfrom '(+Var +DateField) '*InvDtFrom 10)
             (prin " - ")
-            (gui '(+Var +DateField) '*InvDtTill 10) ) )
+            (gui 'dattill '(+Var +DateField) '*InvDtTill 10) ) )
       (--)
+      (resetButton '(nrfrom nrtill datfrom dattill))
       (gui '(+ShowButton) NIL
          '(csv ,"Inventory"
             (<table> 'chart NIL
@@ -50,4 +51,4 @@
                            (<+> (money (: price)) This)
                            (<+> (: quantity) This)
                            (<+> (+ (* (: price) (: quantity)) 1)) ) )
-(at (0 . 10000) (or (flush) (throw))) ) ) ) ) ) ) )
+            (at (0 . 10000) (or (flush) (throw))) ) ) ) ) ) ) )
