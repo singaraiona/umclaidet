@@ -43,7 +43,7 @@
                      (with @@
                         (<row> (alternating)
                            (<+> (: nr) This)
-                           (<+> (date (: date)) This)
+                           (<+> (datStr (: date)) This)
                            (<+> (: product brand) (: product))
                            (<+> (: product name) (: product))
                            (<+> (: product supplier name) (: product supplier))
