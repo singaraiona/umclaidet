@@ -13,7 +13,7 @@
    *Blob "db/app/blob/"
    *Salt (16 . "$6$@1$") )
 
-(locale "RU" "ru" "app/loc/")
+(locale "US" "ru" "app/loc/")
 
 (load "app/er.l" "app/lib.l" "app/gui.l")
 

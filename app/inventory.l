@@ -36,11 +36,11 @@
                      (quote
                         @RngNr (cons *InvNrFrom (or *InvNrTill T))
                         @RngDt (cons *InvDtFrom (or *InvDtTill T))
-                        (select (@Admission)
-                           ((nr +Admission @RngNr))
-                           (range @RngNr @ nr)
-                           (range @RngDt @ date) ) )
-                     (with @Admission
+                        (select (@@)
+                           ((nr +Admission @RngNr) (date +Admission @RngDt))
+                           (range @RngNr @@ nr)
+                           (range @RngDt @@ date) ) )
+                     (with @@
                         (<row> (alternating)
                            (<+> (: nr) This)
                            (<+> (date (: date)) This)
