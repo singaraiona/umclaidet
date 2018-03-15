@@ -36,16 +36,7 @@
       (load "app/init.l") ) (mm))
 
 (de mm()
-(with
-   (last
-      (solve
-         (quote
-            @Nr nr
-            (select (@Income)
-               ((nr +Income @Nr))
-                  (range @Nr @Income nr) ) )
-      @Income ) )
-      (prinl (: sellprice)) )
+   (prinl (incme (1 . 4)))
 )
 
 

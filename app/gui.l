@@ -186,19 +186,19 @@
                (gui 10 '(+ObjView +FixField)  '(- (*(: sellprice) (: quantity)) (*(: buyprice) (: quantity))) 2) ) ) )
       (<spread>
          (scroll (cho))
-         (with
-            (last
-               (solve
-                  (quote
-                     @Nr nr
-                     (select (@Income)
-                        ((nr +Income @Nr))
-                           (range @Nr @Income nr) ) )
-               @Income) )
-
             (newButton T Dst '(+Income)
                '(nr genKey 'nr '+Income)
                'date (date)
-               '(quantity (: quantity))) ) )
+               'quantity (incme (1 . 2)) ) )
             (cancelButton) ) )
 
+(de incme(Nmr)
+      (pilog
+         (quote
+           @Nmr Nmr
+           (select (@Income)
+              ((nr +Income @Nmr))
+                 (range @Nmr @Income nr) ) )
+         (with @Income
+            (: sellprice) ) )
+)
