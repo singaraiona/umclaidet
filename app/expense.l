@@ -1,8 +1,8 @@
 
-(must "Income" Income)
+(must "Expense" Expense)
 
-(menu, "Income"
-   (idForm ,"Income" '(choInc) 'nr '+Income T '(may Delete)
+(menu, "Expense"
+   (idForm ,"Expense" '(choExp) 'nr '+Expense T '(may Delete)
       '((: nr))
       (<hr>)
       (<grid> 6

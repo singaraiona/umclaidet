@@ -15,18 +15,19 @@
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )
 
-# Admission
-(class +Admission +Entity)
-(rel nr       (+Need +Key +Number))
-(rel date     (+Ref +Date))
-(rel product  (+Ref +Link) NIL (+Product))
-(rel price    (+Ref +Number))
-(rel quantity (+Ref +Number))
+# Income
+(class +Income +Entity)
+(rel nr        (+Need +Key +Number))
+(rel date      (+Ref +Date))
+(rel product   (+Ref +Link) NIL (+Product))
+(rel quantity  (+Ref +Number))
+(rel sellprice (+Ref +Number))
+(rel buyprice  (+Ref +Number))
 
-(dm url> (Tab) (and (may Admission) (list "app/admission.l" '*ID This)) )
+(dm url> (Tab) (and (may Income) (list "app/income.l" '*ID This)) )
 
 # Database sizes
 (dbs
    (3 +Role +User (+User pw))
-   (1 +Product +Admission)
+   (1 +Product +Income +Expense)
    (2 +Supplier) )

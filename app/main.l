@@ -33,7 +33,21 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) )
+      (load "app/init.l") ) (mm))
+
+(de mm()
+(with
+   (last
+      (solve
+         (quote
+            @Nr nr
+            (select (@Income)
+               ((nr +Income @Nr))
+                  (range @Nr @Income nr) ) )
+      @Income ) )
+      (prinl (: sellprice)) )
+)
+
 
 (de go (Rpc)
    (when Rpc

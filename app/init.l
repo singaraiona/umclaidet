@@ -6,4 +6,3 @@
 ### User ###
 (obj ((+User) nm "admin") pw `(passwd "admin") nam "Administrator" role `(db 'nm '+Role "Administration"))
 (commit)
-
