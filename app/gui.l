@@ -9,13 +9,18 @@
                (<div> @
                   (expires)
                   (<menu>
-                     (,"Home" "!work")
-                     (,"Logout" (and *Login "!stop"))
+                     (T ,"Main menu"
+                        (,"Home" "!work")
+                        (,"Logout" (and *Login "!stop")) )
                      (NIL (<hr>))
                      (T ,"Data"
                         (,"Suppliers" (and (may Supplier) "app/supplier.l"))
-                        (,"Products" (and (may Product) "app/product.l"))
-                        (,"Admissions" (and (may Admission) "app/admission.l")) )
+                        (,"Products" (and (may Product) "app/product.l")) )
+                     (NIL (<hr>))
+                     (T ,"Events"
+                        ("Income" (and (may Income) "app/income.l"))
+                        ("Expense" (and (may Expense) "app/expense.l")) )
+                     (NIL (<hr>))
                      (T ,"Report"
                         (,"Inventory" (and (may Report) "app/inventory.l")) ) ) )
                ((NIL NIL 'main)
@@ -23,9 +28,9 @@
 
 (de work ()
    (setq *Url "!work")
-   (and (app) (setq *Menu 3))
-   (menu "Учет товаров"
-      (<h2> NIL "Учет товаров")
+   (and (app) (setq *Menu 15))
+   (menu "Магазин"
+      (<h2> NIL "Магазин")
       (<img> "img/collect.png" "Logo" NIL "100%")
       (----)
       (loginForm) ) )
@@ -119,31 +124,30 @@
             'title *ProdTtl )
          (cancelButton) ) ) )
 
-(de choAdm (Dst)
+(de choInc (Dst)
    (diaform '(Dst)
       (<grid> "-.-.--"
-         ,"Number"       (gui 'nr '(+Focus +Var +NumField) '*AdmNr 10)
-         ,"Date"         (gui 'date '(+Var +DateField) '*AdmDat 10)
-         ,"Title"        (gui 'product '(+Var +TextField) '*AdmProd 10)
-         ,"Buy price"    (gui 'price '(+Var +FixField) '*AdmPr 2 10)
-         ,"Quantity"     (gui 'quantity '(+Var +NumField) '*AdmQt 10)
+         ,"Number"       (gui 'nr '(+Focus +Var +NumField) '*IncNr 10)
+         ,"Date"         (gui 'date '(+Var +DateField) '*IncDat 10)
+         ,"Title"        (gui 'product '(+Var +TextField) '*IncProd 10)
+         ,"Buy price"    (gui 'price '(+Var +FixField) '*IncPr 2 10)
+         ,"Quantity"     (gui 'quantity '(+Var +NumField) '*IncQt 10)
          (searchButton '(init> (: home query)))
          (resetButton '(nr date product price quantity query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr (and *AdmNr (cons @ T))
-               # @Dt (cons (or *AdmDat T))
-               @Dt (and *AdmDat (cons @ T))
-               @Prd *AdmProd
-               @Pr (and *AdmPr (cons @ T))
-               @Qt (and *AdmQt (cons @ T))
+               @Nr (and *IncNr (cons @ T))
+               @Dt (and *IncDat (cons @ T))
+               @Prd *IncProd
+               @Pr (and *IncPr (cons @ T))
+               @Qt (and *IncQt (cons @ T))
                (select (@@)
-                  ((nr +Admission @Nr)
-                        (date +Admission @Dt)
-                        (title +Product @Prd (product +Admission))
-                        (price +Admission @Pr)
-                        (quantity +Admission @Qt) )
+                  ((nr +Income @Nr)
+                        (date +Income @Dt)
+                        (title +Product @Prd (product +Income))
+                        (price +Income @Pr)
+                        (quantity +Income @Qt) )
                   (range @Nr @@ nr)
                   (range @Dt @@ date)
                   (tolr @Prd @@ product name)
@@ -169,7 +173,7 @@
                (gui 6 '(+ObjView +NumField)  '(: quantity)) ) ) )
       (<spread>
          (scroll (cho))
-         (newButton T Dst '(+Admission)
-            '(nr genKey 'nr '+Admission)
+         (newButton T Dst '(+Income)
+            '(nr genKey 'nr '+Income)
             'date (date) )
          (cancelButton) ) ) )

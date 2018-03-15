@@ -24,8 +24,8 @@
                   (quote
                      (align ,"Number")
                      (NIL   ,"Date")
-                     (NIL   ,"Brand")
-                     (NIL   ,"Name")
+                     (NIL   ,"Category")
+                     (NIL   ,"Title")
                      (NIL   ,"Supplier")
                      (align ,"Buy price")
                      (align ,"Sell price")
@@ -37,7 +37,7 @@
                         @RngNr (cons *InvNrFrom (or *InvNrTill T))
                         @RngDt (cons *InvDtFrom (or *InvDtTill T))
                         (select (@@)
-                           ((nr +Admission @RngNr) (date +Admission @RngDt))
+                           ((nr +Income @RngNr) (date +Income @RngDt))
                            (range @RngNr @@ nr)
                            (range @RngDt @@ date) ) )
                      (with @@

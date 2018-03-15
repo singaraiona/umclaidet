@@ -20,7 +20,8 @@
 (permission
    Product     ,"Product"
    Supplier    ,"Supplier"
-   Admission   ,"Admission"
+   Income      ,"Income"
+   Expense     ,"Expense"
    Report      ,"Report"
    RoleAdmin   ,"Role Administration"
    UserAdmin   ,"User Administration"

@@ -1,8 +1,8 @@
 
-(must "Admissions" Admission)
+(must "Income" Income)
 
-(menu, "Admissions"
-   (idForm ,"Admission" '(choAdm) 'nr '+Admission T '(may Delete)
+(menu, "Income"
+   (idForm ,"Income" '(choInc) 'nr '+Income T '(may Delete)
       '((: nr))
       (<hr>)
       (<grid> 6
