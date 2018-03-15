@@ -9,8 +9,8 @@
 # Product
 (class +Product +Entity)
 (rel nr         (+Need +Key +Number))
-(rel brand      (+IdxFold +String))
-(rel name       (+IdxFold +String))
+(rel category   (+IdxFold +String))
+(rel title      (+IdxFold +String))
 (rel supplier   (+Ref +Link) NIL (+Supplier))
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )

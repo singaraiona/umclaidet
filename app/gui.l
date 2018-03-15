@@ -73,27 +73,27 @@
    (diaform '(Dst)
       (<grid> "-.-.-.-.--"
          ,"Number" (gui 'nr '(+Focus +Var +NumField) '*ProdNr 10)
-         ,"Brand" (gui 'brand '(+Var +TextField) '*ProdBr 30)
-         ,"Name" (gui 'name '(+Var +TextField) '*ProdNm 30)
+         ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
+         ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
          ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          (searchButton '(init> (: home query)))
-         (resetButton '(nr brand name supplier query)) )
+         (resetButton '(nr category title supplier query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
                @Nr (and *ProdNr (cons @ T))
-               @Br *ProdBr
-               @Nm *ProdNm
+               @Cat *ProdCat
+               @Ttl *ProdTtl
                @Sup *ProdSup
                (select (@@)
                   ((nr +Product @Nr)
-                        (brand +Product @Br)
-                        (name +Product @Nm)
+                        (category +Product @Cat)
+                        (title +Product @Ttl)
                         (name +Supplier @Sup
                               (supplier +Product)) )
                   (range @Nr @@ nr)
-                  (part @Br @@ brand)
-                  (part @Nm @@ name)
+                  (part @Cat @@ category)
+                  (part @Ttl @@ title)
                   (tolr @Sup @@ supplier name) ) ) )
          5
          '((This) (list This (: nr) This This (: supplier)) ) )
@@ -101,22 +101,22 @@
          (quote
             (btn)
             (align "#")
-            (NIL ,"Brand")
-            (NIL ,"Name")
+            (NIL ,"Category")
+            (NIL ,"Title")
             (NIL ,"Supplier") )
          (do (cho)
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
                (gui 2 '(+NumField))
-               (gui 3 '(+ObjView +TextField) '(: brand))
-               (gui 4 '(+ObjView +TextField) '(: name))
+               (gui 3 '(+ObjView +TextField) '(: category))
+               (gui 4 '(+ObjView +TextField) '(: title))
                (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Product)
             '(nr genKey 'nr '+Product)
-            'brand *ProdBr
-            'name *ProdNm )
+            'category *ProdCat
+            'title *ProdTtl )
          (cancelButton) ) ) )
 
 (de choAdm (Dst)
@@ -124,7 +124,7 @@
       (<grid> "-.-.--"
          ,"Number"       (gui 'nr '(+Focus +Var +NumField) '*AdmNr 10)
          ,"Date"         (gui 'date '(+Var +DateField) '*AdmDat 10)
-         ,"Product name" (gui 'product '(+Var +TextField) '*AdmProd 10)
+         ,"Title"        (gui 'product '(+Var +TextField) '*AdmProd 10)
          ,"Buy price"    (gui 'price '(+Var +FixField) '*AdmPr 2 10)
          ,"Quantity"     (gui 'quantity '(+Var +NumField) '*AdmQt 10)
          (searchButton '(init> (: home query)))
@@ -141,7 +141,7 @@
                (select (@@)
                   ((nr +Admission @Nr)
                         (date +Admission @Dt)
-                        (name +Product @Prd (product +Admission))
+                        (title +Product @Prd (product +Admission))
                         (price +Admission @Pr)
                         (quantity +Admission @Qt) )
                   (range @Nr @@ nr)
