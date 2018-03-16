@@ -188,17 +188,5 @@
          (scroll (cho))
             (newButton T Dst '(+Income)
                '(nr genKey 'nr '+Income)
-               'date (date)
-               'quantity (incme (1 . 2)) ) )
+               'date (date) ) )
             (cancelButton) ) )
-
-(de incme(Nmr)
-      (pilog
-         (quote
-           @Nmr Nmr
-           (select (@Income)
-              ((nr +Income @Nmr))
-                 (range @Nmr @Income nr) ) )
-         (with @Income
-            (: sellprice) ) )
-)

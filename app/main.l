@@ -33,10 +33,18 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) (mm))
+      (load "app/init.l") )
+   (mm))
 
 (de mm()
-   (prinl (incme (1 . 4)))
+   (setq *Login (pilog
+         (quote
+           @Nm "admin"
+           (select (@User)
+              ((nm +User @Nm))
+                 (tolr @Nm @User nm)
+                 ) )
+      @User) )
 )
 
 
