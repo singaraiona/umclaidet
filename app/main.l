@@ -34,10 +34,13 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-   (mm))
+      (lgn) )
+   #(mapc '((X) (mapc '((Ord) (with Ord 
+   #                             (msg (: quantity)))) X)) 
+   #       (by '((I) (; I product)) group (mm))) )
 
-(de mm()
-   (setq *Login (pilog
+(de lgn()
+(setq *Login (pilog
          (quote
            @Nm "admin"
            (select (@User)
@@ -47,6 +50,14 @@
       @User) )
 )
 
+(de mm()
+   (solve
+      (quote
+         @RngDt (0 . 45643568)
+            (select (@Income)
+               ((date +Income @RngDt))
+                  (range @RngDt @Income date) ) )
+      @Income ) )
 
 (de go (Rpc)
    (when Rpc

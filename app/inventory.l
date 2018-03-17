@@ -4,12 +4,7 @@
 (menu ,"Inventory"
    (<h3> NIL ,"Inventory")
    (form NIL
-      (<grid> "-.-"
-         ,"Number" NIL
-         (prog
-            (gui 'nrfrom '(+Var +NumField) '*InvNrFrom 10)
-            (prin " - ")
-            (gui 'nrtill '(+Var +NumField) '*InvNrTill 10) )
+      (<grid> "-.-"         
          ,"Date" NIL
          (prog
             (gui 'datfrom '(+Var +DateField) '*InvDtFrom 10)
@@ -32,16 +27,8 @@
                      (align ,"Quantity")
                      (align ,"Income") ) )
                (catch NIL
-                  (pilog
-                     (quote
-                        @RngNr (cons *InvNrFrom (or *InvNrTill T))
-                        @RngDt (cons *InvDtFrom (or *InvDtTill T))
-                        (select (@@)
-                           ((nr +Income @RngNr) (date +Income @RngDt))
-                           (range @RngNr @@ nr)
-                           (range @RngDt @@ date) ) )
-                     (with @@
-                        (<row> (alternating)
+                  (mapc '((This)        
+                     (<row> (alternating)
                            (<+> (: nr) This)
                            (<+> (datStr (: date)) This)
                            (<+> (: product brand) (: product))
@@ -51,4 +38,8 @@
                            (<+> (money (: price)) This)
                            (<+> (: quantity) This)
                            (<-> (+ (* (: price) (: quantity)) 1)) ) )
-            (at (0 . 10000) (or (flush) (throw))) ) ) ) ) ) ) )
+                     (mm) )            
+            (at (0 . 10000) (or (flush) (throw)) )
+            (<row> 'nil
+                  (<strong> ,"Total") - - - - - - -
+                  (<strong> (prin (money 1234))) ) ) ) ) ) ) )
