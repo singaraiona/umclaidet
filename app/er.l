@@ -15,32 +15,20 @@
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )
 
-
-
-# Income
-(class +Income +Entity)
+# Event
+(class +Event +Entity)
 (rel nr        (+Need +Key +Number))
 (rel date      (+Ref +Date))
+(rel tp        (+Need +Ref +Number))
 (rel product   (+Ref +Link) NIL (+Product))
 (rel quantity  (+Ref +Number))
 (rel sellprice (+Ref +Number))
 (rel buyprice  (+Ref +Number))
 
-(dm url> (Tab) (and (may Income) (list "app/income.l" '*ID This)) )
-
-# Expense
-(class +Expense +Entity)
-(rel nr        (+Need +Key +Number))
-(rel date      (+Ref +Date))
-(rel product   (+Ref +Link) NIL (+Product))
-(rel quantity  (+Ref +Number))
-(rel sellprice (+Ref +Number))
-(rel buyprice  (+Ref +Number))
-
-(dm url> (Tab) (and (may Expense) (list "app/expense.l" '*ID This)) )
+(dm url> (Tab) (and (may Event) (list "app/event.l" '*ID This)) )
 
 # Database sizes
 (dbs
    (3 +Role +User (+User pw))
-   (1 +Product +Income +Expense)
+   (1 +Product +Event)
    (2 +Supplier) )

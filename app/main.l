@@ -20,8 +20,7 @@
 (permission
    Product     ,"Product"
    Supplier    ,"Supplier"
-   Income      ,"Income"
-   Expense     ,"Expense"
+   Event       ,"Event"
    Report      ,"Report"
    RoleAdmin   ,"Role Administration"
    UserAdmin   ,"User Administration"
@@ -58,10 +57,10 @@
    (solve
       (quote
          @RngDt (0 . 45643568)
-            (select (@Income)
-               ((date +Income @RngDt))
-                  (range @RngDt @Income date) ) )
-      @Income ) )
+            (select (@Event)
+               ((date +Event @RngDt))
+                  (range @RngDt @Event date) ) )
+      @Event) )
 
 (de go (Rpc)
    (when Rpc
