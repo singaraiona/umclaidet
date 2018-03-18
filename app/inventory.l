@@ -33,12 +33,16 @@
                         (catch NIL (mapc grp::fold (by '((I) (; I product)) group (evts::find (cons *InvFrom (or *InvTill T))))) )
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
-                     (<+> ,"Total quantity:")
-                     (<-> TotalQty) )
+                     (<+> ,"Sold:")
+                     (<-> TotalSellQty) )
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
-                     (<+> ,"Total income:")
-                     (<-> (money (* TotalQty TotalCharge))) )
+                     (<+> ,"Balance:")
+                     (<-> (- TotalQty TotalSellQty)) )                  
+                  (<row> 'nil
+                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
+                     (<+> ,"Income:")
+                     (<-> (money (* TotalSellQty TotalCharge))) )
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Date:")
