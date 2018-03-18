@@ -37,14 +37,7 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (lgn)
-   (mapc foldgrp (by '((I) (; I product)) group (events))) )
-
-(de foldgrp(Grp)
-   (let Qty 0     
-     (mapc '((Rec) (with Rec (inc 'Qty (: quantity)))) Grp)
-     (msg "QTY: " Qty) )
-)
+      (lgn) )
 
 (de lgn()
 (setq *Login (pilog
@@ -57,14 +50,6 @@
       @User) )
 )
 
-(de events()
-   (solve
-      (quote
-         @RngDt (0 . 45643568)
-            (select (@Event)
-               ((date +Event @RngDt))
-                  (range @RngDt @Event date) ) )
-      @Event) )
 
 (de go (Rpc)
    (when Rpc

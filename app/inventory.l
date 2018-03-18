@@ -7,48 +7,77 @@
       (<grid> "-.-"         
          ,"Date" NIL
          (prog
-            (gui 'datfrom '(+Var +DateField) '*InvDtFrom 10)
+            (gui 'datfrom '(+Var +DateField) '*InvFrom 10)
             (prin " - ")
-            (gui 'dattill '(+Var +DateField) '*InvDtTill 10) ) )
-      (--)
-      (resetButton '(nrfrom nrtill datfrom dattill))
+            (gui 'dattill '(+Var +DateField) '*InvTill 10) ) )
+      (--)      
       (gui '(+ShowButton) NIL
          '(csv ,"Inventory"
-            (<table> 'chart NIL
-               (<!>
-                  (quote
-                     (align ,"#")
-                     (NIL   ,"Category")
-                     (NIL   ,"Title")
-                     (align ,"Quantity")
-                     (align ,"Sell price")
-                     (align ,"Sell sum")
-                     (align ,"Buy price")
-                     (align ,"Buy sum")
-                     (align ,"Charge") 
-                     (NIL   ,"Supplier") ) )
-               (let Nr 0      
-                  (catch NIL (mapc foldg (by '((I) (; I product)) group (events))) )
-               (at (0 . 10000) (or (flush) (throw)) )
-            (<row> 'nil
-                  (<strong> ,"Total") - - - - - -
-                  (<strong> (prin (money 1234)))
-                  (<strong> ,"Date")
-                  (<strong> (prin (datStr (date)))) ) ) ) ) ) ) )
+            (let (TotalQty 0
+                  TotalSellQty 0
+                  TotalCharge 0)
+               (<table> 'chart NIL
+                  (<!>
+                     (quote
+                        (align ,"#")
+                        (NIL   ,"Category")
+                        (NIL   ,"Title")
+                        (align ,"Quantity")
+                        (align ,"Sell price")
+                        (align ,"Sell sum")
+                        (align ,"Buy price")
+                        (align ,"Buy sum")
+                        (align ,"Charge") 
+                        (NIL   ,"Supplier") ) )
+                     (let Nr 0      
+                        (catch NIL (mapc grp::fold (by '((I) (; I product)) group (evts::find (cons *InvFrom (or *InvTill T))))) )
+                  (<row> 'nil
+                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
+                     (<+> ,"Total quantity:")
+                     (<-> TotalQty) )
+                  (<row> 'nil
+                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
+                     (<+> ,"Total income:")
+                     (<-> (money (* TotalQty TotalCharge))) )
+                  (<row> 'nil
+                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
+                     (<+> ,"Date:")
+                     (<-> (datStr (date))) )      
+                     (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
+      (resetButton '(datfrom dattill)) ) )
 
-(de foldg(Grp)
-   (let Qty 0
+(de grp::fold(Grp)
+   (let (Tqty 0
+         Sqty 0)
       (inc 'Nr) 
-      (mapc '((Rec) (with Rec (inc 'Qty (: quantity)))) Grp)
+      (mapc evt::proc Grp)
       (with (car Grp)
          (<row> (alternating)
             (<+> Nr)
             (<+> (: product category))
             (<+> (: product title))
-            (<+> Qty) 
+            (<+> (- Tqty Sqty)) 
             (<+> (money (: sellprice)))
-            (<+> (money (* (: sellprice) Qty)))
+            (<+> (money (* (: sellprice) Sqty)))
             (<+> (money (: buyprice)))
-            (<+> (money (* (: buyprice) Qty)))
-            (<+> (money (- (* (: sellprice) Qty) (* (: buyprice) Qty))))
-            (<+> (: product supplier name)) ) ) ) )
+            (<+> (money (* (: buyprice) Sqty)))
+            (<+> (money (- (* (: sellprice) Sqty) (* (: buyprice) Sqty))))
+            (<-> (: product supplier name)) ) 
+         (inc 'TotalCharge (- (* (: sellprice) Sqty) (* (: buyprice) Sqty))) ) 
+      (inc 'TotalQty Tqty) 
+      (inc 'TotalSellQty Sqty) ) )
+
+(de evt::proc(Rec)
+   (with Rec
+      (if (= (: tp) 1) 
+          (inc 'Tqty (: quantity)) 
+          (inc 'Sqty (: quantity))) ) )
+
+(de evts::find(Rng)
+   (solve
+      (quote
+         @Rng Rng
+            (select (@Event)
+               ((date +Event @Rng))
+                  (range @Rng @Event date) ) )
+      @Event) )

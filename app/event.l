@@ -7,7 +7,7 @@
       (<hr>)
       (<grid> 3
          ,"Number" NIL        (gui '(+E/R +NumField) '(nr : home obj) 10)
-         ,"Event type" NIL    (gui '(+E/R +Map +TextField) '(tp : home obj) '(("Income" . 1) ("Expense" . 2)) '("Income" "Expense"))
+         ,"Event type" NIL    (gui '(+E/R +Map +TextField) '(tp : home obj) '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
          ,"Date" NIL          (gui '(+E/R +DateField) '(date : home obj) 10)
          ,"Title" (choProd 0) (gui '(+Set +E/R +Obj +TextField) upfields '(product : home obj) '(title +Product) 10)
          ,"Quantity" NIL      (gui '(+E/R +NumField) '(quantity : home obj) 10)
