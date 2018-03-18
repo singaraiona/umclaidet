@@ -41,9 +41,9 @@
                      (<-> NIL) )
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
-                     (<+> ,"Date from:")
+                     (<+> ,"Date from")
                      (<+> (datStr *InvFrom))      
-                     (<+> ,"Date till:")
+                     (<+> ,"Date till")
                      (<-> (datStr *InvTill)) )      
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
       (resetButton '(datfrom dattill)) ) )
