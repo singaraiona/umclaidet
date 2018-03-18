@@ -34,10 +34,14 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (lgn) )
-   #(mapc '((X) (mapc '((Ord) (with Ord 
-   #                             (msg (: quantity)))) X)) 
-   #       (by '((I) (; I product)) group (mm))) )
+      (lgn)
+   (mapc foldgrp (by '((I) (; I product)) group (events))) )
+
+(de foldgrp(Grp)
+   (let Qty 0     
+     (mapc '((Rec) (with Rec (inc 'Qty (: quantity)))) Grp)
+     (msg "QTY: " Qty) )
+)
 
 (de lgn()
 (setq *Login (pilog
@@ -50,7 +54,7 @@
       @User) )
 )
 
-(de mm()
+(de events()
    (solve
       (quote
          @RngDt (0 . 45643568)
