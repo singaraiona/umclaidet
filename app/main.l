@@ -13,6 +13,10 @@
    *Blob "db/app/blob/"
    *Salt (16 . "$6$@1$") )
 
+(setq *ProjectTitle "Магазин")
+(setq *Income "Приход")
+(setq *Expense "Расход")
+
 (locale "RU" "ru" "app/loc/")
 
 (load "app/er.l" "app/lib.l" "app/gui.l")

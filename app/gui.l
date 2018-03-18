@@ -28,8 +28,8 @@
 (de work ()
    (setq *Url "!work")
    (and (app) (setq *Menu 15))
-   (menu "Магазин"
-      (<h2> NIL "Магазин")
+   (menu *ProjectTitle
+      (<h2> NIL *ProjectTitle)
       (<img> "img/collect.png" "Logo" NIL "100%")
       (----)
       (loginForm) ) )
@@ -128,7 +128,7 @@
       (<grid> "-.-.-.-."
          ,"Number"     (gui 'nr '(+Focus +Var +NumField) '*EvtNr 10)
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
-         ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '(("Income" . 1) ("Expense" . 2)) '("Income" "Expense"))
+         ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +NumField)  '*EvtQt 10)
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
@@ -196,4 +196,4 @@
             (cancelButton) ) )
 
 (de strtp(Tp)
-   (if (= Tp 1) "Income" "Expense") )
+   (if (= Tp 1) *Income *Expense) )
