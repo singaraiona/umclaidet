@@ -1,18 +1,18 @@
 
-(must "Remains" Report)
+(must "Analytic" Report)
 
-(menu ,"Remains"
-   (<h3> NIL ,"Remains")
+(menu ,"Analytic"
+   (<h3> NIL ,"Analytic")
    (form NIL
       (<grid> "-.-"         
          ,"Date" NIL
          (prog
-            (gui 'datfrom '(+Var +DateField) '*InvFrom 10)
+            (gui 'datfrom '(+Init +Var +DateField) (apply min (dates)) '*InvFrom 10)
             (prin " - ")
-            (gui 'dattill '(+Var +DateField) '*InvTill 10) ) )
+            (gui 'dattill '(+Init +Var +DateField) (apply max (dates)) '*InvTill 10) ) )
       (--)      
       (gui '(+ShowButton) NIL
-         '(csv ,"Remains"
+         '(csv ,"Analytic"
             (let (TotalQty 0
                   TotalSellQty 0
                   TotalSellPrice 0                  

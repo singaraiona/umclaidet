@@ -22,7 +22,7 @@
                      (NIL (<hr>))
                      (T ,"Report"
                         (,"Remains" (and (may Report) "app/remains.l"))
-                        (,"Selling" (and (may Report) "app/selling.l")) ) ) )
+                        (,"Analytic" (and (may Report) "app/analytic.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 

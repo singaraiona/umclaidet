@@ -36,7 +36,8 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) )
+      (load "app/init.l") ) (lgn) 
+      (msg "DT: " (apply min (dates))))
 
 (de lgn()
    (setq *Login (pilog
@@ -46,6 +47,15 @@
             ((nm +User @Nm))
                (tolr @Nm @User nm) ) )
       @User) ) )
+
+(de dates()
+   (solve
+      (quote
+         @Nr '(NIL . T)
+         (select (@Event)
+            ((nr +Event @Nr))
+                  (range @Nr @Event nr) ) )
+         (; @Event date) ) )
 
 (de go (Rpc)
    (when Rpc
