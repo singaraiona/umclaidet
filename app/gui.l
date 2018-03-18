@@ -21,7 +21,8 @@
                         (,"Events" (and (may Event) "app/event.l")) )
                      (NIL (<hr>))
                      (T ,"Report"
-                        (,"Inventory" (and (may Report) "app/inventory.l")) ) ) )
+                        (,"Remains" (and (may Report) "app/remains.l"))
+                        (,"Selling" (and (may Report) "app/selling.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 

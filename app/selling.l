@@ -1,8 +1,8 @@
 
-(must "Сapitalization" Capitalization)
+(must "Remains" Report)
 
-(menu ,"Capitalization"
-   (<h3> NIL ,"Capitalization")
+(menu ,"Remains"
+   (<h3> NIL ,"Remains")
    (form NIL
       (<grid> "-.-"         
          ,"Date" NIL
@@ -12,7 +12,7 @@
             (gui 'dattill '(+Var +DateField) '*InvTill 10) ) )
       (--)      
       (gui '(+ShowButton) NIL
-         '(csv ,"Capitalization"
+         '(csv ,"Remains"
             (let (TotalQty 0
                   TotalSellQty 0
                   TotalSellPrice 0                  
