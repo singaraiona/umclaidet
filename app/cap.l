@@ -1,8 +1,8 @@
 
-(must "Inventory" Report)
+(must "Сapitalization" Capitalization)
 
-(menu ,"Inventory"
-   (<h3> NIL ,"Inventory")
+(menu ,"Capitalization"
+   (<h3> NIL ,"Capitalization")
    (form NIL
       (<grid> "-.-"         
          ,"Date" NIL
@@ -12,7 +12,7 @@
             (gui 'dattill '(+Var +DateField) '*InvTill 10) ) )
       (--)      
       (gui '(+ShowButton) NIL
-         '(csv ,"Inventory"
+         '(csv ,"Capitalization"
             (let (TotalQty 0
                   TotalSellQty 0
                   TotalSellPrice 0                  
