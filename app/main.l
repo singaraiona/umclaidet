@@ -36,8 +36,7 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) (lgn) 
-      (msg "DT: " (apply min (dates))))
+      (load "app/init.l") ) (lgn) )
 
 (de lgn()
    (setq *Login (pilog
