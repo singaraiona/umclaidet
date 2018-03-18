@@ -36,20 +36,16 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") )
-      (lgn) )
+      (load "app/init.l") ) )
 
 (de lgn()
-(setq *Login (pilog
-         (quote
-           @Nm "admin"
-           (select (@User)
-              ((nm +User @Nm))
-                 (tolr @Nm @User nm)
-                 ) )
-      @User) )
-)
-
+   (setq *Login (pilog
+      (quote
+         @Nm "admin"
+         (select (@User)
+            ((nm +User @Nm))
+               (tolr @Nm @User nm) ) )
+      @User) ) )
 
 (de go (Rpc)
    (when Rpc
