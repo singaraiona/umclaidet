@@ -19,7 +19,7 @@
 
 (locale "RU" "ru" "app/loc/")
 
-(load "app/er.l" "app/lib.l" "app/gui.l")
+(load "app/er.l" "app/lib.l" "app/gui.l" "app/import.l")
 
 (permission
    Product     ,"Product"
@@ -36,7 +36,12 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) )
+      (load "app/init.l") )
+      (lgn) 
+      (imports))
+
+(de imports()
+   (import::supplier "init/suppliers.csv") )
 
 (de lgn()
    (setq *Login (pilog
