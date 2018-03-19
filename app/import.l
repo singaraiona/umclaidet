@@ -16,9 +16,6 @@
       (while (line)
          (Clb @) ) ) )
 
-(de import::supplier (Ln)
-   (import::obj ((+Supplier) name (pack Ln))) )
-
-(de import::all (Path)
-   (import::parsefile (pack Path "suppliers.csv") import::supplier)
-   (commit) )
+(de import::suppliers (Fl)
+   (import::parsefile Fl 
+      '((L) (import::obj ((+Supplier) name (pack L))) ) ) )

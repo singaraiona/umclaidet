@@ -64,10 +64,11 @@
                (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (gui '(+Tiny +UpField))
+         (gui '(+Tiny +Cue +UpField) "Upload csv")
          (gui '(+Drop +Button) '(field -1) "Load"
                                '(when (: drop)
-                                  (import::parsefile @ import::supplier) ) )
+                                  (import::suppliers @) 
+                                  (init> (: home query)) ) )
          (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 
