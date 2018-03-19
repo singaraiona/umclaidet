@@ -3,18 +3,18 @@
 
 (menu ,"Remains"
    (<h3> NIL ,"Remains")
-   (form NIL      
-      (<grid> "-.-"         
+   (form NIL
+      (<grid> "-.-"
          ,"Date" NIL
          (prog
             (gui 'datfrom '(+Init +Var +DateField) (apply min (dates)) '*InvFrom 10)
             (prin " - ")
             (gui 'dattill '(+Init +Var +DateField) (apply max (dates)) '*InvTill 10) ) )
-      (--)      
+      (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
-            (let (TotalSellSum 0                  
-                  TotalBuySum 0                  
+            (let (TotalSellSum 0
+                  TotalBuySum 0
                   TotalCharge 0)
                (<table> 'chart NIL
                   (<!>
@@ -27,63 +27,63 @@
                         (align ,"Sell sum")
                         (align ,"Buy price")
                         (align ,"Buy sum")
-                        (align ,"Charge") 
+                        (align ,"Charge")
                         (NIL   ,"Supplier") ) )
-                     (let Nr 0      
-                        (catch NIL (mapc rem::fold (by '((I) (; I product)) group (rem::find (cons *InvFrom (or *InvTill T))))) )                  
+                     (let Nr 0
+                        (catch NIL (mapc rem::fold (by '((I) (; I product)) group (rem::find (cons *InvFrom (or *InvTill T))))) )
                   (<row> 'nil
-                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) 
-                     (<+> ,"Total:")                      
+                     (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
+                     (<+> ,"Total:")
                      (<+> (money TotalSellSum))
                      (<+> NIL)
                      (<+> (money TotalBuySum))
-                     (<+> (money TotalCharge)) 
+                     (<+> (money TotalCharge))
                      (<-> NIL) )
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Date from")
-                     (<+> (datStr *InvFrom))      
+                     (<+> (datStr *InvFrom))
                      (<+> ,"Date till")
-                     (<-> (datStr *InvTill)) )      
+                     (<-> (datStr *InvTill)) )
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
       (resetButton '(datfrom dattill)) ) )
 
-(de rem::fold(Grp)
+(de rem::fold (Grp)
    (let (Bqty 0
-         Bprc 0 
+         Bprc 0
          Sqty 0
          Sprc 0)
-      (inc 'Nr) 
+      (inc 'Nr)
       (mapc rem::proc Grp)
       (with (car Grp)
          (let (Pqty (- Bqty Sqty)
                Pssum (* (: sellprice) (- Bqty Sqty))
                Pbsum (* (: buyprice)  (- Bqty Sqty))
-               Pchrg (- (* (: sellprice) (- Bqty Sqty)) (* (: buyprice) (- Bqty Sqty))) )               
+               Pchrg (- (* (: sellprice) (- Bqty Sqty)) (* (: buyprice) (- Bqty Sqty))) )
                (<row> (alternating)
                   (<+> Nr)
                   (<+> (: product category))
                   (<+> (: product title))
-                  (<+> Pqty) 
+                  (<+> Pqty)
                   (<+> (money (: sellprice)))
                   (<+> (money Pssum))
                   (<+> (money (: buyprice)))
                   (<+> (money Pbsum))
                   (<+> (money Pchrg))
-                  (<-> (: product supplier name)) ) 
-               (inc 'TotalSellSum Pssum) 
-               (inc 'TotalBuySum Pbsum) 
+                  (<-> (: product supplier name)) )
+               (inc 'TotalSellSum Pssum)
+               (inc 'TotalBuySum Pbsum)
                (inc 'TotalCharge Pchrg) ) ) ) )
 
-(de rem::proc(Rec)
+(de rem::proc (Rec)
    (with Rec
-      (if (= (: tp) 1) 
-          (prog (inc 'Bqty (: quantity)) 
-                (inc 'Bprc (* (: buyprice) (: quantity))) ) 
+      (if (= (: tp) 1)
+          (prog (inc 'Bqty (: quantity))
+                (inc 'Bprc (* (: buyprice) (: quantity))) )
           (prog (inc 'Sqty (: quantity))
                 (inc 'Sprc (* (: sellprice) (: quantity)) ) ) ) ) )
 
-(de rem::find(Rng)
+(de rem::find (Rng)
    (solve
       (quote
          @Rng Rng

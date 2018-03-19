@@ -26,6 +26,7 @@
    Supplier    ,"Supplier"
    Event       ,"Event"
    Report      ,"Report"
+   Import      ,"Import"
    RoleAdmin   ,"Role Administration"
    UserAdmin   ,"User Administration"
    Password    ,"Password"
@@ -37,13 +38,11 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (lgn) 
-      (imports))
+      (lgn)
+      (import::all "init/") )
 
-(de imports()
-   (import::supplier "init/suppliers.csv") )
 
-(de lgn()
+(de lgn ()
    (setq *Login (pilog
       (quote
          @Nm "admin"
@@ -52,7 +51,7 @@
                (tolr @Nm @User nm) ) )
       @User) ) )
 
-(de dates()
+(de dates ()
    (solve
       (quote
          @Nr '(NIL . T)

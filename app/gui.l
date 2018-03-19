@@ -22,13 +22,16 @@
                      (NIL (<hr>))
                      (T ,"Report"
                         (,"Remains" (and (may Report) "app/remains.l"))
-                        (,"Analytic" (and (may Report) "app/analytic.l")) ) ) )
+                        (,"Analytic" (and (may Report) "app/analytic.l")) )
+                     (NIL (<hr>))
+                     (T ,"Imports"
+                        (,"CSV Import" (and (may Report) "app/csvimport.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
 (de work ()
    (setq *Url "!work")
-   (and (app) (setq *Menu 15))
+   (and (app) (setq *Menu 31))
    (menu *ProjectTitle
       (<h2> NIL *ProjectTitle)
       (<img> "img/collect.png" "Logo" NIL "100%")
@@ -154,7 +157,7 @@
                         (quantity +Event @Qt)
                         (sellprice +Event @Spr)
                         (buyprice +Event @Bpr) )
-                  (range @Nr @@ nr)                  
+                  (range @Nr @@ nr)
                   (range @Dt @@ date)
                   (same @Tp @@ tp)
                   (tolr @Prd @@ product name)
@@ -196,5 +199,5 @@
                'date (date) ) )
             (cancelButton) ) )
 
-(de strtp(Tp)
+(de strtp (Tp)
    (if (= Tp 1) *Income *Expense) )
