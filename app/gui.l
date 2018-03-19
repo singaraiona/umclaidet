@@ -22,16 +22,13 @@
                      (NIL (<hr>))
                      (T ,"Report"
                         (,"Remains" (and (may Report) "app/remains.l"))
-                        (,"Analytic" (and (may Report) "app/analytic.l")) )
-                     (NIL (<hr>))
-                     (T ,"Imports"
-                        (,"CSV Import" (and (may Report) "app/csvimport.l")) ) ) )
+                        (,"Analytic" (and (may Report) "app/analytic.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
 (de work ()
    (setq *Url "!work")
-   (and (app) (setq *Menu 31))
+   (and (app) (setq *Menu 15))
    (menu *ProjectTitle
       (<h2> NIL *ProjectTitle)
       (<img> "img/collect.png" "Logo" NIL "100%")
@@ -44,8 +41,8 @@
 
 (de choSup (Dst)
    (diaform '(Dst)
-      (<grid> "-.-.-.-."
-         ,"Name"   (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
+      (<grid> "-.--"
+         ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
          (searchButton '(init> (: home query)))
          (resetButton '(name)) )
       (gui 'query '(+QueryChart) (cho)
@@ -67,55 +64,50 @@
                (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (newButton T Dst '(+Supplier) 'name *SupNm )
+         (gui '(+Set +UpField) '((V) (msg V)))
+         (gui '(+Drop +Button) '(field -1) "Load" "Reload" '(msg (: home obj flcsv)))
+         (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 
 (de choProd (Dst)
    (diaform '(Dst)
-      (<grid> "-.-.-.-.--"
-         ,"Number" (gui 'nr '(+Focus +Var +NumField) '*ProdNr 10)
+      (<grid> "-.-"
          ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
-         ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
-         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          (searchButton '(init> (: home query)))
-         (resetButton '(nr category title supplier query)) )
+         ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
+         (resetButton '(category title supplier query))
+         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr (and *ProdNr (cons @ T))
                @Cat *ProdCat
                @Ttl *ProdTtl
                @Sup *ProdSup
                (select (@@)
-                  ((nr +Product @Nr)
-                        (category +Product @Cat)
-                        (title +Product @Ttl)
-                        (name +Supplier @Sup
-                              (supplier +Product)) )
-                  (range @Nr @@ nr)
+                  ((category +Product @Cat)
+                     (title +Product @Ttl)
+                     (name +Supplier @Sup
+                     (supplier +Product)) )
                   (part @Cat @@ category)
                   (part @Ttl @@ title)
                   (tolr @Sup @@ supplier name) ) ) )
-         5
-         '((This) (list This (: nr) This This (: supplier)) ) )
+         4
+         '((This) (list This (: category) (: title) (: supplier)) ) )
       (<table> 'chart (choTtl ,"Products" 'nr '+Product)
          (quote
             (btn)
-            (align "#")
             (NIL ,"Category")
             (NIL ,"Title")
             (NIL ,"Supplier") )
          (do (cho)
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
-               (gui 2 '(+NumField))
-               (gui 3 '(+ObjView +TextField) '(: category))
-               (gui 4 '(+ObjView +TextField) '(: title))
-               (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
+               (gui 2 '(+ObjView +TextField))
+               (gui 3 '(+ObjView +TextField))
+               (gui 4 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Product)
-            '(nr genKey 'nr '+Product)
             'category *ProdCat
             'title *ProdTtl )
          (cancelButton) ) ) )
