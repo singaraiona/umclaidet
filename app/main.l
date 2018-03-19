@@ -38,8 +38,7 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (lgn)
-      (import::all "init/") )
+      (lgn) )
 
 
 (de lgn ()

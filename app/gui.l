@@ -64,8 +64,10 @@
                (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (gui '(+Set +UpField) '((V) (msg V)))
-         (gui '(+Drop +Button) '(field -1) "Load" "Reload" '(msg (: home obj flcsv)))
+         (gui '(+Tiny +UpField))
+         (gui '(+Drop +Button) '(field -1) "Load"
+                               '(when (: drop)
+                                  (import::parsefile @ import::supplier) ) )
          (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 
