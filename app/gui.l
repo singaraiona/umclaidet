@@ -45,36 +45,29 @@
 (de choSup (Dst)
    (diaform '(Dst)
       (<grid> "-.-.-.-."
-         ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 10)
          ,"Name"   (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
          (searchButton '(init> (: home query)))
-         (resetButton '(nr name)) )
+         (resetButton '(name)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr (and *SupNr (cons @ T))
                @Nm *SupNm
                (select (@@)
-                  ((nr +Supplier @Nr) (name +Supplier @Nm) )
-                  (range @Nr @@ number)
-                  (tolr @Nm @@ name) ) ) )
-         3
-         '((This) (list This (: nr) This (: name)) ) )
+                  ((name +Supplier @Nm))
+                     (tolr @Nm @@ name) ) ) )
+         2
+         '((This) (list This (: name)) ) )
       (<table> 'chart (choTtl ,"Suppliers" 'nr '+Supplier)
          (quote
             (btn)
-            (align "#")
             (NIL ,"Name") )
          (do (cho)
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
-               (gui 2 '(+NumField))
-               (gui 3 '(+ObjView +TextField) '(: name)) ) ) )
+               (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (newButton T Dst '(+Supplier)
-            '(nr genKey 'nr '+Supplier)
-            'name *SupNm )
+         (newButton T Dst '(+Supplier) 'name *SupNm )
          (cancelButton) ) ) )
 
 (de choProd (Dst)

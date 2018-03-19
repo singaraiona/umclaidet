@@ -16,11 +16,8 @@
       (while (line)
          (Clb @) ) ) )
 
-(setq *Gnr 1)
-
-(de import::supplier (L)
-   (match '(@Nm) L)
-   (import::obj ((+Supplier) nr (inc '*Gnr)) name @Nm) )
+(de import::supplier (Ln)
+   (import::obj ((+Supplier) name (pack Ln))) )
 
 (de import::all (Path)
    (import::parsefile (pack Path "suppliers.csv") import::supplier)

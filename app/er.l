@@ -1,26 +1,23 @@
 
 # Supplier
 (class +Supplier +Entity)
-(rel nr   (+Need +Key +Number))
-(rel name (+Sn +IdxFold +String))
+(rel name (+Need +Sn +IdxFold +String))
 
 (dm url> (Tab) (and (may Supplier) (list "app/supplier.l"  '*ID This)) )
 
 # Product
 (class +Product +Entity)
-(rel nr         (+Need +Key +Number))
-(rel category   (+IdxFold +String))
-(rel title      (+IdxFold +String))
+(rel category   (+Need +IdxFold +String))
+(rel title      (+Need +IdxFold +String))
 (rel supplier   (+Ref +Link) NIL (+Supplier))
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )
 
 # Event
 (class +Event +Entity)
-(rel nr        (+Need +Key +Number))
-(rel date      (+Ref +Date))
-(rel tp        (+Need +Ref +Number))
-(rel product   (+Ref +Link) NIL (+Product))
+(rel date      (+Need +Key +Ref +Date))
+(rel tp        (+Need +Key +Ref +Number))
+(rel product   (+Need +Ref +Link) NIL (+Product))
 (rel quantity  (+Ref +Number))
 (rel sellprice (+Ref +Number))
 (rel buyprice  (+Ref +Number))
