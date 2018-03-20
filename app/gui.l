@@ -39,6 +39,8 @@
    (logout)
    (work) )
 
+
+
 (de choSup (Dst)
    (diaform '(Dst)
       (<grid> "-.--"
@@ -64,18 +66,7 @@
                (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (gui '(+Tiny +UpField))
-         (gui '(+Drop +Button)
-                 '(field -1)
-                 "Загрузить"
-                 '(when (: drop)
-                    (ifn (import::suppliers @)
-                         (prog
-                            (commit)
-                            (init> (: home query)) )
-                         (prog
-                            (msg @)
-                            (alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) )
+         (import::upfile import::suppliers)
          (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 
