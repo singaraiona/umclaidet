@@ -35,6 +35,7 @@
                (link (make
                   (link 'prog '(commit) '(init> (: home query))) ) )
                (link '(alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) ) ) ) )
+
 (de import::supplier (Nm)
    (pilog
       (quote
@@ -54,5 +55,32 @@
       Fl
       '((L)
          (match '(@Cat @Ttl @Sup) (mapcar pack (split (chop L) "|")))
-         (import::obj ((+Product) category (pop @Cat) title (pop @Ttl)) supplier (import::supplier (pop @Sup))) ) )
+         (import::obj ((+Product)
+            category (pop @Cat)
+            title (pop @Ttl))
+            supplier (import::supplier (pop @Sup)) ) ) )
+   NIL )
+
+(de import::product (Cat Ttl)
+   (pilog
+      (quote
+         @Cat Cat
+         @Ttl Ttl
+         (select (@Product)
+            ((category +Product @Cat) (title +Product @Ttl))
+               (same @Cat @Product category)
+               (same @Ttl @Product title) ) )
+      @Product ) )
+
+(de import::events (Fl)
+   (import::parsefile
+      Fl
+      '((L)
+         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) (mapcar pack (split (chop L) "|")))
+         (import::obj ((+Event) date (strDat (pop @Dat))
+                         tp (pop @Tp))
+                         product (import::product (pop @Cat) (pop @Ttl))
+                         quantity (pop @Qty)
+                         sellprice (pop @Spr)
+                         buyprice (pop @Bpr) ) ) )
    NIL )
