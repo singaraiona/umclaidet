@@ -64,11 +64,18 @@
                (gui 2 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (gui '(+Tiny +Cue +UpField) "Upload csv")
-         (gui '(+Drop +Button) '(field -1) "Load"
-                               '(when (: drop)
-                                  (import::suppliers @) 
-                                  (init> (: home query)) ) )
+         (gui '(+Tiny +UpField))
+         (gui '(+Drop +Button)
+                 '(field -1)
+                 "Загрузить"
+                 '(when (: drop)
+                    (ifn (import::suppliers @)
+                         (prog
+                            (commit)
+                            (init> (: home query)) )
+                         (prog
+                            (msg @)
+                            (alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) )
          (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 

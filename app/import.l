@@ -1,3 +1,5 @@
+(de import::strip (Ln)
+   (pack (clip (chop Ln))) )
 
 (de import::obj Lst
    (let (ReqLst (pop 'Lst)
@@ -11,11 +13,12 @@
       (put> Obj (pop 'Lst) (eval (pop 'Lst))) )
    Obj) )
 
-(de import::parsefile (File Clb)
-   (in File
+(de import::parsefile (Fl Clb)
+   (in Fl
       (while (line)
          (Clb @) ) ) )
 
 (de import::suppliers (Fl)
-   (import::parsefile Fl 
-      '((L) (import::obj ((+Supplier) name (pack L))) ) ) )
+   (import::parsefile Fl
+      '((L) (import::obj ((+Supplier) name (import::strip L))) ) )
+   NIL)

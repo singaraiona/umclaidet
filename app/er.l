@@ -5,6 +5,10 @@
 
 (dm url> (Tab) (and (may Supplier) (list "app/supplier.l"  '*ID This)) )
 
+(dm check> ()
+   (make
+      (or (: name) (link ,"No customer name")) ) )
+
 # Product
 (class +Product +Entity)
 (rel category   (+Need +IdxFold +String))
