@@ -35,8 +35,24 @@
                (link (make
                   (link 'prog '(commit) '(init> (: home query))) ) )
                (link '(alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) ) ) ) )
+(de import::supplier (Nm)
+   (pilog
+      (quote
+         @Nm Nm
+         (select (@Supplier)
+            ((name +Supplier @Nm))
+               (same @Nm @Supplier name) ) )
+      @Supplier ) )
 
 (de import::suppliers (Fl)
    (import::parsefile Fl
       '((L) (import::obj ((+Supplier) name (import::strip L))) ) )
-   NIL)
+   NIL )
+
+(de import::products (Fl)
+   (import::parsefile
+      Fl
+      '((L)
+         (match '(@Cat @Ttl @Sup) (mapcar pack (split (chop L) "|")))
+         (import::obj ((+Product) category (pop @Cat) title (pop @Ttl)) supplier (import::supplier (pop @Sup))) ) )
+   NIL )

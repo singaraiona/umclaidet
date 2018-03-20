@@ -108,6 +108,7 @@
                (gui 4 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
+         (import::upfile import::products)
          (newButton T Dst '(+Product)
             'category *ProdCat
             'title *ProdTtl )
