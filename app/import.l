@@ -15,9 +15,10 @@
 
 (de import::parsefile (Fl Clb)
    (in Fl
-      (while (line)
-         (Clb (import::strip @)) ) )
-   NIL )
+      (let Fail NIL
+         (while (and (not Fail) (line))
+            (setq Fail (Clb (import::strip @)) ) )
+      Fail ) ) )
 
 (de import::upfile Args
    (let Clb (pop 'Args)
@@ -47,17 +48,21 @@
 
 (de import::suppliers (Fl)
    (import::parsefile Fl
-      '((L) (import::obj ((+Supplier) name (pop L))) ) ) )
+      '((L) (import::obj ((+Supplier) name (pop L))) NIL) ) )
 
 (de import::products (Fl)
    (import::parsefile
       Fl
       '((L)
          (match '(@Cat @Ttl @Sup) L)
-         (import::obj ((+Product)
-            category (pop @Cat)
-            title (pop @Ttl))
-            supplier (import::supplier (pop @Sup)) ) ) ) )
+         (if (and @Cat @Ttl @Sup)
+            (prog
+               (import::obj ((+Product)
+                  category (pop @Cat)
+                  title (pop @Ttl))
+                  supplier (import::supplier (pop @Sup)) )
+            NIL )
+            "Invalid products file!" ) ) ) )
 
 (de import::product (Cat Ttl)
    (pilog
