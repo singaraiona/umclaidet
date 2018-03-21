@@ -1,3 +1,4 @@
+
 (de utils::login ()
    (setq *Login (pilog
       (quote
@@ -6,6 +7,15 @@
             ((nm +User @Nm))
                (tolr @Nm @User nm) ) )
       @User) ) )
+
+(de utils::dates ()
+   (solve
+      (quote
+         @Nr '(NIL . T)
+         (select (@Event)
+            ((nr +Event @Nr))
+               (range @Nr @Event nr) ) )
+   (; @Event date) ) )
 
 (de utils::strTp (Tp)
    (if (= Tp 1) *Income (if (= Tp 2) *Expense NIL) ) )
@@ -76,7 +86,7 @@
                   category (pop @Cat)
                   title (pop @Ttl))
                   supplier (utils::supplier (pop @Sup)) )
-            NIL )
+               NIL )
             "Invalid products file!" ) ) ) )
 
 (de utils::product (Cat Ttl)
@@ -95,10 +105,14 @@
       Fl
       '((L)
          (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) L)
-         (utils::obj ((+Event)
-            date (expDat (pop @Dat))
-            tp (utils::tpStr (pop @Tp))
-            product (utils::product (pop @Cat) (pop @Ttl))
-            quantity (format (pop @Qty))
-            sellprice (format (glue "." (split (chop (pop @Spr)) ",")) 2)
-            buyprice (format (glue "." (split (chop (pop @Bpr)) ",")) 2) ) ) ) ) )
+         (if (and @Dat @Tp @Cat @Ttl @Qty @Spr @Bpr)
+            (prog
+               (utils::obj ((+Event)
+                  date (expDat (pop @Dat))
+                  tp (utils::tpStr (pop @Tp))
+                  product (utils::product (pop @Cat) (pop @Ttl))
+                  quantity (format (pop @Qty))
+                  sellprice (format (glue "." (split (chop (pop @Spr)) ",")) 2)
+                  buyprice (format (glue "." (split (chop (pop @Bpr)) ",")) 2) ) )
+               NIL )
+            "Invalid evants file!" ) ) ) )

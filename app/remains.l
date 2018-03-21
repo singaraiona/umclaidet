@@ -7,9 +7,9 @@
       (<grid> "-.-"
          ,"Date" NIL
          (prog
-            (gui 'datfrom '(+Init +Var +DateField) (apply min (dates)) '*InvFrom 10)
+            (gui 'datfrom '(+Init +Var +DateField) (apply min (utils::dates)) '*InvFrom 10)
             (prin " - ")
-            (gui 'dattill '(+Init +Var +DateField) (apply max (dates)) '*InvTill 10) ) )
+            (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*InvTill 10) ) )
       (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
