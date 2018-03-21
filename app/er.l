@@ -19,9 +19,9 @@
 
 # Event
 (class +Event +Entity)
-(rel date      (+Need +Key +Ref +Date))
-(rel tp        (+Need +Key +Ref +Number))
-(rel product   (+Need +Ref +Link) NIL (+Product))
+(rel date      (+Ref +Date))
+(rel tp        (+Ref +Number))
+(rel product   (+Ref +Link) NIL (+Product))
 (rel quantity  (+Ref +Number))
 (rel sellprice (+Ref +Number))
 (rel buyprice  (+Ref +Number))

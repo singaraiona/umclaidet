@@ -39,8 +39,6 @@
    (logout)
    (work) )
 
-
-
 (de choSup (Dst)
    (diaform '(Dst)
       (<grid> "-.--"
@@ -66,7 +64,6 @@
                (gui 2 '(+TextField)) ) ) )
       (<spread>
          (scroll (cho))
-         (import::upfile import::suppliers)
          (newButton T Dst '(+Supplier) 'name *SupNm)
          (cancelButton) ) ) )
 
@@ -87,8 +84,7 @@
                (select (@@)
                   ((category +Product @Cat)
                      (title +Product @Ttl)
-                     (name +Supplier @Sup
-                     (supplier +Product)) )
+                     (name +Supplier @Sup (supplier +Product)) )
                   (part @Cat @@ category)
                   (part @Ttl @@ title)
                   (tolr @Sup @@ supplier name) ) ) )
@@ -108,7 +104,6 @@
                (gui 4 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (import::upfile import::products)
          (newButton T Dst '(+Product)
             'category *ProdCat
             'title *ProdTtl )
@@ -116,6 +111,8 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
+      (<tab>
+         (,"Create"
       (<grid> "-.-.-.-."
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
@@ -124,7 +121,9 @@
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          (searchButton '(init> (: home query)))
-         (resetButton '(date tp product quantity sellprice buyprice query)) )
+         (resetButton '(date tp product quantity sellprice buyprice query)) ) )
+         (,"Import"
+            (import::upfile import::events) ) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
@@ -150,7 +149,7 @@
          10
          '((This) (list This
                      (: date)
-                     (: tp)
+                     (utils::strTp (: tp))
                      (: product)
                      (: quantity)
                      (: sellprice)
@@ -173,7 +172,7 @@
             (<row> (alternating)
                (gui 1  '(+DstButton) Dst)
                (gui 2  '(+DateField))
-               (gui 3  '(+TextField) '(strtp V))
+               (gui 3  '(+TextField))
                (gui 4  '(+ObjView +TextField) '(: title))
                (gui 5  '(+NumField))
                (gui 6  '(+FixField) 2)
@@ -183,13 +182,7 @@
                (gui 10 '(+FixField) 2) ) ) )
       (<spread>
          (scroll (cho))
-            (import::upfile import::events)
             (newButton T Dst '(+Event)
-               'date (date) ) )
+               'date (date)
+               'tp *EvTp) )
             (cancelButton) ) )
-
-(de strtp (Tp)
-   (if (= Tp 1) *Income *Expense) )
-
-(de tpstr (S)
-   (if (= S *Income) 1 2) )

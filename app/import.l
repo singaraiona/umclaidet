@@ -1,5 +1,5 @@
 (de import::strip (Ln)
-   (pack (clip (chop Ln))) )
+   (mapcar '((L) (pack (clip L))) (split (chop Ln) "|")) )
 
 (de import::obj Lst
    (let (ReqLst (pop 'Lst)
@@ -16,7 +16,8 @@
 (de import::parsefile (Fl Clb)
    (in Fl
       (while (line)
-         (Clb @) ) ) )
+         (Clb (import::strip @)) ) )
+   NIL )
 
 (de import::upfile Args
    (let Clb (pop 'Args)
@@ -32,8 +33,7 @@
                (link (make
                   (link Clb)
                   (link '@) ) )
-               (link (make
-                  (link 'prog '(commit) '(init> (: home query))) ) )
+               (link '(commit))
                (link '(alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) ) ) ) )
 
 (de import::supplier (Nm)
@@ -47,19 +47,17 @@
 
 (de import::suppliers (Fl)
    (import::parsefile Fl
-      '((L) (import::obj ((+Supplier) name (import::strip L))) ) )
-   NIL )
+      '((L) (import::obj ((+Supplier) name (pop L))) ) ) )
 
 (de import::products (Fl)
    (import::parsefile
       Fl
       '((L)
-         (match '(@Cat @Ttl @Sup) (mapcar pack (split (chop L) "|")))
+         (match '(@Cat @Ttl @Sup) L)
          (import::obj ((+Product)
             category (pop @Cat)
             title (pop @Ttl))
-            supplier (import::supplier (pop @Sup)) ) ) )
-   NIL )
+            supplier (import::supplier (pop @Sup)) ) ) ) )
 
 (de import::product (Cat Ttl)
    (pilog
@@ -76,11 +74,11 @@
    (import::parsefile
       Fl
       '((L)
-         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) (mapcar pack (split (chop L) "|")))
-         (import::obj ((+Event) date (strDat (pop @Dat))
-                         tp (pop @Tp))
-                         product (import::product (pop @Cat) (pop @Ttl))
-                         quantity (pop @Qty)
-                         sellprice (pop @Spr)
-                         buyprice (pop @Bpr) ) ) )
-   NIL )
+         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) L)
+         (import::obj ((+Event)
+            date (expDat (pop @Dat))
+            tp (pop @Tp)
+            product (import::product (pop @Cat) (pop @Ttl))
+            quantity (format (pop @Qty))
+            sellprice (format (split (pop @Spr) ","))
+            buyprice (format (split (pop @Bpr) ",")) ) ) ) ) )

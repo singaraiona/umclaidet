@@ -19,7 +19,7 @@
 
 (locale "RU" "ru" "app/loc/")
 
-(load "app/er.l" "app/lib.l" "app/gui.l" "app/import.l")
+(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l" "app/import.l")
 
 (permission
    Product     ,"Product"
@@ -38,26 +38,7 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (lgn) )
-
-
-(de lgn ()
-   (setq *Login (pilog
-      (quote
-         @Nm "admin"
-         (select (@User)
-            ((nm +User @Nm))
-               (tolr @Nm @User nm) ) )
-      @User) ) )
-
-(de dates ()
-   (solve
-      (quote
-         @Nr '(NIL . T)
-         (select (@Event)
-            ((nr +Event @Nr))
-                  (range @Nr @Event nr) ) )
-         (; @Event date) ) )
+      (utils::login) )
 
 (de go (Rpc)
    (when Rpc
