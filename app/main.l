@@ -3,9 +3,7 @@
    "!work" "!stop" "@lib.css" "!psh" )
 
 (scl 2)
-(load
-   "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l"
-   "@lib/adm.l" )  # "@lib/boss.l"
+(load "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l" "@lib/adm.l" )
 
 (setq
    *Css '("@lib.css" "app/menu.css")

@@ -30,7 +30,7 @@
 
 (de work ()
    (setq *Url "!work")
-   (and (app) (setq *Menu 15))
+   (and (app) (setq *Menu 31))
    (menu *ProjectTitle
       (<h2> NIL *ProjectTitle)
       (<img> "img/collect.png" "Logo" NIL "100%")
@@ -113,15 +113,16 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
-      (<grid> "-.-.-.-."
+      (<grid> "--.-."
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
+         (searchButton '(init> (: home query)))
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +NumField)  '*EvtQt 10)
+         (resetButton '(date tp product quantity sellprice buyprice query))
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
-         (searchButton '(init> (: home query)))
-         (resetButton '(date tp product quantity sellprice buyprice query)) )
+         (gui '(+Button) "PDF" '(url (toPdf (: home obj)))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
