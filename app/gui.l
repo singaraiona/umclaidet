@@ -1,5 +1,4 @@
 
-### GUI ###
 (de menu (Ttl . Prg)
    (action
       (html 0 Ttl *Css NIL
@@ -19,6 +18,9 @@
                      (NIL (<hr>))
                      (T ,"Registration"
                         (,"Events" (and (may Event) "app/event.l")) )
+                     (NIL (<hr>))
+                     (T ,"Import"
+                        (,"Import from CSV" (and (may Import) "app/import.l")) )
                      (NIL (<hr>))
                      (T ,"Report"
                         (,"Remains" (and (may Report) "app/remains.l"))
@@ -111,8 +113,6 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
-      (<tab>
-         (,"Create"
       (<grid> "-.-.-.-."
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
@@ -121,9 +121,7 @@
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          (searchButton '(init> (: home query)))
-         (resetButton '(date tp product quantity sellprice buyprice query)) ) )
-         (,"Import"
-            (import::upfile import::events) ) )
+         (resetButton '(date tp product quantity sellprice buyprice query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
@@ -186,3 +184,5 @@
                'date (date)
                'tp *EvTp) )
             (cancelButton) ) )
+
+

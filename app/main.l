@@ -19,7 +19,7 @@
 
 (locale "RU" "ru" "app/loc/")
 
-(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l" "app/import.l")
+(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l")
 
 (permission
    Product     ,"Product"
