@@ -89,7 +89,6 @@
       Fl
       '((L)
          (match '(@Cat @Ttl @Sup) L)
-         (msg (glue "," @Cat @Ttl @Sup))
          (if (and @Cat @Ttl @Sup)
             (prog
                (utils::obj ((+Product)
