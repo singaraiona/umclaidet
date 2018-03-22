@@ -35,7 +35,7 @@
                L ) ) ) ) )
 
 (de utils::normalize (Ln)
-   (mapcar '((X) (pack (make (link (lowc (car X))) (link (cdr X)))))
+   (mapcar '((X) (pack (make (link (uppc (car X))) (link (cdr X)))))
       (mapcar utils::clip (split (chop Ln) "|"))) )
 
 (de utils::strip (Ln)
@@ -78,13 +78,7 @@
                (link '(alert NIL "Ошибка импорта: неверный формат файла!" (<spread> (okButton))) ) ) ) ) ) ) )
 
 (de utils::supplier (Nm)
-   (pilog
-      (quote
-         @Nm Nm
-         (select (@Supplier)
-            ((name +Supplier @Nm))
-               (same @Nm @Supplier name) ) )
-      @Supplier ) )
+   (collect 'name '+Supplier Nm) )
 
 (de utils::suppliers (Fl)
    (utils::parsefile Fl
@@ -95,6 +89,7 @@
       Fl
       '((L)
          (match '(@Cat @Ttl @Sup) L)
+         (msg (glue "," @Cat @Ttl @Sup))
          (if (and @Cat @Ttl @Sup)
             (prog
                (utils::obj ((+Product)
