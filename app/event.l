@@ -2,7 +2,7 @@
 (must "Event" Event)
 
 (menu, "Events"
-   (idForm ,"Events" '(choEvt) 'date '+Event T '(may Delete)
+   (idForm ,"Events" '(choEvt) NIL NIL T '(may Delete)
       'nil
       (<hr>)
          (<grid> 3

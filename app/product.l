@@ -2,7 +2,7 @@
 (must "Products" Product)
 
 (menu, "Products"
-   (idForm, "Products" '(choProd) 'category '+Product T '(may Delete)
+   (idForm, "Products" '(choProd) NIL NIL T '(may Delete)
       'nil
       (<hr>)
          (<grid> 3

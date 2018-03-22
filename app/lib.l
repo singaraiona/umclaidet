@@ -1,34 +1,31 @@
 
 (de toPdf (List)
    (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
-      (font (11 . "arial"))
-      (width "0.5")
-        (page
-           (image "img/collect.png" "image/png" 420 0 120)
-                  (ifn (=1 *Page)
-                     (indent 60
-                        (down 40)
-                        (font 9 (ps (text ,"Page @1" *Page)))
-                        (down 80)
-                        (hline 0 470 -8) )
-                     (window 380 120 120 30
-                        (font 21 (ps 0 ,"Invoice")) )
-                     (brief NIL 8 "Shop"
-                        (ps)
-                        (ps (text ,"Income"))
-                        (ps (text ,"Expense")) ) ) )
+         (width "0.5")
          (page
-           (image "img/collect.png" "image/png" 420 0 120)
-                  (ifn (=1 *Page)
-                     (indent 60
-                        (down 40)
-                        (font 9 (ps (text ,"Page @1" *Page)))
-                        (down 80)
-                        (hline 0 470 -8) )
-                     (window 380 120 120 30
-                        (font 21 (ps 0 ,"Invoice")) )
-                     (brief NIL 8 "Shop"
-                        (ps)
-                        (ps (text ,"Income"))
-                        (ps (text ,"Expense")) ) ) )
-         ) )
+            (indent 60
+               (down 80)
+               (bold (font (25 . "serif") (ps 0 ,"Приходная накладная"))) )
+            (down 10)
+            (hline 0 470 90)
+            (down 10)
+            (font (12 . "serif") (ps 0 ,"От «_____» ______________ 2018 года"))
+            (down 10)
+            (font (14 . "serif") (ps 0 ,"Магазин Наталино _______________ ФОП Азаров А.И."))
+            (down 80)
+            (indent 60
+               (hline 0 470 -8)
+               (let Fmt (14 6 80 80 80 80)
+                  (bold
+                     (table Fmt NIL NIL
+                        (ps 0 ,"#")
+                     (ps T ,"Title")
+                     (ps T ,"Quantity")
+                     (ps T ,"Sell price")
+                     (ps T ,"Sell sum")
+                     (ps T ,"Buy price")
+                     (ps T ,"Buy sum")
+                     (ps T ,"Charge")
+                     ) ) ) )
+             ) ) )
+
