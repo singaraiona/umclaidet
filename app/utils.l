@@ -23,6 +23,21 @@
 (de utils::tpStr (S)
    (if (= S *Income) 1 (if (= S *Expense) 2 NIL) ) )
 
+(de utils::clip (L)
+   (clip
+      (make
+         (let Sp NIL
+            (mapc
+               '((C)
+                  (if (= C " ")
+                     (ifn Sp (prog (setq Sp T) (link C)))
+                     (prog (setq Sp NIL) (link C)) ) )
+               L ) ) ) ) )
+
+(de utils::normalize (Ln)
+   (mapcar '((X) (pack (make (link (lowc (car X))) (link (cdr X)))))
+      (mapcar utils::clip (split (chop Ln) "|"))) )
+
 (de utils::strip (Ln)
    (mapcar '((L) (pack (clip L))) (split (chop Ln) "|")) )
 
@@ -42,7 +57,7 @@
    (in Fl
       (let Fail NIL
          (while (and (not Fail) (line))
-            (setq Fail (Clb (utils::strip @)) ) )
+            (setq Fail (Clb (utils::normalize @)) ) )
       Fail ) ) )
 
 (de utils::upfile Args
