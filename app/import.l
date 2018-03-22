@@ -5,7 +5,7 @@
    (form "Import from CSV"
       (<hr>)
       (<tab>
-         (,"Suppliers" (utils::upfile utils::suppliers))
-         (,"Products"  (utils::upfile utils::products))
-         (,"Events"    (utils::upfile utils::events)) )
+         (,"Suppliers" (utils::upfile utils::usups))
+         (,"Products"  (utils::upfile utils::uprods))
+         (,"Events"    (utils::upfile utils::uevts)) )
       (<hr>) ) )
