@@ -56,7 +56,7 @@
                      (tolr @Nm @@ name) ) ) )
          2
          '((This) (list This (: name)) ) )
-      (<table> 'chart (choTtl ,"Suppliers" 'name '+Supplier)
+      (<table> 'chart (pack *ObjQty (length (collect 'name '+Supplier)))
          (quote
             (btn)
             (NIL ,"Name") )
@@ -92,7 +92,7 @@
                   (tolr @Sup @@ supplier name) ) ) )
          4
          '((This) (list This (: category) (: title) (: supplier)) ) )
-      (<table> 'chart (choTtl ,"Products" 'category '+Product)
+      (<table> 'chart (pack *ObjQty (length (collect 'category '+Product)))
          (quote
             (btn)
             (NIL ,"Category")
@@ -155,7 +155,7 @@
                      (* (: sellprice) (: quantity)) (: buyprice)
                      (* (: buyprice) (: quantity))
                      (- (* (: sellprice) (: quantity)) (* (: buyprice) (: quantity))) ) ) )
-      (<table> 'chart (choTtl ,"Event" 'date '+Event)
+      (<table> 'chart (pack *ObjQty (length (collect 'date '+Event)))
          (quote
             (btn)
             (NIL ,"Date")

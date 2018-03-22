@@ -14,6 +14,7 @@
 (setq *ProjectTitle "Магазин")
 (setq *Income "Приход")
 (setq *Expense "Расход")
+(setq *ObjQty "Количество объектов: ")
 
 (locale "RU" "ru" "app/loc/")
 
