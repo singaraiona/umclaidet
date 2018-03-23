@@ -51,7 +51,7 @@
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr *SupNr
+               @Nr (and *SupNr (cons @ T))
                @Nm *SupNm
                (select (@@)
                   ((nr +Supplier @Nr) (name +Supplier @Nm))
@@ -88,7 +88,7 @@
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr  *ProdNr
+               @Nr  (and *ProdNr (cons @ T))
                @Cat *ProdCat
                @Ttl *ProdTtl
                @Sup *ProdSup
@@ -127,7 +127,7 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
-      (<grid> "--.-.--"
+      (<grid> "--.-..-"
          ,"Number"     (gui 'nr '(+Var +NumField) '*EvtNr 10)
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
@@ -143,7 +143,7 @@
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
-               @Nr *EvtNr
+               @Nr (and *EvtNr (cons @ T))
                @Dt (and *EvtDat (cons @ T))
                @Tp *EvtTp
                @Prd *EvtProd
