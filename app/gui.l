@@ -139,7 +139,7 @@
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          NIL NIL
          NIL NIL
-         (gui '(+Button) "PDF" '(url (toPdf (: home obj)))) )
+         (gui '(+Button) "PDF" '(url (toPdf (utils::dates) ))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
