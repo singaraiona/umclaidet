@@ -30,33 +30,47 @@
                         (ps T ,"Т.Н.") ) )
                   (hsep 5)
                   # Values
-                  (font (8 . "Times-Roman"))
-                  (let Cnt 0
+                  (font (9 . "Times-Roman"))
+                  (let (Cnt 0
+                        Tbsum 0
+                        Tssum 0
+                        Tchrg 0)
                      (mapc
                         '((C)
                            (with C
-                              (table Fmt
-                                 (ps T ,(inc 'Cnt))
-                                 (ps T ,(: product title))
-                                 (ps T ,99)
-                                 (ps T ,(format 3321 2))
-                                 (ps T ,(format 1299 2))
-                                 (ps T ,(format 3456 2))
-                                 (ps T ,(format 12466 2))
-                                 (ps T ,(format 5556 2)) ) )
-                           (hsep 5) )
-                        List ) )
-                  # Total
-                  (bold
-                     (table Fmt
-                        NIL
-                        (ps T ,"Итого:")
-                        NIL
-                        NIL
-                        (ps T ,(format 441219 2))
-                        NIL
-                        (ps T ,(format 12466 2))
-                        (ps T ,(format 12466 2)) ) )
+                              (let (Ttl  (: product title)
+                                    Qty  (: quantity)
+                                    Bpr  (: buyprice)
+                                    Bsum (* Bpr Qty)
+                                    Spr  (: sellprice)
+                                    Ssum (* Spr Qty)
+                                    Chrg (- Ssum Bsum) )
+                                 (inc 'Tbsum Bsum)
+                                 (inc 'Tssum Ssum)
+                                 (inc 'Tchrg Chrg)
+                                 # Render vals
+                                 (table Fmt
+                                    (ps T ,(inc 'Cnt))
+                                    (ps T ,Ttl)
+                                    (ps T ,Qty)
+                                    (ps T ,(money Bpr))
+                                    (ps T ,(money Bsum))
+                                    (ps T ,(money Spr))
+                                    (ps T ,(money Ssum))
+                                    (ps T ,(money Chrg)) ) )
+                           (hsep 5) ) )
+                        List )
+                     # Total
+                     (bold
+                        (table Fmt
+                           NIL
+                           (ps T ,"Итого:")
+                           NIL
+                           NIL
+                           (ps T ,(money Tbsum))
+                           NIL
+                           (ps T ,(money Tssum))
+                           (ps T ,(money Tchrg)) ) ) )
                   (hsep 5) ) ) ) ) )
 
 
