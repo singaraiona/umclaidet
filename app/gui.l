@@ -141,7 +141,7 @@
                      (buyprice +Event @Bpr) )
                   (range @Dt @@ date)
                   (same @Tp @@ tp)
-                  (tolr @Prd @@ product name)
+                  (tolr @Prd @@ product title)
                   (range @Qt @@ quantity)
                   (range @Spr @@ sellprice)
                   (range @Bpr @@ buyprice) ) ) )
