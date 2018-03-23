@@ -43,70 +43,84 @@
 
 (de choSup (Dst)
    (diaform '(Dst)
-      (<grid> "-.--"
-         ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
+      (<grid> "-.-"
+         ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 10)
          (searchButton '(init> (: home query)))
-         (resetButton '(name)) )
+         ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
+         (resetButton '(nr name)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
+               @Nr *SupNr
                @Nm *SupNm
                (select (@@)
-                  ((name +Supplier @Nm))
+                  ((nr +Supplier @Nr) (name +Supplier @Nm))
+                     (range @Nr @@ nr)
                      (tolr @Nm @@ name) ) ) )
-         2
-         '((This) (list This (: name)) ) )
-      (<table> 'chart (pack *ObjQty (length (collect 'name '+Supplier)))
+         3
+         '((This) (list This (: nr) (: name)) ) )
+      (<table> 'chart (pack *ObjQty (length (collect 'nr '+Supplier)))
          (quote
             (btn)
+            (align, "#")
             (NIL ,"Name") )
          (do (cho)
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
-               (gui 2 '(+TextField)) ) ) )
+               (gui 2 '(+NumField))
+               (gui 3 '(+TextField)) ) ) )
       (<spread>
          (scroll (cho))
-         (newButton T Dst '(+Supplier) 'name *SupNm)
+         (newButton T Dst '(+Supplier)
+            '(nr genKey 'nr '+Supplier)
+            'name *SupNm)
          (cancelButton) ) ) )
 
 (de choProd (Dst)
    (diaform '(Dst)
-      (<grid> "-.-"
+      (<grid> "--.-."
+         ,"Number" (gui 'nr '(+Var +NumField) '*ProdNr 10)
          ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
          (searchButton '(init> (: home query)))
          ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
-         (resetButton '(category title supplier query))
-         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30) )
+         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
+         (resetButton '(category title supplier query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
+               @Nr  *ProdNr
                @Cat *ProdCat
                @Ttl *ProdTtl
                @Sup *ProdSup
                (select (@@)
-                  ((category +Product @Cat)
+                  ((nr +Product @Nr)
+                     (category +Product @Cat)
                      (title +Product @Ttl)
                      (name +Supplier @Sup (supplier +Product)) )
-                  (part @Cat @@ category)
-                  (part @Ttl @@ title)
-                  (tolr @Sup @@ supplier name) ) ) )
-         4
-         '((This) (list This (: category) (: title) (: supplier)) ) )
+                  (range @Nr @@ nr)
+                  (part  @Cat @@ category)
+                  (part  @Ttl @@ title)
+                  (tolr  @Sup @@ supplier name) ) ) )
+         5
+         '((This) (list This (: nr) (: category) (: title) (: supplier)) ) )
       (<table> 'chart (pack *ObjQty (length (collect 'category '+Product)))
          (quote
             (btn)
-            (NIL ,"Category")
-            (NIL ,"Title")
-            (NIL ,"Supplier") )
+            (align ,"#")
+            (NIL   ,"Category")
+            (NIL   ,"Title")
+            (NIL   ,"Supplier") )
          (do (cho)
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
-               (gui 2 '(+TextField))
+               (gui 2 '(+NumField))
                (gui 3 '(+TextField))
-               (gui 4 '(+ObjView +TextField) '(: name)) ) ) )
+               (gui 4 '(+TextField))
+               (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Product)
+            '(nr genKey 'nr '+Product)
             'category *ProdCat
             'title *ProdTtl )
          (cancelButton) ) ) )
@@ -114,18 +128,20 @@
 (de choEvt (Dst)
    (diaform '(Dst)
       (<grid> "--.-."
+         ,"Number"     (gui 'nr '(+Var +NumField) '*EvtNr 10)
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
          (searchButton '(init> (: home query)))
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +NumField)  '*EvtQt 10)
-         (resetButton '(date tp product quantity sellprice buyprice query))
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
+         (resetButton '(date tp product quantity sellprice buyprice query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          (gui '(+Button) "PDF" '(url (toPdf (: home obj)))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
+               @Nr *EvtNr
                @Dt (and *EvtDat (cons @ T))
                @Tp *EvtTp
                @Prd *EvtProd
@@ -133,20 +149,23 @@
                @Spr (and *EvtSpr (cons @ T))
                @Bpr (and *EvtBpr (cons @ T))
                (select (@@)
-                  ((date +Event @Dt)
+                  ((nr +Event @Nr)
+                     (date +Event @Dt)
                      (tp +Event @Tp)
                      (title +Product @Prd (product +Event))
                      (quantity +Event @Qt)
                      (sellprice +Event @Spr)
                      (buyprice +Event @Bpr) )
+                  (range @Nr @@ nr)
                   (range @Dt @@ date)
                   (same @Tp @@ tp)
                   (tolr @Prd @@ product title)
                   (range @Qt @@ quantity)
                   (range @Spr @@ sellprice)
                   (range @Bpr @@ buyprice) ) ) )
-         10
+         11
          '((This) (list This
+                     (: nr)
                      (: date)
                      (utils::strTp (: tp))
                      (: product)
@@ -158,6 +177,7 @@
       (<table> 'chart (pack *ObjQty (length (collect 'date '+Event)))
          (quote
             (btn)
+            (align, "#")
             (NIL ,"Date")
             (NIL ,"Event type")
             (NIL ,"Title")
@@ -170,18 +190,20 @@
          (do (cho)
             (<row> (alternating)
                (gui 1  '(+DstButton) Dst)
-               (gui 2  '(+DateField))
-               (gui 3  '(+TextField))
-               (gui 4  '(+ObjView +TextField) '(: title))
-               (gui 5  '(+NumField))
-               (gui 6  '(+FixField) 2)
+               (gui 2  '(+NumField))
+               (gui 3  '(+DateField))
+               (gui 4  '(+TextField))
+               (gui 5  '(+ObjView +TextField) '(: title))
+               (gui 6  '(+NumField))
                (gui 7  '(+FixField) 2)
                (gui 8  '(+FixField) 2)
                (gui 9  '(+FixField) 2)
-               (gui 10 '(+FixField) 2) ) ) )
+               (gui 10 '(+FixField) 2)
+               (gui 11 '(+FixField) 2) ) ) )
       (<spread>
          (scroll (cho))
             (newButton T Dst '(+Event)
+               '(nr genKey 'nr '+Event)
                'date (date)
                'tp *EvTp) )
             (cancelButton) ) )

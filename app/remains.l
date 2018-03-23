@@ -86,8 +86,10 @@
 (de rem::find (Rng)
    (solve
       (quote
+         @Nr '(NIL . T)
          @Rng Rng
             (select (@Event)
-               ((date +Event @Rng))
+               ((nr +Event @Nr) (date +Event @Rng))
+                  (range @Nr @Event nr)
                   (range @Rng @Event date) ) )
-      @Event) )
+      @Event ) )

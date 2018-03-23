@@ -10,7 +10,7 @@
 
 # All dates +Event objects have
 (de utils::dates ()
-   (collect 'date '+Event 'date) )
+   (collect 'date '+Event NIL T 'date) )
 
 # +Event type to string
 (de utils::strTp (Tp)
@@ -96,7 +96,7 @@
 # Upload suppliers from CSV
 (de utils::usups (Fl)
    (utils::parsefile Fl
-      '((L) (utils::obj ((+Supplier) name (pop L))) NIL) ) )
+      '((L) (utils::obj ((+Supplier) nr (genKey 'nr '+Supplier)) name (pop L)) NIL)) )
 
 # Upload products from CSV
 (de utils::uprods (Fl)
@@ -106,10 +106,10 @@
          (match '(@Cat @Ttl @Sup) L)
          (if (and @Cat @Ttl @Sup)
             (prog
-               (utils::obj ((+Product)
+               (utils::obj ((+Product) nr (genKey 'nr '+Product))
                   category (pop @Cat)
                   title (pop @Ttl))
-                  supplier (utils::supplier (pop @Sup)) )
+                  supplier (utils::supplier (pop @Sup))
                NIL )
             "Invalid products file!" ) ) ) )
 
@@ -121,12 +121,12 @@
          (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) L)
          (if (and @Dat @Tp @Cat @Ttl @Qty @Spr @Bpr)
             (prog
-               (utils::obj ((+Event)
+               (utils::obj ((+Event) nr (genKey 'nr '+Event))
                   date (expDat (pop @Dat))
                   tp (utils::tpStr (pop @Tp))
                   product (utils::product (pop @Cat) (pop @Ttl))
                   quantity (format (pop @Qty))
-                  sellprice (format (glue "." (split (chop (pop @Spr)) ",")) 2)
-                  buyprice (format (glue "." (split (chop (pop @Bpr)) ",")) 2) ) )
+                  sellprice (format (pack (split (chop (pop @Spr)) ",")) 2)
+                  buyprice (format  (pack (split (chop (pop @Bpr)) ",")) 2) )
                NIL )
-            "Invalid evants file!" ) ) ) )
+            "Invalid events file!" ) ) ) )
