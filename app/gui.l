@@ -127,7 +127,7 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
-      (<grid> "--.-."
+      (<grid> "--.-.-."
          ,"Number"     (gui 'nr '(+Var +NumField) '*EvtNr 10)
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
@@ -137,6 +137,8 @@
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
          (resetButton '(date tp product quantity sellprice buyprice query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
+         NIL NIL
+         NIL NIL
          (gui '(+Button) "PDF" '(url (toPdf (: home obj)))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
