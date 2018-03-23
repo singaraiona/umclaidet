@@ -96,7 +96,11 @@
 # Upload suppliers from CSV
 (de utils::usups (Fl)
    (utils::parsefile Fl
-      '((L) (utils::obj ((+Supplier) nr (genKey 'nr '+Supplier)) name (pop L)) NIL)) )
+      '((L)
+            (let
+               (Nm (pop L)
+                Nr (or (; (last (utils::supplier Nm)) nr) (genKey 'nr '+Supplier)) )
+                   (utils::obj ((+Supplier) nr Nr) name Nm)) NIL) ) )
 
 # Upload products from CSV
 (de utils::uprods (Fl)
@@ -104,14 +108,19 @@
       Fl
       '((L)
          (match '(@Cat @Ttl @Sup) L)
-         (if (and @Cat @Ttl @Sup)
-            (prog
-               (utils::obj ((+Product) nr (genKey 'nr '+Product))
-                  category (pop @Cat)
-                  title (pop @Ttl))
-                  supplier (utils::supplier (pop @Sup))
-               NIL )
-            "Invalid products file!" ) ) ) )
+         (let
+            (Cat (pop @Cat)
+             Ttl (pop @Ttl)
+             Sup (pop @Sup)
+             Nr (or (; (last (utils::product Cat Ttl)) nr) (genKey 'nr '+Product)) )
+               (if (and @Cat @Ttl @Sup)
+                  (prog
+                     (utils::obj ((+Product) nr Nr)
+                     category Cat
+                     title Ttl)
+                     supplier (utils::supplier Sup) )
+                 "Invalid products file!" ) )
+         NIL ) ) )
 
 # Upload events from CSV
 (de utils::uevts (Fl)
