@@ -127,7 +127,7 @@
 
 (de choEvt (Dst)
    (diaform '(Dst)
-      (<grid> "--.-.-."
+      (<grid> "--.-.--"
          ,"Number"     (gui 'nr '(+Var +NumField) '*EvtNr 10)
          ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
@@ -139,7 +139,7 @@
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          NIL NIL
          NIL NIL
-         (gui '(+Button) "PDF" '(url (toPdf (utils::dates) ))) )
+         (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) ))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote

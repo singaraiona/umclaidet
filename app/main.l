@@ -15,6 +15,7 @@
 (setq *Income "Приход")
 (setq *Expense "Расход")
 (setq *ObjQty "Количество объектов: ")
+(setq *Pdf "Печать")
 
 (locale "RU" "ru" "app/loc/")
 
