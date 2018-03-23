@@ -2,13 +2,18 @@
    (down V)
    (hline 0 470 -8) )
 
-(de toPdf (List)
+(de toPdf (List EvTp)
    (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
          (width "0.5")
          (page
             (down 80)
             (indent 60
-               (bold (font (25 . "serif") (ps 0 ,"Приходная накладная")))
+               (bold
+                  (font (25 . "serif")
+                     (if (= 1 EvTp) (ps 0 ,"Приходная накладная")
+                                    (if (= 2 EvTp)
+                                       (ps 0 ,"Расходная накладная")
+                                       (ps 0 ,"Приходно-расходная накладная")) ) ) )
                (hsep 10)
                (down 20)
                (font (12 . "serif") (ps T ,"От «_____» ______________ 2018 года"))

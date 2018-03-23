@@ -139,7 +139,7 @@
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          NIL NIL
          NIL NIL
-         (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) ))) )
+         (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) (val> (: home tp)) ))) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
