@@ -122,6 +122,19 @@
                  "Invalid products file!" ) )
          NIL ) ) )
 
+### Removes all non-numbers from 
+### string to be formatted
+(de utils::format (L F)
+   (format 
+      (format      
+         (make
+            (mapc
+               '((C)
+                  (if (format C)
+                     (link C) ) )
+               (chop L) ) ) ) 
+      F ) )
+
 ### Upload events from CSV
 (de utils::uevts (Fl)
    (utils::parsefile
@@ -134,8 +147,8 @@
                   date (expDat (pop @Dat))
                   tp (utils::tpStr (pop @Tp))
                   product (utils::product (pop @Cat) (pop @Ttl))
-                  quantity (format (pop @Qty))
-                  sellprice (format (pack (split (chop (pop @Spr)) ",")) 2)
-                  buyprice (format  (pack (split (chop (pop @Bpr)) ",")) 2) )
+                  quantity (utils::format  (pop @Qty))
+                  sellprice (utils::format (pop @Spr) 2)
+                  buyprice (utils::format  (pop @Bpr) 2) )
                NIL )
             "Invalid events file!" ) ) ) )
