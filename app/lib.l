@@ -85,7 +85,9 @@
                            NIL
                            (ps T ,(money Tssum))
                            (ps T ,(money Tchrg)) ) )
-                     (hsep 5) ) ) ) ) )
+                     (hsep 5) ) ) )
+               (down 10)
+               (font 8 (ps 0 ,(text ,"Страница @1" *Page))) ) )
             Chnks ) ) ) )
 
       
