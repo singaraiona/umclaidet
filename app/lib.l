@@ -1,8 +1,9 @@
 (de lib::chunks (L I U)
   (make
      (link (cut I 'L))     
-     (ifn (=0 (length L))                
-        (link L) ) ) )
+     (ifn (=0 (length L))   
+        (until (=0 (length L))             
+           (link (cut U 'L)) ) ) ) )
 
 (de hsep (V)
    (down V)
@@ -11,7 +12,7 @@
 (de toPdf (List EvTp)
    (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
       (width "0.5")
-      (let (Chnks (lib::chunks List 10 100) Pgs (length Chnks) Fmt (10 180 45 45 50 45 50 45) Cnt 0 Tbsum 0 Tssum 0 Tchrg 0)
+      (let (Chnks (lib::chunks List 38 48) Pgs (length Chnks) Fmt (10 180 45 45 50 45 50 45) Cnt 0 Tbsum 0 Tssum 0 Tchrg 0)
          (mapc 
             '((Lst)
                (page
@@ -32,7 +33,7 @@
                            (down 20)
                            (font (12 . "Times-Roman") (ps NIL ,"Магазин «Наталино» ______ ФОП Азаров А.И."))
                            (hsep 80) )
-                        (hsep 10) )                  
+                        (hsep 1) )                  
                      
                      # --- Columns headers
                      (font (10 . "Times-Roman"))

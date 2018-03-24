@@ -140,7 +140,7 @@
          NIL NIL
          NIL NIL
          (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) (val> (: home tp)) ))) )
-      (gui 'query '(+QueryChart) (cho)
+      (gui 'query '(+QueryChart) 100000
          '(goal
             (quote
                @Nr (and *EvtNr (cons @ T))
