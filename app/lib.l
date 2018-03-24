@@ -11,16 +11,16 @@
             (if (=1 *Page)
                (prog
                   (bold
-                     (font (25 . "serif")
+                     (font (25 . "Times-Roman")
                         (if (= 1 EvTp) (ps 0 ,"Приходная накладная")
                                        (if (= 2 EvTp)
                                           (ps 0 ,"Расходная накладная")
                                           (ps 0 ,"Приходно-расходная накладная")) ) ) )
                   (hsep 10)
                   (down 20)
-                  (font (12 . "serif") (ps T ,"От «_____» ______________ 2018 года"))
-                  (down 10)
-                  (font (12 . "serif") (ps T ,"Магазин Наталино _______________ ФОП Азаров А.И."))
+                  (font (12 . "Times-Roman") (ps NIL ,"От «_____» ______________ 2018 года"))
+                  (down 20)
+                  (font (12 . "Times-Roman") (ps NIL ,"Магазин «Наталино» ______ ФОП Азаров А.И."))
                   (hsep 80) ) )
             (font (10 . "Times-Roman"))
             (let Fmt (10 180 45 45 50 45 50 45)
@@ -78,8 +78,6 @@
                         NIL
                         (ps T ,(money Tssum))
                         (ps T ,(money Tchrg)) ) ) )
-               (hsep 5) )
-
-             ) ) ) )
+               (hsep 5) ) ) ) ) )
 
 

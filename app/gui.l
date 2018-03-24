@@ -164,7 +164,7 @@
                   (tolr @Prd @@ product title)
                   (range @Qt @@ quantity)
                   (range @Spr @@ sellprice)
-                  (range @Bpr @@ buyprice) ) ) )
+                  (range @Bpr @@ buyprice) ) ) ) 
          11
          '((This) (list This
                      (: nr)
@@ -209,5 +209,4 @@
                'date (date)
                'tp *EvTp) )
             (cancelButton) ) )
-
 
