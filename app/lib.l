@@ -1,5 +1,8 @@
 (de lib::chunks (L I U)
-  (list (cut I L) L) )
+  (make
+     (link (cut I 'L))     
+     (ifn (=0 (length L))                
+        (link L) ) ) )
 
 (de hsep (V)
    (down V)
@@ -8,7 +11,7 @@
 (de toPdf (List EvTp)
    (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
       (width "0.5")
-      (let (Chnks (lib::chunks List 20 100) Pgs (length Chnks) Fmt (10 180 45 45 50 45 50 45) Cnt 0 Tbsum 0 Tssum 0 Tchrg 0)
+      (let (Chnks (lib::chunks List 10 100) Pgs (length Chnks) Fmt (10 180 45 45 50 45 50 45) Cnt 0 Tbsum 0 Tssum 0 Tchrg 0)
          (mapc 
             '((Lst)
                (page
