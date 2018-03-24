@@ -1,5 +1,5 @@
 (de lib::chunks (L I U)
-  (list (list (pop L)) L) )
+  (list (cut I L) L) )
 
 (de hsep (V)
    (down V)
