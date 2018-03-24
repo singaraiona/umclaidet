@@ -1,4 +1,4 @@
-# For testing only (instant login)
+### For testing only (instant login)
 (de utils::login ()
    (setq *Login (pilog
       (quote
@@ -8,20 +8,20 @@
                (tolr @Nm @User nm) ) )
       @User) ) )
 
-# All dates +Event objects have
+### All dates +Event objects have
 (de utils::dates ()
    (collect 'date '+Event NIL T 'date) )
 
-# +Event type to string
+### +Event type to string
 (de utils::strTp (Tp)
    (if (= Tp 1) *Income (if (= Tp 2) *Expense NIL) ) )
 
-# string to +Event type
+### string to +Event type
 (de utils::tpStr (S)
    (if (= S *Income) 1 (if (= S *Expense) 2 NIL) ) )
 
-# Removes all spaces from sides of L and inside one
-# if there are more then one space at a time
+### Removes all spaces from sides of L and inside one
+### if there are more then one space at a time
 (de utils::clip (L)
    (clip
       (make
@@ -33,12 +33,12 @@
                      (prog (setq Sp NIL) (link C)) ) )
                L ) ) ) ) )
 
-# Prepare string for storing as object field
+### Prepare string for storing as object field
 (de utils::normalize (Ln)
    (mapcar '((X) (pack (make (link (uppc (car X))) (link (cdr X)))))
       (mapcar utils::clip (split (chop Ln) "|"))) )
 
-# Same as (obj) except evaluates fields
+### Same as (obj) except evaluates fields
 (de utils::obj Lst
    (let (ReqLst (pop 'Lst)
          ReqCls (pop 'ReqLst)
@@ -51,7 +51,7 @@
       (put> Obj (pop 'Lst) (eval (pop 'Lst))) )
    Obj) )
 
-# Read file line by line and passes each line to callback fn
+### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
    (in Fl
       (let Fail NIL
@@ -59,7 +59,7 @@
             (setq Fail (Clb (utils::normalize @)) ) )
       Fail ) ) )
 
-# Creates GUI element for uploading files
+### Creates GUI element for uploading files
 (de utils::upfile Args
    (let Clb (pop 'Args)
       (gui '(+Tiny +UpField))
@@ -77,11 +77,11 @@
                (link '(commit))
                (link '(alert NIL "Неверный формат файла!" (<spread> (okButton))) ) ) ) ) ) ) )
 
-# Search an supplier specified by name
+### Search an supplier specified by name
 (de utils::supplier (Nm)
    (collect 'name '+Supplier Nm) )
 
-# Search an product specified by category and title
+### Search an product specified by category and title
 (de utils::product (Cat Ttl)
    (pilog
       (quote
@@ -93,7 +93,7 @@
                (same @Ttl @Product title) ) )
       @Product ) )
 
-# Upload suppliers from CSV
+### Upload suppliers from CSV
 (de utils::usups (Fl)
    (utils::parsefile Fl
       '((L)
@@ -102,7 +102,7 @@
                 Nr (or (; (last (utils::supplier Nm)) nr) (genKey 'nr '+Supplier)) )
                    (utils::obj ((+Supplier) nr Nr) name Nm)) NIL) ) )
 
-# Upload products from CSV
+### Upload products from CSV
 (de utils::uprods (Fl)
    (utils::parsefile
       Fl
@@ -122,7 +122,7 @@
                  "Invalid products file!" ) )
          NIL ) ) )
 
-# Upload events from CSV
+### Upload events from CSV
 (de utils::uevts (Fl)
    (utils::parsefile
       Fl

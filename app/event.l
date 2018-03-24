@@ -14,7 +14,7 @@
             ,"Buy price" NIL     (gui '(+E/R +FixField) '(buyprice : home obj) 2 10) )
       (<hr>) ) )
 
-# Update rest fields when Product has been changed
+### Update rest fields when Product has been changed
 (de upfields(V)
    (with (: home obj)
       (ifn (= V (: product))
@@ -24,7 +24,7 @@
             (put!> This 'buyprice  (; I buyprice)) ) ) )
    V )
 
-# Find the last Event record in db mathes `Prod
+### Find the last Event record in db mathes `Prod
 (de lastevt(Prod)
    (last
       (pilog
