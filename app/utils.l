@@ -124,17 +124,17 @@
 
 ### Removes all non-numbers from 
 ### string to be formatted
-(de utils::format (L F)
-   (or 
-      (format      
-         (make
-            (mapc
-               '((C)
-                  (ifn (= C " ")
-                     (link C) ) )
-               (chop L) ) ) 
-         F ",")
-      0 ) )
+(de utils::format (L)
+   (let 
+      Pcd (split      
+             (make
+                (mapc
+                   '((C)
+                      (ifn (= C " ")
+                         (link C) ) )
+                   (chop L) ) )
+             "," ) 
+      (pack (or (car Pcd) "00") (or (cdr Pcd) "00")) ) )
 
 ### Upload events from CSV
 (de utils::uevts (Fl)
@@ -149,7 +149,7 @@
                   tp (utils::tpStr (pop @Tp))
                   product (utils::product (pop @Cat) (pop @Ttl))
                   quantity (utils::format  (pop @Qty))
-                  sellprice (utils::format (pop @Spr) 2)
-                  buyprice (utils::format  (pop @Bpr) 2) )
+                  sellprice (utils::format (pop @Spr))
+                  buyprice (utils::format  (pop @Bpr)) )
                NIL )
             "Invalid events file!" ) ) ) )
