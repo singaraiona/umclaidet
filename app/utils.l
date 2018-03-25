@@ -124,7 +124,8 @@
 
 ### Removes all non-numbers from 
 ### string to be formatted
-(de utils::format (L)
+(de utils::format (L F)
+   (format
    (let 
       Pcd (split      
              (make
@@ -134,7 +135,15 @@
                          (link C) ) )
                    (chop L) ) )
              "," ) 
-      (pack (or (car Pcd) "00") (or (cdr Pcd) "00")) ) )
+      (make 
+         (link (car Pcd))
+         (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) ) 
+      F ) )
+
+(de utils::fmt (S)
+   (if (< (length S) 2)
+      (pack S "0")
+      S ) )
 
 ### Upload events from CSV
 (de utils::uevts (Fl)
@@ -147,9 +156,9 @@
                (utils::obj ((+Event) nr (genKey 'nr '+Event))
                   date (expDat (pop @Dat))
                   tp (utils::tpStr (pop @Tp))
-                  product (utils::product (pop @Cat) (pop @Ttl))
-                  quantity (utils::format  (pop @Qty))
-                  sellprice (utils::format (pop @Spr))
-                  buyprice (utils::format  (pop @Bpr)) )
+                  product   (utils::product (pop @Cat) (pop @Ttl))
+                  quantity  (format (pop @Qty))
+                  sellprice (utils::format (pop @Spr) 2)
+                  buyprice  (utils::format  (pop @Bpr) 2) )
                NIL )
             "Invalid events file!" ) ) ) )
