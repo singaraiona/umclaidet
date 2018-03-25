@@ -6,8 +6,8 @@
       'nil
       (<hr>)
          (<grid> 3
-            ,"Category"  NIL (gui '(+E/R +TextField) '(category : home obj))
-            ,"Title"   NIL (gui '(+E/R +TextField) '(title : home obj))
+            ,"Category"  NIL (gui '(+E/R +TextField) '(category : home obj) 10)
+            ,"Title"   NIL (gui '(+E/R +TextField) '(title : home obj) 10)
             ,"Supplier" (choSup 0)
             (gui '(+E/R +Obj +TextField) '(supplier : home obj) '(name +Supplier)) )
         (<hr>) ) )
