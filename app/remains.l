@@ -64,7 +64,7 @@
          (with (car Grp) 
             (let (Ssum (* (: sellprice) Qty)
                   Bsum (* (: buyprice) Qty)
-                  Chrg 0 )                     
+                  Chrg (- Ssum Bsum) )                     
                (<row> (alternating)
                   (<+> Nr)
                   (<+> (: product category))
