@@ -30,7 +30,7 @@
                         (align ,"Charge")
                         (NIL   ,"Supplier") ) )
                      (let Nr 0
-                        (catch NIL (mapc rem::fold (by '((I) (; I product)) group (rem::find (cons *InvFrom (or *InvTill T))))) )
+                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T)))))
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Total:")
@@ -48,40 +48,47 @@
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
       (resetButton '(datfrom dattill)) ) )
 
-(de rem::fold (Grp)
-   (let (Bqty 0
-         Bprc 0
-         Sqty 0
-         Sprc 0)
+
+(de pgroup (L)
+   (mapc 
+      '((P) 
+         (mapc 
+            rem::fold 
+            (by '((X) (with X (: sellprice))) group P)) )
+      (by '((I) (with I (: product))) group L) ) ) 
+
+(de rem::fold (Grp)   
       (inc 'Nr)
-      (mapc rem::proc Grp)
-      (with (car Grp)
-         (let (Pqty (- Bqty Sqty)
-               Pssum (* (: sellprice) (- Bqty Sqty))
-               Pbsum (* (: buyprice)  (- Bqty Sqty))
-               Pchrg (- (* (: sellprice) (- Bqty Sqty)) (* (: buyprice) (- Bqty Sqty))) )
+      (let Qty 0
+         (mapc rem::proc Grp)
+         (with (car Grp) 
+            (let (Ssum (* (: sellprice) Qty)
+                  Bsum (* (: buyprice) Qty)
+                  Chrg 0 )                     
                (<row> (alternating)
                   (<+> Nr)
                   (<+> (: product category))
                   (<+> (: product title))
-                  (<+> Pqty)
+                  (<+> Qty)
                   (<+> (money (: sellprice)))
-                  (<+> (money Pssum))
+                  (<+> (money Ssum))
                   (<+> (money (: buyprice)))
-                  (<+> (money Pbsum))
-                  (<+> (money Pchrg))
+                  (<+> (money Bsum))
+                  (<+> (money Chrg))
                   (<-> (: product supplier name)) )
-               (inc 'TotalSellSum Pssum)
-               (inc 'TotalBuySum Pbsum)
-               (inc 'TotalCharge Pchrg) ) ) ) )
+               (inc 'TotalSellSum Ssum)
+               (inc 'TotalBuySum Bsum)
+               (inc 'TotalCharge Chrg) ) ) ) )
 
 (de rem::proc (Rec)
    (with Rec
       (if (= (: tp) 1)
-          (prog (inc 'Bqty (: quantity))
-                (inc 'Bprc (* (: buyprice) (: quantity))) )
-          (prog (inc 'Sqty (: quantity))
-                (inc 'Sprc (* (: sellprice) (: quantity)) ) ) ) ) )
+          (prog (inc 'Qty (: quantity))
+                (inc 'Ssum (* (: sellprice) (: quantity)))
+                (inc 'Bsum (* (: buyprice) (: quantity))) )
+          (prog (dec 'Qty (: quantity))
+                (dec 'Ssum (* (: sellprice) (: quantity)))
+                (dec 'Bsum (* (: buyprice) (: quantity))) ) ) ) )
 
 (de rem::find (Rng)
    (solve

@@ -38,7 +38,8 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (utils::login) )
+      (utils::login) )      
+
 
 (de go (Rpc)
    (when Rpc
