@@ -87,7 +87,7 @@
          (gui '(+Button) *Pdf '(url (print::products (val> (: home query)))))
          ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          NIL )
-      (gui 'query '(+QueryChart) 10000
+      (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
                @Nr  (and *ProdNr (cons @ T))
@@ -142,7 +142,7 @@
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
          NIL NIL
          (gui '(+Button) *Pdf '(url (print::events (val> (: home query)) (val> (: home tp)) ))) )
-      (gui 'query '(+QueryChart) 100000
+      (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
                @Nr (and *EvtNr (cons @ T))

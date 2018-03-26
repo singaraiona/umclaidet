@@ -125,7 +125,7 @@
       (let
          (Chnks (lib::chunks List 35 50)
           Pgs (length Chnks)
-          Fmt (50 20 100 300) )
+          Fmt (50 20 100 20 280) )
          (mapc
             '((Lst)
                (page
@@ -151,6 +151,7 @@
                            (ps T ,"Код")
                            NIL
                            (ps NIL ,"Категория")
+                           NIL
                            (ps NIL ,"Наименование") ) )
                      (hsep 5)
 
@@ -164,6 +165,7 @@
                                  (ps T ,(: nr))
                                  NIL
                                  (ps NIL ,(: category))
+                                 NIL
                                  (ps NIL ,(: title)) ) )
                                (hsep 5) )
                            Lst )
