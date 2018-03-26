@@ -50,24 +50,24 @@
 
 
 (de pgroup (L)
-   (mapc 
-      '((P) 
-         (mapc 
-            rem::fold 
+   (mapc
+      '((P)
+         (mapc
+            rem::fold
             (by '((X) (with X (: sellprice))) group P)) )
-      (by '((I) (with I (: product))) group L) ) ) 
+      (by '((I) (with I (: product))) group L) ) )
 
-(de rem::fold (Grp)   
+(de rem::fold (Grp)
       (inc 'Nr)
       (let Qty 0
          (mapc rem::proc Grp)
-         (with (car Grp) 
+         (with (car Grp)
             (let (Ssum (* (: sellprice) Qty)
                   Bsum (* (: buyprice) Qty)
-                  Chrg (- Ssum Bsum) )                     
+                  Chrg (- Ssum Bsum) )
                (<row> (alternating)
                   (<+> Nr)
-                  (<+> (: product category))
+                  (<+> (: product category name))
                   (<+> (: product title))
                   (<+> Qty)
                   (<+> (money (: sellprice)))

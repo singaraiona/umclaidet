@@ -16,12 +16,14 @@
 (setq *Expense "Расход")
 (setq *ObjQty "Количество объектов: ")
 (setq *Pdf "Печать")
+(setq *ProdsInCat 100000)
 
 (locale "RU" "ru" "app/loc/")
 
 (load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l")
 
 (permission
+   Category    ,"Category"
    Product     ,"Product"
    Supplier    ,"Supplier"
    Event       ,"Event"
@@ -38,8 +40,7 @@
    (pool *Pool *Dbs)
    (unless (seq *DB)
       (load "app/init.l") )
-      (utils::login) )      
-
+      (utils::login) )
 
 (de go (Rpc)
    (when Rpc

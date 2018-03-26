@@ -59,6 +59,18 @@
             (setq Fail (Clb (utils::normalize @)) ) )
       Fail ) ) )
 
+### Generate next key for +Category
+(de utils::catkey ()
+   (genKey 'nr '+Category) )
+
+### Generate next key for +Product
+(de utils::prodkey (Cat)
+   (let Pnr (+ (length (with Cat (: products))) 1)
+      (or
+         (+ (with Cat (* (- (: nr) 1) *ProdsInCat))
+            Pnr )
+      1 ) ) )
+
 ### Creates GUI element for uploading files
 (de utils::upfile Args
    (let Clb (pop 'Args)
@@ -80,6 +92,10 @@
 ### Search an supplier specified by name
 (de utils::supplier (Nm)
    (collect 'name '+Supplier Nm) )
+
+### Search a category specified by name
+(de utils::category (Nm)
+   (collect 'name '+Category Nm) )
 
 ### Search an product specified by category and title
 (de utils::product (Cat Ttl)
@@ -116,7 +132,7 @@
                (if (and @Cat @Ttl @Sup)
                   (prog
                      (utils::obj ((+Product) nr Nr)
-                     category Cat
+                     category (utils::category Cat)
                      title Ttl)
                      supplier (utils::supplier Sup) )
                  "Invalid products file!" ) )

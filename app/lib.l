@@ -164,7 +164,7 @@
                               (table Fmt
                                  (ps T ,(: nr))
                                  NIL
-                                 (ps NIL ,(: category))
+                                 (ps NIL ,(: category name))
                                  NIL
                                  (ps NIL ,(: title)) ) )
                                (hsep 5) )

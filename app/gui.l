@@ -14,6 +14,7 @@
                      (NIL (<hr>))
                      (T ,"Data"
                         (,"Suppliers" (and (may Supplier) "app/supplier.l"))
+                        (,"Categories" (and (may Category) "app/category.l"))
                         (,"Products" (and (may Product) "app/product.l")) )
                      (NIL (<hr>))
                      (T ,"Registration"
@@ -59,7 +60,7 @@
                      (tolr @Nm @@ name) ) ) )
          3
          '((This) (list This (: nr) (: name)) ) )
-      (<table> 'chart (pack *ObjQty (length (collect 'nr '+Supplier)))
+      (<table> 'chart NIL
          (quote
             (btn)
             (align, "#")
@@ -76,10 +77,45 @@
             'name *SupNm)
          (cancelButton) ) ) )
 
+(de choCat (Dst)
+   (diaform '(Dst)
+      (<grid> "-.-"
+         ,"Code" (gui 'nr '(+Var +NumField) '*CatNr 10)
+         (searchButton '(init> (: home query)))
+         ,"Name" (gui 'name '(+Focus +Var +TextField) '*CatNm 30)
+         (resetButton '(nr name)) )
+      (gui 'query '(+QueryChart) (cho)
+         '(goal
+            (quote
+               @Nr (and *CatNr (cons @ T))
+               @Nm *CatNm
+               (select (@@)
+                  ((nr +Category @Nr) (name +Category @Nm))
+                     (range @Nr @@ nr)
+                     (tolr @Nm @@ name) ) ) )
+         3
+         '((This) (list This (: nr) (: name)) ) )
+      (<table> 'chart NIL
+         (quote
+            (btn)
+            (align, "Code")
+            (NIL ,"Name") )
+         (do (cho)
+            (<row> (alternating)
+               (gui 1 '(+DstButton) Dst)
+               (gui 2 '(+NumField))
+               (gui 3 '(+TextField)) ) ) )
+      (<spread>
+         (scroll (cho))
+         (newButton T Dst '(+Category)
+            'nr (utils::catkey)
+            'name *SupNm)
+         (cancelButton) ) ) )
+
 (de choProd (Dst)
    (diaform '(Dst)
       (<grid> "-.-"
-         ,"Number" (gui 'nr '(+Var +NumField) '*ProdNr 10)
+         ,"Code" (gui 'nr '(+Var +NumField) '*ProdNr 10)
          (searchButton '(init> (: home query)))
          ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
          (resetButton '(category title supplier query))
@@ -105,10 +141,10 @@
                   (tolr  @Sup @@ supplier name) ) ) )
          5
          '((This) (list This (: nr) (: category) (: title) (: supplier)) ) )
-      (<table> 'chart (pack *ObjQty (length (collect 'category '+Product)))
+      (<table> 'chart NIL
          (quote
             (btn)
-            (align ,"#")
+            (align ,"Code")
             (NIL   ,"Category")
             (NIL   ,"Title")
             (NIL   ,"Supplier") )
@@ -116,14 +152,13 @@
             (<row> (alternating)
                (gui 1 '(+DstButton) Dst)
                (gui 2 '(+NumField))
-               (gui 3 '(+TextField))
+               (gui 3 '(+ObjView +TextField) '(: name))
                (gui 4 '(+TextField))
                (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Product)
-            '(nr genKey 'nr '+Product)
-            'category *ProdCat
+            'nr (utils::prodkey (val> (: home category)))
             'title *ProdTtl )
          (cancelButton) ) ) )
 
@@ -182,7 +217,7 @@
                      (* (: buyprice) (: quantity))
                      (- (* (: sellprice) (: quantity)) (* (: buyprice) (: quantity)))
                      (: notes) ) ) )
-      (<table> 'chart (pack *ObjQty (length (collect 'date '+Event)))
+      (<table> 'chart NIL
          (quote
             (btn)
             (align, "#")

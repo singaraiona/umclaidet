@@ -10,11 +10,19 @@
    (make
       (or (: name) (link ,"No customer name")) ) )
 
+### Category
+(class +Category +Entity)
+(rel nr   (+Need +Key +Number))
+(rel name (+Need +Sn +IdxFold +String))
+(rel products (+List +Joint) category (+Product))
+
+(dm url> (Tab) (and (may Supplier) (list "app/category.l"  '*ID This)) )
+
 ### Product
 (class +Product +Entity)
 (rel nr         (+Need +Key +Number))
-(rel category   (+Need +IdxFold +String))
-(rel title      (+Need +IdxFold +String))
+(rel category   (+Joint) products (+Category))
+(rel title      (+IdxFold +String))
 (rel supplier   (+Ref +Link) NIL (+Supplier))
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )
@@ -35,5 +43,5 @@
 ### Database sizes
 (dbs
    (3 +Role +User (+User pw))
-   (1 +Product +Event)
+   (1 +Category +Product +Event)
    (2 +Supplier) )
