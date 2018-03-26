@@ -137,7 +137,7 @@
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
          (resetButton '(date tp product quantity sellprice buyprice query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
-         NIL NIL
+         ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
          NIL NIL
          (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) (val> (: home tp)) ))) )
       (gui 'query '(+QueryChart) 100000
@@ -150,6 +150,7 @@
                @Qt (and *EvtQt (cons @ T))
                @Spr (and *EvtSpr (cons @ T))
                @Bpr (and *EvtBpr (cons @ T))
+               @Nts *EvtNts
                (select (@@)
                   ((nr +Event @Nr)
                      (date +Event @Dt)
@@ -157,15 +158,17 @@
                      (title +Product @Prd (product +Event))
                      (quantity +Event @Qt)
                      (sellprice +Event @Spr)
-                     (buyprice +Event @Bpr) )
+                     (buyprice +Event @Bpr)
+                     (notes +Event @Nts) )
                   (range @Nr @@ nr)
                   (range @Dt @@ date)
                   (same @Tp @@ tp)
                   (tolr @Prd @@ product title)
                   (range @Qt @@ quantity)
                   (range @Spr @@ sellprice)
-                  (range @Bpr @@ buyprice) ) ) ) 
-         11
+                  (range @Bpr @@ buyprice)
+                  (tolr @Nts @@ notes) ) ) )
+         12
          '((This) (list This
                      (: nr)
                      (: date)
@@ -175,7 +178,8 @@
                      (: sellprice)
                      (* (: sellprice) (: quantity)) (: buyprice)
                      (* (: buyprice) (: quantity))
-                     (- (* (: sellprice) (: quantity)) (* (: buyprice) (: quantity))) ) ) )
+                     (- (* (: sellprice) (: quantity)) (* (: buyprice) (: quantity)))
+                     (: notes) ) ) )
       (<table> 'chart (pack *ObjQty (length (collect 'date '+Event)))
          (quote
             (btn)
@@ -188,7 +192,8 @@
             (NIL ,"Sell sum")
             (NIL ,"Buy price")
             (NIL ,"Buy sum")
-            (NIL ,"Charge") )
+            (NIL ,"Charge")
+            (NIL ,"Notes") )
          (do (cho)
             (<row> (alternating)
                (gui 1  '(+DstButton) Dst)
@@ -201,7 +206,8 @@
                (gui 8  '(+FixField) 2)
                (gui 9  '(+FixField) 2)
                (gui 10 '(+FixField) 2)
-               (gui 11 '(+FixField) 2) ) ) )
+               (gui 11 '(+FixField) 2)
+               (gui 12 '(+TextField)) ) ) )
       (<spread>
          (scroll (cho))
             (newButton T Dst '(+Event)

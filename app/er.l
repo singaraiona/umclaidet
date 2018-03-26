@@ -28,6 +28,7 @@
 (rel quantity  (+Ref +Number))
 (rel sellprice (+Ref +Number))
 (rel buyprice  (+Ref +Number))
+(rel notes     (+Need +IdxFold +String))
 
 (dm url> (Tab) (and (may Event) (list "app/event.l" '*ID This)) )
 
