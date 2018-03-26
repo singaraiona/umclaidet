@@ -33,21 +33,22 @@
    (down V)
    (hline 0 470 0) )
 
-(de toPdf (List EvTp)
+(de print::events (List EvTp)
    (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
       (width "0.5")
       (let
-         (Chnks (lib::chunks List 38 48)
-         Pgs (length Chnks)
-         Fmt (10 180 45 45 50 45 50 45)
-         Cnt 0 Tbsum 0 Tssum 0 Tchrg 0
-         LstDt (apply max (utils::dates)) )
+         (Chnks (lib::chunks List 44 64)
+          Pgs (length Chnks)
+          Fmt (10 180 45 45 50 45 50 45)
+          Cnt 0 Tbsum 0 Tssum 0 Tchrg 0
+          LstDt (apply max (utils::dates)) )
          (mapc
             '((Lst)
                (page
                   (window 60 0 470 0
                      (if (=1 *Page)
                         (prog
+                           (down 80)
                            (bold
                               (font (25 . "Times-Roman")
                                  (if (= 1 EvTp)
@@ -61,10 +62,10 @@
                            (down 20)
                            (font (12 . "Times-Roman") (ps T ,"Магазин «Наталино» ______ ФОП Азаров А.И."))
                            (hsep 80) )
-                        (hsep 1) )
+                        (hsep 20) )
 
                      # --- Columns headers
-                     (font (10 . "Times-Roman"))
+                     (font (8 . "Times-Roman"))
                      (bold
                         (table Fmt
                            (ps T ,"#")
@@ -78,7 +79,7 @@
                      (hsep 5)
 
                      # --- Values
-                     (font (9 . "Times-Roman"))
+                     (font (7 . "Times-Roman"))
                      (mapc
                         '((C)
                            (with C
@@ -114,10 +115,58 @@
                            (ps T ,(money Tssum))
                            (ps T ,(money Tchrg)) ) )
                      (hsep 5) ) ) )
-               (down 800)
-               (font 8 (ps 0 ,(text ,"Страница @1" *Page))) ) )
+               (down 820)
+               (font 6 (ps 0 ,(text ,"Страница @1" *Page))) ) )
             Chnks ) ) ) )
 
+(de print::products (List)
+   (pdf *A4-DX *A4-DY (tmp ,"Invoice.pdf")
+      (width "0.5")
+      (let
+         (Chnks (lib::chunks List 35 50)
+          Pgs (length Chnks)
+          Fmt (50 20 100 300) )
+         (mapc
+            '((Lst)
+               (page
+                  (window 60 0 470 0
+                     (if (=1 *Page)
+                        (prog
+                           (down 80)
+                           (bold
+                              (font (25 . "Times-Roman")
+                                 (ps 0, "Коды товаров") ) )
+                           (hsep 10)
+                           (down 20)
+                           (font (12 . "Times-Roman") (ps T ,(pack "От " (lib::xdate (date)))))
+                           (down 20)
+                           (font (12 . "Times-Roman") (ps T ,"Магазин «Наталино» ______ ФОП Азаров А.И."))
+                           (hsep 80) )
+                        (hsep 20) )
 
+                     # --- Columns headers
+                     (font (12 . "Times-Roman"))
+                     (bold
+                        (table Fmt
+                           (ps T ,"Код")
+                           NIL
+                           (ps NIL ,"Категория")
+                           (ps NIL ,"Наименование") ) )
+                     (hsep 5)
 
-
+                     # --- Values
+                     (font (10 . "Times-Roman"))
+                     (mapc
+                        '((C)
+                           (with C
+                              # --- Render vals
+                              (table Fmt
+                                 (ps T ,(: nr))
+                                 NIL
+                                 (ps NIL ,(: category))
+                                 (ps NIL ,(: title)) ) )
+                               (hsep 5) )
+                           Lst )
+                     (down 20)
+                     (font 6 (ps 0 ,(text ,"Страница @1" *Page))) ) ) )
+            Chnks ) ) ) )

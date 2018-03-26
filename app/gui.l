@@ -78,14 +78,16 @@
 
 (de choProd (Dst)
    (diaform '(Dst)
-      (<grid> "--.-."
+      (<grid> "-.-"
          ,"Number" (gui 'nr '(+Var +NumField) '*ProdNr 10)
-         ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
          (searchButton '(init> (: home query)))
+         ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
+         (resetButton '(category title supplier query))
          ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
+         (gui '(+Button) *Pdf '(url (print::products (val> (: home query)))))
          ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
-         (resetButton '(category title supplier query)) )
-      (gui 'query '(+QueryChart) (cho)
+         NIL )
+      (gui 'query '(+QueryChart) 10000
          '(goal
             (quote
                @Nr  (and *ProdNr (cons @ T))
@@ -135,11 +137,11 @@
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +NumField)  '*EvtQt 10)
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
-         (resetButton '(date tp product quantity sellprice buyprice query))
+         (resetButton '(date tp product quantity sellprice buyprice notes query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
          NIL NIL
-         (gui '(+Button) *Pdf '(url (toPdf (val> (: home query)) (val> (: home tp)) ))) )
+         (gui '(+Button) *Pdf '(url (print::events (val> (: home query)) (val> (: home tp)) ))) )
       (gui 'query '(+QueryChart) 100000
          '(goal
             (quote
