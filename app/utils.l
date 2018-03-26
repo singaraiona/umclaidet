@@ -118,6 +118,15 @@
                 Nr (or (; (last (utils::supplier Nm)) nr) (genKey 'nr '+Supplier)) )
                    (utils::obj ((+Supplier) nr Nr) name Nm)) NIL) ) )
 
+### Upload categories from CSV
+(de utils::ucats (Fl)
+   (utils::parsefile Fl
+      '((L)
+            (let
+               (Nm (pop L)
+                Nr (or (; (last (utils::category Nm)) nr) (utils::catkey)) )
+                   (utils::obj ((+Category) nr Nr) name Nm)) NIL) ) )
+
 ### Upload products from CSV
 (de utils::uprods (Fl)
    (utils::parsefile
@@ -125,16 +134,16 @@
       '((L)
          (match '(@Cat @Ttl @Sup) L)
          (let
-            (Cat (pop @Cat)
+            (Cat (car (utils::category (pop @Cat)))
              Ttl (pop @Ttl)
-             Sup (pop @Sup)
-             Nr (or (; (last (utils::product Cat Ttl)) nr) (genKey 'nr '+Product)) )
-               (if (and @Cat @Ttl @Sup)
+             Sup (car (utils::supplier (pop @Sup)))
+             Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
+               (if (and Cat Ttl)
                   (prog
                      (utils::obj ((+Product) nr Nr)
-                     category (utils::category Cat)
-                     title Ttl)
-                     supplier (utils::supplier Sup) )
+                     category Cat
+                     title Ttl
+                     supplier Sup ) )
                  "Invalid products file!" ) )
          NIL ) ) )
 

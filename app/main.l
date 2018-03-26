@@ -16,7 +16,7 @@
 (setq *Expense "Расход")
 (setq *ObjQty "Количество объектов: ")
 (setq *Pdf "Печать")
-(setq *ProdsInCat 100000)
+(setq *ProdsInCat 1000)
 
 (locale "RU" "ru" "app/loc/")
 
