@@ -18,4 +18,7 @@
             ,"Title"   NIL (gui '(+E/R +TextField) '(title : home obj) 10)
             ,"Supplier" (choSup 0)
                (gui '(+E/R +Obj +TextField) '(supplier : home obj) '(name +Supplier) 10) )
-        (<hr>) ) )
+        (<hr>)
+        (newButton T Dst '(+Product)
+            'nr (utils::prodkey (val> (: home category)))
+            'category  (val> (: home category)) ) ) )
