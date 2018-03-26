@@ -122,22 +122,22 @@
                  "Invalid products file!" ) )
          NIL ) ) )
 
-### Removes all non-numbers from 
+### Removes all non-numbers from
 ### string to be formatted
 (de utils::format (L F)
    (format
-   (let 
-      Pcd (split      
+   (let
+      Pcd (split
              (make
                 (mapc
                    '((C)
                       (ifn (= C " ")
                          (link C) ) )
                    (chop L) ) )
-             "," ) 
-      (make 
+             "," )
+      (make
          (link (car Pcd))
-         (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) ) 
+         (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) )
       F ) )
 
 (de utils::fmt (S)
@@ -150,7 +150,7 @@
    (utils::parsefile
       Fl
       '((L)
-         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr) L)
+         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr @Nts) L)
          (if (and @Dat @Tp @Cat @Ttl @Qty @Spr @Bpr)
             (prog
                (utils::obj ((+Event) nr (genKey 'nr '+Event))
@@ -159,6 +159,7 @@
                   product   (utils::product (pop @Cat) (pop @Ttl))
                   quantity  (format (pop @Qty))
                   sellprice (utils::format (pop @Spr) 2)
-                  buyprice  (utils::format  (pop @Bpr) 2) )
+                  buyprice  (utils::format  (pop @Bpr) 2)
+                  notes (pop (or @Nts '(""))) )
                NIL )
             "Invalid events file!" ) ) ) )
