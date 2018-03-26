@@ -22,21 +22,20 @@
          (let (Evts (rem::evts V)
                Qty  (rem::qty Evts)
                I    (last Evts) )
-            (put!> This 'quantity  Qty)
+            (put!> This 'quantity Qty)
             (put!> This 'sellprice (; I sellprice))
             (put!> This 'buyprice  (; I buyprice)) ) ) )
    V )
 
 # Find the last Event record in db mathes `Prod
 (de rem::evts(Prod)
-   (last
-      (pilog
-         (quote
-            @Prod Prod
-            (select (@Event)
-               ((product +Event @Prod))
-                  (same @Prod @Event product) ) )
-         @Event ) ) )
+   (solve
+      (quote
+         @Prod Prod
+         (select (@Event)
+            ((product +Event @Prod))
+               (same @Prod @Event product) ) )
+      @Event ) )
 
 (de rem::qty (Evts)
    (let Qty 0
