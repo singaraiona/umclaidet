@@ -71,6 +71,24 @@
             Pnr )
       1 ) ) )
 
+### Removes all non-numbers from
+### string to be formatted
+(de utils::format (L F)
+   (format
+      (let
+         Pcd (split
+                (make (mapc '((C) (ifn (= C " ") (link C))) (chop L)))
+                "," )
+         (make
+            (link (car Pcd))
+            (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) )
+      F ) )
+
+(de utils::fmt (S)
+   (if (< (length S) 2)
+      (pack S "0")
+      S ) )
+
 ### Creates GUI element for uploading files
 (de utils::upfile Args
    (let Clb (pop 'Args)
@@ -91,31 +109,38 @@
 
 ### Search an supplier specified by name
 (de utils::supplier (Nm)
-   (collect 'name '+Supplier Nm) )
+   (pilog
+      (quote
+         @Nm Nm
+         (select (@Supplier)
+            ((name +Supplier @Nm))
+               (same @Nm @Supplier name) ) )
+      @Supplier ) )
 
 ### Search a category specified by name
 (de utils::category (Nm)
-   (collect 'name '+Category Nm) )
+   (pilog
+      (quote
+         @Nm Nm
+         (select (@Category)
+            ((name +Category @Nm))
+               (same @Nm @Category name) ) )
+      @Category ) )
 
 ### Search an product specified by category and title
 (de utils::product (Cat Ttl)
-   (pilog
-      (quote
-         @Cat Cat
-         @Ttl Ttl
-         (select (@Product)
-            ((category +Product @Cat) (title +Product @Ttl))
-               (same @Cat @Product category)
-               (same @Ttl @Product title) ) )
-      @Product ) )
+   (let Nr (; Cat nr)
+      (find
+         '((X) (with X (= Nr (: nr))))
+         (with Cat (: products)) ) ) )
 
 ### Upload suppliers from CSV
 (de utils::usups (Fl)
    (utils::parsefile Fl
       '((L)
             (let
-               (Nm (pop L)
-                Nr (or (; (last (utils::supplier Nm)) nr) (genKey 'nr '+Supplier)) )
+               (Nm (utils::normalize (pop L))
+                Nr (or (with (last (utils::supplier Nm)) (: nr)) (genKey 'nr '+Supplier)) )
                    (utils::obj ((+Supplier) nr Nr) name Nm)) NIL) ) )
 
 ### Upload categories from CSV
@@ -123,8 +148,8 @@
    (utils::parsefile Fl
       '((L)
             (let
-               (Nm (pop L)
-                Nr (or (; (last (utils::category Nm)) nr) (utils::catkey)) )
+               (Nm (utils::normalize (pop L))
+                Nr (or (with (last (utils::category Nm)) (: nr)) (utils::catkey)) )
                    (utils::obj ((+Category) nr Nr) name Nm)) NIL) ) )
 
 ### Upload products from CSV
@@ -134,41 +159,18 @@
       '((L)
          (match '(@Cat @Ttl @Sup) L)
          (let
-            (Cat (car (utils::category (pop @Cat)))
+            (Cat (utils::category (pop @Cat))
              Ttl (pop @Ttl)
              Sup (car (utils::supplier (pop @Sup)))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
-               (if (and Cat Ttl)
-                  (prog
-                     (utils::obj ((+Product) nr Nr)
-                     category Cat
-                     title Ttl
-                     supplier Sup ) )
-                 "Invalid products file!" ) )
+            (if (and Cat Ttl)
+               (prog
+                  (utils::obj ((+Product) nr Nr)
+                  category Cat
+                  title Ttl
+                  supplier Sup ) )
+              "Invalid products file!" ) )
          NIL ) ) )
-
-### Removes all non-numbers from
-### string to be formatted
-(de utils::format (L F)
-   (format
-   (let
-      Pcd (split
-             (make
-                (mapc
-                   '((C)
-                      (ifn (= C " ")
-                         (link C) ) )
-                   (chop L) ) )
-             "," )
-      (make
-         (link (car Pcd))
-         (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) )
-      F ) )
-
-(de utils::fmt (S)
-   (if (< (length S) 2)
-      (pack S "0")
-      S ) )
 
 ### Upload events from CSV
 (de utils::uevts (Fl)
@@ -176,15 +178,26 @@
       Fl
       '((L)
          (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr @Nts) L)
-         (if (and @Dat @Tp @Cat @Ttl @Qty @Spr @Bpr)
-            (prog
-               (utils::obj ((+Event) nr (genKey 'nr '+Event))
-                  date (expDat (pop @Dat))
-                  tp (utils::tpStr (pop @Tp))
-                  product   (utils::product (pop @Cat) (pop @Ttl))
-                  quantity  (format (pop @Qty))
-                  sellprice (utils::format (pop @Spr) 2)
-                  buyprice  (utils::format  (pop @Bpr) 2)
-                  notes (pop (or @Nts '(""))) )
-               NIL )
-            "Invalid events file!" ) ) ) )
+         (let
+            (Dt   (expDat (pop @Dat))
+             Tp   (utils::tpStr (pop @Tp))
+             Cat  (utils::category (pop @Cat))
+             Ttl  (pop @Ttl)
+             Prod (utils::product Cat Ttl)
+             Qty  (format (pop @Qty))
+             Spr  (utils::format  (pop @Spr) 2)
+             Bpr  (utils::format  (pop @Bpr) 2)
+             Nts  (pop (or @Nts '(""))) )
+            (if
+               (and Dt Tp Cat Prod)
+               (prog
+                  (utils::obj ((+Event) nr (genKey 'nr '+Event))
+                     date Dt
+                     tp Tp
+                     product Prod
+                     quantity Qty
+                     sellprice Spr
+                     buyprice Bpr
+                     notes Nts )
+                  NIL )
+               "Invalid events file!" ) ) ) ) )

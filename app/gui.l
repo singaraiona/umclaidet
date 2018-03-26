@@ -118,7 +118,7 @@
          ,"Code" (gui 'nr '(+Var +NumField) '*ProdNr 10)
          (searchButton '(init> (: home query)))
          ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
-         (resetButton '(category title supplier query))
+         (resetButton '(nr category title supplier query))
          ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
          (gui '(+Button) *Pdf '(url (print::products (val> (: home query)))))
          ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
@@ -172,7 +172,7 @@
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +NumField)  '*EvtQt 10)
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
-         (resetButton '(date tp product quantity sellprice buyprice notes query))
+         (resetButton '(nr date tp product quantity sellprice buyprice notes query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
          NIL NIL

@@ -22,7 +22,7 @@
 (class +Product +Entity)
 (rel nr         (+Need +Key +Number))
 (rel category   (+Joint) products (+Category))
-(rel title      (+IdxFold +String))
+(rel title      (+Sn +IdxFold +String))
 (rel supplier   (+Ref +Link) NIL (+Supplier))
 
 (dm url> (Tab) (and (may Product) (list "app/product.l" '*ID This)) )
