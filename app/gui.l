@@ -114,14 +114,14 @@
 
 (de choProd (Dst)
    (diaform '(Dst)
-      (<grid> "-.-"
-         ,"Code" (gui 'nr '(+Var +NumField) '*ProdNr 10)
+      (<grid> "----"
+         ,"Code" NIL (gui 'nr '(+Var +NumField) '*ProdNr 10)
          (searchButton '(init> (: home query)))
-         ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
+         ,"Category" NIL (gui 'category '(+Var +TextField) '*ProdCat 30)
          (resetButton '(nr category title supplier query))
-         ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
+         ,"Title" NIL (gui 'title '(+Var +TextField) '*ProdTtl 30)
          (gui '(+Button) *Pdf '(url (print::products (solve (gui::products) @@))))
-         ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
+         ,"Supplier" (choSup 0) (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          NIL )
       (gui 'query '(+QueryChart) (cho)
          '(goal (gui::products))
@@ -222,13 +222,13 @@
       @Sup *ProdSup
       (select (@@)
          ((nr +Product @Nr)
-            (category +Product @Cat)
+            (name +Category @Cat (category +Product))
             (title +Product @Ttl)
-            (name +Supplier @Sup (supplier +Product)) )
+            (sname +Supplier @Sup (supplier +Product)) )
          (range @Nr @@ nr)
-         (part  @Cat @@ category)
+         (tolr  @Cat @@ category name)
          (part  @Ttl @@ title)
-         (tolr  @Sup @@ supplier name) ) ) )
+         (tolr  @Sup @@ supplier sname) ) ) )
 
 (de gui::events ()
    (quote
