@@ -130,7 +130,7 @@
 ### Search an product specified by category and title
 (de utils::product (Cat Ttl)
    (find
-      '((X) (= X Cat))
+      '((X) (with X (= (: title) Ttl)))
       (with Cat (: products)) ) )
 
 ### Upload suppliers from CSV
@@ -189,6 +189,7 @@
              Spr  (utils::format  (pop @Spr) 2)
              Bpr  (utils::format  (pop @Bpr) 2)
              Nts  (pop (or @Nts '(""))) )
+            #(msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
             (if
                (and Dt Tp Cat Prod)
                (prog
@@ -202,3 +203,15 @@
                      notes Nts )
                   NIL )
                "Invalid events file!" ) ) ) ) )
+
+(de utils::load (Dir Clb)
+   (msg (pack Dir " --loading..."))
+   (mapc '((X) (Clb (glue "/" (list Dir X)))) (dir Dir) )
+   (msg (pack Dir " --done.")) )
+
+(de utils::import ()
+   (msg "utils::import")
+   (utils::load  "init/categories" utils::ucats)
+   (utils::load  "init/products" utils::uprods)
+   (utils::load  "init/income"   utils::uevts)
+   (commit) )

@@ -44,7 +44,7 @@
       (let
          (Chnks (lib::chunks List 44 64)
           Pgs (length Chnks)
-          Fmt (10 180 45 45 50 45 50 45)
+          Fmt (30 180 25 45 50 45 50 45)
           Cnt 0 Tbsum 0 Tssum 0 Tchrg 0
           LstDt (apply max (utils::dates)) )
          (mapc

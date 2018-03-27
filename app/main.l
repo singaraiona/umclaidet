@@ -34,6 +34,10 @@
    Password    ,"Password"
    Delete      ,"Delete" )
 
+# Load Db data from files
+(de imp ()
+   (utils::import) )
+
 # Entry point
 (de main ()
    (call "mkdir" "-p" "db/app/" *Blob)
