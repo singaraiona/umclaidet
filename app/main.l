@@ -34,10 +34,6 @@
    Password    ,"Password"
    Delete      ,"Delete" )
 
-# Load Db data from files
-(de imp ()
-   (utils::import) )
-
 # Entry point
 (de main ()
    (call "mkdir" "-p" "db/app/" *Blob)
@@ -45,6 +41,10 @@
    (unless (seq *DB)
       (load "app/init.l") )
       (utils::login) )
+
+# Load Db data from files
+(de imp ()
+   (utils::import) )
 
 (de go (Rpc)
    (when Rpc
