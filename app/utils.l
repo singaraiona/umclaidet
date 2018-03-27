@@ -73,21 +73,13 @@
 
 ### Removes all non-numbers from
 ### string to be formatted
-(de utils::format (L F)
-   (format
-      (let
-         Pcd (split
-                (make (mapc '((C) (ifn (= C " ") (link C))) (chop L)))
-                "," )
-         (make
-            (link (car Pcd))
-            (link (utils::fmt (or (pack (cdr Pcd)) "00")) ) ) )
-      F ) )
-
-(de utils::fmt (S)
-   (if (< (length S) 2)
-      (pack S "0")
-      S ) )
+(de utils::format (L)
+   (let 
+      (Ln (split (replace (chop L) " " "") ",")
+       Fc (cdr Ln) )
+      (if Fc
+         (format (glue "." Ln) 2)
+         (* 100 (format (pack Ln))) ) ) )
 
 ### Creates GUI element for uploading files
 (de utils::upfile Args
@@ -185,9 +177,9 @@
              Cat  (utils::category (pop @Cat))
              Ttl  (pop @Ttl)
              Prod (utils::product Cat Ttl)
-             Qty  (format (pop @Qty))
-             Spr  (utils::format  (pop @Spr) 2)
-             Bpr  (utils::format  (pop @Bpr) 2)
+             Qty  (utils::format (pop @Qty))
+             Spr  (utils::format (pop @Spr))
+             Bpr  (utils::format (pop @Bpr))
              Nts  (pop (or @Nts '(""))) )
             #(msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
             (if

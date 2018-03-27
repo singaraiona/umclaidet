@@ -31,9 +31,9 @@
                   (<row> (alternating)
                      (<+> (datStr *InvFrom))
                      (<+> (datStr *InvTill))
-                     (<+> (money TotalSellPrice))
-                     (<+> (money TotalBuyPrice))
-                     (<-> (money TotalCharge)) )
+                     (<+> (money (/ TotalSellPrice 100)))
+                     (<+> (money (/ TotalBuyPrice 100)))
+                     (<-> (money (/ TotalCharge 100))) )
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
       (resetButton '(datfrom dattill)) ) )
 

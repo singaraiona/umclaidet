@@ -1,16 +1,16 @@
 (setq *Months
-    '((1  . "января")
-      (2  . "февраля")
-      (3  . "марта")
-      (4  . "апреля")
-      (5  . "мая")
-      (6  . "июня")
-      (7  . "июля")
-      (8  . "августа")
-      (9  . "сентября")
-      (10 . "октября")
-      (11 . "ноября")
-      (12 . "декабря") ) )
+    '((1  "января")
+      (2  "февраля")
+      (3  "марта")
+      (4  "апреля")
+      (5  "мая")
+      (6  "июня")
+      (7  "июля")
+      (8  "августа")
+      (9  "сентября")
+      (10 "октября")
+      (11 "ноября")
+      (12 "декабря") ) )
 
 (de lib::xdate (Dt)
    (glue
@@ -18,7 +18,7 @@
       (make
          (let D (date Dt)
             (link (caddr D))
-            (link (cdr (asoq (cadr D) *Months)))
+            (link (cdr (assoc (cadr D) *Months)))
             (link (car D))
             (link "года") ) ) ) )
 
@@ -97,12 +97,12 @@
                                  (table Fmt
                                     (ps T ,(inc 'Cnt))
                                     (ps T ,Ttl)
-                                    (ps T ,Qty)
+                                    (ps T ,(money Qty))
                                     (ps T ,(money Bpr))
-                                    (ps T ,(money Bsum))
+                                    (ps T ,(money (/ Bsum 100)))
                                     (ps T ,(money Spr))
-                                    (ps T ,(money Ssum))
-                                    (ps T ,(money Chrg)) )
+                                    (ps T ,(money (/ Ssum 100)))
+                                    (ps T ,(money (/ Chrg 100))) )
                                   (hsep 5) ) ) )
                         Lst )
 
@@ -115,10 +115,10 @@
                            (ps T ,"Итого:")
                            NIL
                            NIL
-                           (ps T ,(money Tbsum))
+                           (ps T ,(money (/ Tbsum 100)))
                            NIL
-                           (ps T ,(money Tssum))
-                           (ps T ,(money Tchrg)) ) )
+                           (ps T ,(money (/ Tssum 100)))
+                           (ps T ,(money (/ Tchrg 100))) ) )
                      (hsep 5) ) ) )
                   (prpage) ) )
             Chnks ) ) ) )
