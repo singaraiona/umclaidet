@@ -1,9 +1,9 @@
 
-(must "Suppliers" Supplier)
+(must "Supplier" Supplier)
 
 (menu, "Suppliers"
    (idForm, "Suppliers" '(choSup) 'nr '+Supplier T '(may Delete)
-      '((: nr))
+      '((: name))
       (<hr>)
          (<grid> 3
          ,"Number" NIL (gui '(+E/R +NumField) '(nr : home obj) 20)

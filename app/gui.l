@@ -120,25 +120,11 @@
          ,"Category" (gui 'category '(+Var +TextField) '*ProdCat 30)
          (resetButton '(nr category title supplier query))
          ,"Title" (gui 'title '(+Var +TextField) '*ProdTtl 30)
-         (gui '(+Button) *Pdf '(url (print::products (val> (: home query)))))
+         (gui '(+Button) *Pdf '(url (print::products (solve (gui::products) @@))))
          ,"Supplier" (gui 'supplier '(+Var +TextField) '*ProdSup 30)
          NIL )
       (gui 'query '(+QueryChart) (cho)
-         '(goal
-            (quote
-               @Nr  (and *ProdNr (cons @ T))
-               @Cat *ProdCat
-               @Ttl *ProdTtl
-               @Sup *ProdSup
-               (select (@@)
-                  ((nr +Product @Nr)
-                     (category +Product @Cat)
-                     (title +Product @Ttl)
-                     (name +Supplier @Sup (supplier +Product)) )
-                  (range @Nr @@ nr)
-                  (part  @Cat @@ category)
-                  (part  @Ttl @@ title)
-                  (tolr  @Sup @@ supplier name) ) ) )
+         '(goal (gui::products))
          5
          '((This) (list This (: nr) (: category) (: title) (: supplier)) ) )
       (<table> 'chart (choTtl ,"Products" 'nr '+Product)
@@ -176,35 +162,9 @@
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
          NIL NIL
-         (gui '(+Button) *Pdf '(url (print::events (val> (: home query)) (val> (: home tp)) ))) )
+         (gui '(+Button) *Pdf '(url (print::events (solve (gui::events) @@) (val> (: home tp))))) )
       (gui 'query '(+QueryChart) (cho)
-         '(goal
-            (quote
-               @Nr (and *EvtNr (cons @ T))
-               @Dt (and *EvtDat (cons @ T))
-               @Tp *EvtTp
-               @Prd *EvtProd
-               @Qt (and *EvtQt (cons @ T))
-               @Spr (and *EvtSpr (cons @ T))
-               @Bpr (and *EvtBpr (cons @ T))
-               @Nts *EvtNts
-               (select (@@)
-                  ((nr +Event @Nr)
-                     (date +Event @Dt)
-                     (tp +Event @Tp)
-                     (title +Product @Prd (product +Event))
-                     (quantity +Event @Qt)
-                     (sellprice +Event @Spr)
-                     (buyprice +Event @Bpr)
-                     (notes +Event @Nts) )
-                  (range @Nr @@ nr)
-                  (range @Dt @@ date)
-                  (same @Tp @@ tp)
-                  (tolr @Prd @@ product title)
-                  (range @Qt @@ quantity)
-                  (range @Spr @@ sellprice)
-                  (range @Bpr @@ buyprice)
-                  (tolr @Nts @@ notes) ) ) )
+         '(goal (gui::events))
          12
          '((This) (list This
                      (: nr)
@@ -253,3 +213,47 @@
                'tp *EvTp) )
             (cancelButton) ) )
 
+### -- Retrieve
+(de gui::products ()
+   (quote
+      @Nr  (and *ProdNr (cons @ T))
+      @Cat *ProdCat
+      @Ttl *ProdTtl
+      @Sup *ProdSup
+      (select (@@)
+         ((nr +Product @Nr)
+            (category +Product @Cat)
+            (title +Product @Ttl)
+            (name +Supplier @Sup (supplier +Product)) )
+         (range @Nr @@ nr)
+         (part  @Cat @@ category)
+         (part  @Ttl @@ title)
+         (tolr  @Sup @@ supplier name) ) ) )
+
+(de gui::events ()
+   (quote
+      @Nr (and *EvtNr (cons @ T))
+      @Dt (and *EvtDat (cons @ T))
+      @Tp *EvtTp
+      @Prd *EvtProd
+      @Qt (and *EvtQt (cons @ T))
+      @Spr (and *EvtSpr (cons @ T))
+      @Bpr (and *EvtBpr (cons @ T))
+      @Nts *EvtNts
+      (select (@@)
+         ((nr +Event @Nr)
+            (date +Event @Dt)
+            (tp +Event @Tp)
+            (title +Product @Prd (product +Event))
+            (quantity +Event @Qt)
+            (sellprice +Event @Spr)
+            (buyprice +Event @Bpr)
+            (notes +Event @Nts) )
+         (range @Nr @@ nr)
+         (range @Dt @@ date)
+         (same @Tp @@ tp)
+         (tolr @Prd @@ product title)
+         (range @Qt @@ quantity)
+         (range @Spr @@ sellprice)
+         (range @Bpr @@ buyprice)
+         (tolr @Nts @@ notes) ) ) )

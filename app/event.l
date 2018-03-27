@@ -2,8 +2,8 @@
 (must "Event" Event)
 
 (menu, "Events"
-   (idForm ,"Events" '(choEvt) NIL NIL T '(may Delete)
-      'nil
+   (idForm ,"Events" '(choEvt) 'nr '+Event T '(may Delete)
+      '((: nr))
       (<hr>)
          (<grid> 3
             ,"Date" NIL          (gui '(+E/R +DateField) '(date : home obj) 10)

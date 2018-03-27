@@ -4,11 +4,7 @@
 (rel nr   (+Need +Key +Number))
 (rel name (+Need +Sn +IdxFold +String))
 
-(dm url> (Tab) (and (may Supplier) (list "app/supplier.l"  '*ID This)) )
-
-(dm check> ()
-   (make
-      (or (: name) (link ,"No customer name")) ) )
+(dm url> (Tab) (and (may Supplier) (list "app/supplier.l" '*ID This)) )
 
 ### Category
 (class +Category +Entity)
@@ -16,7 +12,7 @@
 (rel name (+Need +Sn +IdxFold +String))
 (rel products (+List +Joint) category (+Product))
 
-(dm url> (Tab) (and (may Supplier) (list "app/category.l"  '*ID This)) )
+(dm url> (Tab) (and (may Category) (list "app/category.l" '*ID This)) )
 
 ### Product
 (class +Product +Entity)

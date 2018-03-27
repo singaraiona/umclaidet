@@ -138,19 +138,21 @@
 (de utils::usups (Fl)
    (utils::parsefile Fl
       '((L)
-            (let
-               (Nm (utils::normalize (pop L))
-                Nr (or (with (last (utils::supplier Nm)) (: nr)) (genKey 'nr '+Supplier)) )
-                   (utils::obj ((+Supplier) nr Nr) name Nm)) NIL) ) )
+         (let
+            (Nm (pop L)
+             Nr (or (with (last (utils::supplier Nm)) (: nr)) (genKey 'nr '+Supplier)) )
+                (utils::obj ((+Supplier) nr Nr) name Nm))
+            NIL ) ) )
 
 ### Upload categories from CSV
 (de utils::ucats (Fl)
    (utils::parsefile Fl
       '((L)
-            (let
-               (Nm (utils::normalize (pop L))
-                Nr (or (with (last (utils::category Nm)) (: nr)) (utils::catkey)) )
-                   (utils::obj ((+Category) nr Nr) name Nm)) NIL) ) )
+         (let
+            (Nm (pop L)
+             Nr (or (with (last (utils::category Nm)) (: nr)) (genKey 'nr '+Category)) )
+                (utils::obj ((+Category) nr Nr) name Nm))
+            NIL ) ) )
 
 ### Upload products from CSV
 (de utils::uprods (Fl)
