@@ -129,10 +129,9 @@
 
 ### Search an product specified by category and title
 (de utils::product (Cat Ttl)
-   (let Nr (; Cat nr)
-      (find
-         '((X) (with X (= Nr (: nr))))
-         (with Cat (: products)) ) ) )
+   (find
+      '((X) (= X Cat))
+      (with Cat (: products)) ) )
 
 ### Upload suppliers from CSV
 (de utils::usups (Fl)
@@ -163,8 +162,11 @@
          (let
             (Cat (utils::category (pop @Cat))
              Ttl (pop @Ttl)
-             Sup (car (utils::supplier (pop @Sup)))
+             Sup (utils::supplier (pop @Sup))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
+             (msg Nr)
+             (msg Cat)
+             (msg Ttl)
             (if (and Cat Ttl)
                (prog
                   (utils::obj ((+Product) nr Nr)

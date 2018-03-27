@@ -2,7 +2,7 @@
 (must "Category" Category)
 
 (menu, "Categories"
-   (idForm, "Categories" '(choCat) 'nr '+Category T '(may Delete)
+   (idForm, "Category" '(choCat) 'nr '+Category T '(may Delete)
       '((: name))
       (<hr>)
          (<grid> 3

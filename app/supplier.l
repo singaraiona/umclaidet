@@ -2,7 +2,7 @@
 (must "Supplier" Supplier)
 
 (menu, "Suppliers"
-   (idForm, "Suppliers" '(choSup) 'nr '+Supplier T '(may Delete)
+   (idForm, "Supplier" '(choSup) 'nr '+Supplier T '(may Delete)
       '((: name))
       (<hr>)
          (<grid> 3

@@ -1,8 +1,8 @@
 
-(must "Products" Product)
+(must "Product" Product)
 
 (menu, "Products"
-   (idForm, "Products" '(choProd) 'nr '+Product T '(may Delete)
+   (idForm, "Product" '(choProd) 'nr '+Product T '(may Delete)
       '((: category name) " -- " (: title))
       (<hr>)
          (<grid> 3
