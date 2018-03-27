@@ -60,7 +60,7 @@
                      (tolr @Nm @@ name) ) ) )
          3
          '((This) (list This (: nr) (: name)) ) )
-      (<table> 'chart NIL
+      (<table> 'chart (choTtl ,"Suppliers" 'nr '+Supplier)
          (quote
             (btn)
             (align, "#")
@@ -95,7 +95,7 @@
                      (tolr @Nm @@ name) ) ) )
          3
          '((This) (list This (: nr) (: name)) ) )
-      (<table> 'chart NIL
+      (<table> 'chart (choTtl ,"Categories" 'nr '+Category)
          (quote
             (btn)
             (align, "Code")
@@ -141,7 +141,7 @@
                   (tolr  @Sup @@ supplier name) ) ) )
          5
          '((This) (list This (: nr) (: category) (: title) (: supplier)) ) )
-      (<table> 'chart NIL
+      (<table> 'chart (choTtl ,"Products" 'nr '+Product)
          (quote
             (btn)
             (align ,"Code")
@@ -217,7 +217,7 @@
                      (* (: buyprice) (: quantity))
                      (- (* (: sellprice) (: quantity)) (* (: buyprice) (: quantity)))
                      (: notes) ) ) )
-      (<table> 'chart NIL
+      (<table> 'chart (choTtl ,"Events" 'nr '+Event)
          (quote
             (btn)
             (align, "#")
