@@ -164,9 +164,6 @@
              Ttl (pop @Ttl)
              Sup (utils::supplier (pop @Sup))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
-             (msg Nr)
-             (msg Cat)
-             (msg Ttl)
             (if (and Cat Ttl)
                (prog
                   (utils::obj ((+Product) nr Nr)
