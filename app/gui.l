@@ -273,7 +273,9 @@
                (gui '(+OnClick +Button)
                   (draw::display
                      "lineChart"
-                     '("January" "February" "March" "April" "May" "June" "July") )
+                     '("January" "February" "March" "April" "May" "June" "July") 
+                     (list (pset))
+                     NIL )
                   "Показать") )
                (draw::chart "lineChart" 1024 768) )
          (,"Selling"
