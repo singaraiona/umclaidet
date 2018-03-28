@@ -270,8 +270,12 @@
                ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
                (resetButton '(nr name))
                NIL NIL
-               (gui '(+OnClick +Button) (draw::display "lineChart") "Показать") )
-               (draw::chart "lineChart" 700 500) )
+               (gui '(+OnClick +Button)
+                  (draw::display
+                     "lineChart"
+                     '("January" "February" "March" "April" "May" "June" "July") )
+                  "Показать") )
+               (draw::chart "lineChart" 1024 768) )
          (,"Selling"
             (<grid> "---"
                ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 20)
@@ -279,5 +283,9 @@
                ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
                (resetButton '(nr name))
                NIL NIL
-               (gui '(+OnClick +Button) (draw::display "lineChart") "Показать") )
+               (gui '(+OnClick +Button)
+                  (draw::display
+                     "lineChart"
+                     '("January", "February", "March", "April", "May", "June", "July") )
+                  "Показать" ) )
                (draw::chart "lineChart" 700 500) ) ) ) )
