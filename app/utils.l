@@ -1,12 +1,3 @@
-### For testing only (instant login)
-(de utils::login ()
-   (setq *Login (pilog
-      (quote
-         @Nm "admin"
-         (select (@User)
-            ((nm +User @Nm))
-               (tolr @Nm @User nm) ) )
-      @User) ) )
 
 ### All dates +Event objects have
 (de utils::dates ()
@@ -74,7 +65,7 @@
 ### Removes all non-numbers from
 ### string to be formatted
 (de utils::format (L)
-   (let 
+   (let
       (Ln (split (replace (chop L) " " "") ",")
        Fc (cdr Ln) )
       (if Fc

@@ -39,8 +39,17 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") )
-      (utils::login) )
+      (load "app/init.l") ) )
+
+### For testing only (instant login)
+(de lgn ()
+   (setq *Login (pilog
+      (quote
+         @Nm "admin"
+         (select (@User)
+            ((nm +User @Nm))
+               (tolr @Nm @User nm) ) )
+      @User) ) )
 
 # Load Db data from files
 (de imp ()
