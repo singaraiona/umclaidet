@@ -2,5 +2,4 @@
 (must "Chart" Chart)
 
 (menu, "Chart"
-   (idForm, "Chart" '(gui::chart) NIL NIL T '(may Delete) ) )
-
+   (idForm, "Chart" '(choChart) NIL NIL T '(may Delete) ) )

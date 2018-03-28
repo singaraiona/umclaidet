@@ -24,11 +24,9 @@
                         (,"Import from CSV" (and (may Import) "app/import.l")) )
                      (NIL (<hr>))
                      (T ,"Report"
-                        (,"Remains" (and (may Report) "app/remains.l"))
-                        (,"Analytic" (and (may Report) "app/analytic.l")) )
-                     (NIL (<hr>))
-                     (T ,"Charts"
-                        (,"Chart" (and (may Chart) "app/chart.l")) ) ) )
+                        (,"Remains"  (and (may Report) "app/remains.l"))
+                        (,"Analytic" (and (may Report) "app/analytic.l"))
+                        (,"Charts"   (and (may Chart)  "app/chart.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
@@ -262,10 +260,24 @@
          (range @Bpr @@ buyprice)
          (tolr @Nts @@ notes) ) ) )
 
-(de gui::chart (Dst)
+(de choChart (Dst)
    (diaform '(Dst)
-      (<grid> "-.-"
-         ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 10)
-         (searchButton '(init> (: home query)))
-         ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
-         (resetButton '(nr name)) ) ) )
+      (<tab>
+         (,"Remains"
+            (<grid> "---"
+               ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 20)
+               (searchButton '(init> (: home query)))
+               ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
+               (resetButton '(nr name))
+               NIL NIL
+               (gui '(+OnClick +Button) (draw::display "lineChart") "Показать") )
+               (draw::chart "lineChart" 700 500) )
+         (,"Selling"
+            (<grid> "---"
+               ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 20)
+               (searchButton '(init> (: home query)))
+               ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
+               (resetButton '(nr name))
+               NIL NIL
+               (gui '(+OnClick +Button) (draw::display "lineChart") "Показать") )
+               (draw::chart "lineChart" 700 500) ) ) ) )

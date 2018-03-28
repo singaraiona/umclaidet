@@ -198,3 +198,5 @@
    (utils::load  "init/products" utils::uprods)
    (utils::load  "init/income"   utils::uevts)
    (commit) )
+
+#(de js::load (Fl)

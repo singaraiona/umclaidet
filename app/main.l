@@ -1,9 +1,9 @@
 
-(allowed ("app/" "img/")
+(allowed ("app/" "img/" "js/")
    "!work" "!stop" "@lib.css" "!psh" )
 
 (scl 2)
-(load "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l" "@lib/adm.l")
+(load "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l" "@lib/adm.l" "@lib/canvas.l")
 
 (setq
    *Css '("@lib.css" "app/menu.css")
@@ -17,10 +17,11 @@
 (setq *ObjQty "Количество объектов: ")
 (setq *Pdf "Печать")
 (setq *ProdsInCat 1000)
+(setq *ChartJs "js/chart.js")
 
 (locale "RU" "ru" "app/loc/")
 
-(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l")
+(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l" "app/draw.l")
 
 (permission
    Category    ,"Category"
