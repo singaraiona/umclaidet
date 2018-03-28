@@ -25,13 +25,16 @@
                      (NIL (<hr>))
                      (T ,"Report"
                         (,"Remains" (and (may Report) "app/remains.l"))
-                        (,"Analytic" (and (may Report) "app/analytic.l")) ) ) )
+                        (,"Analytic" (and (may Report) "app/analytic.l")) )
+                     (NIL (<hr>))
+                     (T ,"Charts"
+                        (,"Chart" (and (may Chart) "app/chart.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
 (de work ()
    (setq *Url "!work")
-   (and (app) (setq *Menu 31))
+   (and (app) (setq *Menu 63))
    (menu *ProjectTitle
       (<h2> NIL *ProjectTitle)
       (<img> "img/collect.png" "Logo" NIL "100%")
@@ -258,3 +261,11 @@
          (range @Spr @@ sellprice)
          (range @Bpr @@ buyprice)
          (tolr @Nts @@ notes) ) ) )
+
+(de gui::chart (Dst)
+   (diaform '(Dst)
+      (<grid> "-.-"
+         ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 10)
+         (searchButton '(init> (: home query)))
+         ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
+         (resetButton '(nr name)) ) ) )

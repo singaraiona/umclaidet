@@ -29,6 +29,7 @@
    Event       ,"Event"
    Report      ,"Report"
    Import      ,"Import"
+   Chart       ,"Chart"
    RoleAdmin   ,"Role Administration"
    UserAdmin   ,"User Administration"
    Password    ,"Password"
