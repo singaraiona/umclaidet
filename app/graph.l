@@ -34,8 +34,8 @@
                (gui '(+OnClick +Button)
                   (chart::bar
                      "SellsChart"
-                     '("asd" "sd" "ert")
-                     '(1 2 3) )
+                     (head 100 (ttls))
+                     (head 100 (qtys)) )
                   "Показать")
                NIL )
                (chart::new "SellsChart" 1024 768) ) ) ) )
