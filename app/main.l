@@ -3,7 +3,8 @@
    "!work" "!stop" "@lib.css" "!psh" )
 
 (scl 2)
-(load "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l" "@lib/adm.l" "@lib/canvas.l" "@lib/json.l")
+(load "@lib/http.l" "@lib/xhtml.l" "@lib/form.l" "@lib/svg.l"
+      "@lib/adm.l" "@lib/canvas.l" "@lib/json.l" "@lib/math.l")
 
 (setq
    *Css '("@lib.css" "app/menu.css")
@@ -41,7 +42,8 @@
    (call "mkdir" "-p" "db/app/" *Blob)
    (pool *Pool *Dbs)
    (unless (seq *DB)
-      (load "app/init.l") ) )
+      (load "app/init.l") )
+      (utils::preload) )
 
 ### For testing only (instant login)
 (de lgn ()

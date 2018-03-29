@@ -259,21 +259,3 @@
          (range @Spr @@ sellprice)
          (range @Bpr @@ buyprice)
          (tolr @Nts @@ notes) ) ) )
-
-(de choGraph (Dst)
-   (diaform '(Dst)
-      (<tab>
-         (,"Remains"
-            (<grid> "---"
-               ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 20)
-               (searchButton '(init> (: home query)))
-               ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
-               (resetButton '(nr name))
-               NIL NIL
-               (gui '(+OnClick +Button)
-                  (chart::bar
-                     "RemainsChart"
-                     '("asd" "sd" "ert")
-                     '(1 2 3))
-                  "Показать") )
-               (chart::new "RemainsChart" 1024 768) ) ) ) )

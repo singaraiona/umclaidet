@@ -199,4 +199,19 @@
    (utils::load  "init/income"   utils::uevts)
    (commit) )
 
-#(de js::load (Fl)
+(de utils::preload ())
+
+
+(de ttls ()
+   (make
+      (mapc
+         '((X)
+            (link (with X (: product title))) )
+            (collect 'nr '+Event) ) ) )
+
+(de qtys ()
+   (make
+      (mapc
+         '((X)
+            (link (with X (/ (: quantity) 100))) )
+            (collect 'nr '+Event) ) ) )

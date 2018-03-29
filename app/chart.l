@@ -48,11 +48,16 @@
       (chart::dict Dt)
       (chart::dict Ops) ) )
 
-(de chart::bar Args
-   (let (Id (pop 'Args) Lbls (eval (pop 'Args)) Dset (eval (pop 'Args)))
+### Chart assemble macro
+(de chart::build Args
+   (let (Id (eval (pop 'Args))
+         Tp (eval (pop 'Args))
+         Lbls (eval (pop 'Args))
+         Dset (eval (pop 'Args))
+         Opts (eval (pop 'Args)) )
+      (seed (time))
       (chart::display
-         Id
-         "bar"
+         Id Tp
          (make
             (link
                (make
@@ -64,6 +69,23 @@
                   (link
                      (make
                         (link
+                           '("label" . "Данные") )
+                        (link
                            (make
                               (link "data" T)
-                              (mapc link Dset) ) ) ) ) ) ) ) ) ) )
+                              (mapc link Dset) ) )
+                        (link
+                           (make
+                              (link "backgroundColor" T)
+                              (mapc
+                                 '((X)
+                                    (link (rgba (rand 0 255) (rand 0 255) (rand 0 255) 1)) )
+                                 Dset ) ) ) ) ) ) ) ) ) ) )
+
+### Draw Bar chart
+(de chart::bar (Id Lbls Dset)
+   (chart::build Id "bar" Lbls Dset) )
+
+### Draw Pie chart
+(de chart::pie (Id Lbls Dset)
+   (chart::build Id "pie" Lbls Dset) )
