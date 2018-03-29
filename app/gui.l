@@ -272,22 +272,18 @@
                NIL NIL
                (gui '(+OnClick +Button)
                   (draw::display
-                     "lineChart"
-                     '("January" "February" "March" "April" "May" "June" "July") 
-                     (list (pset))
-                     NIL )
+                     "RemainsChart"
+                     '((labels T "Red" "Blue" "Yellow" "Green" "Purple" "Orange")
+                        (datasets T
+                           ((label . "Votes")
+                             (data T 1 2 3 98 2 1)
+                             (backgroundColor T
+                                "rgba(255, 99, 132, 0.2)"
+                                "rgba(54, 162, 235, 0.2)"
+                                "rgba(255, 206, 86, 0.2)"
+                                "rgba(75, 192, 192, 0.2)"
+                                "rgba(153, 102, 255, 0.2)"
+                                "rgba(255, 159, 64, 0.2)" ) ) ) ) )
                   "Показать") )
-               (draw::chart "lineChart" 1024 768) )
-         (,"Selling"
-            (<grid> "---"
-               ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 20)
-               (searchButton '(init> (: home query)))
-               ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 20)
-               (resetButton '(nr name))
-               NIL NIL
-               (gui '(+OnClick +Button)
-                  (draw::display
-                     "lineChart"
-                     '("January", "February", "March", "April", "May", "June", "July") )
-                  "Показать" ) )
-               (draw::chart "lineChart" 700 500) ) ) ) )
+               (draw::chart "RemainsChart" 1024 768) )
+          ) ) )
