@@ -1,6 +1,6 @@
 
 ### Create Chart
-(de draw::chart (Id W H)
+(de chart::new (Id W H)
    (javascript "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
    (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" Id W H)) )
 
@@ -15,7 +15,7 @@
       (link V) ) )
 
 ### Inspired by standart json.l
-(de draw::dict (Item)
+(de chart::dict (Item)
    (pack
       (make
          (cond
@@ -24,7 +24,7 @@
                (link "[")
                (map
                   '((X)
-                     (link (draw::dict (car X)))
+                     (link (chart::dict (car X)))
                      (and (cdr X) (link ", ")) )
                   (cdr Item) )
                (link "]") )
@@ -34,16 +34,36 @@
                   '((X)
                      (link (caar X))
                      (link ": ")
-                     (link (draw::dict (cdar X)))
+                     (link (chart::dict (cdar X)))
                      (and (cdr X) (link ", ")) )
                   Item )
                (link "}") ) ) ) ) )
 
 ### Show Chart
-(de draw::display (Id Tp Dt . Ops)
+(de chart::display (Id Tp Dt . Ops)
    (text
       "new Chart(document.getElementById(\"@1\"),
       {type:'@2',data:@3,options:@4});return false;"
       Id Tp
-      (draw::dict Dt)
-      (draw::dict Ops) ) )
+      (chart::dict Dt)
+      (chart::dict Ops) ) )
+
+(de chart::bar Args
+   (let (Id (pop 'Args) Lbls (eval (pop 'Args)) Dset (eval (pop 'Args)))
+      (chart::display
+         Id
+         "bar"
+         (make
+            (link
+               (make
+                  (link "labels" T)
+                  (mapc link Lbls) ) )
+            (link
+               (make
+                  (link "datasets" T)
+                  (link
+                     (make
+                        (link
+                           (make
+                              (link "data" T)
+                              (mapc link Dset) ) ) ) ) ) ) ) ) ) )

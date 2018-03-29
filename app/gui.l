@@ -271,14 +271,9 @@
                (resetButton '(nr name))
                NIL NIL
                (gui '(+OnClick +Button)
-                  (draw::display
+                  (chart::bar
                      "RemainsChart"
-                     "line"
-                     '((labels T "Red" "Blue" "Yellow" "Green" "Purple")
-                        (datasets T
-                           ((label . "Votes")
-                             (backgroundColor T "#3e95cd" "#8e5ea2" "#3cba9f" "#e8c3b9" "#c45850")
-                             (data T 1 2 3 98 2) ) ) ) )
+                     '("asd" "sd" "ert")
+                     '(1 2 3))
                   "Показать") )
-               (draw::chart "RemainsChart" 1024 768) )
-          ) ) )
+               (chart::new "RemainsChart" 1024 768) ) ) ) )
