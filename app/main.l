@@ -21,7 +21,7 @@
 
 (locale "RU" "ru" "app/loc/")
 
-(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l" "app/draw.l")
+(load "app/er.l" "app/lib.l" "app/gui.l" "app/utils.l" "app/chart.l")
 
 (permission
    Category    ,"Category"
@@ -30,7 +30,7 @@
    Event       ,"Event"
    Report      ,"Report"
    Import      ,"Import"
-   Chart       ,"Chart"
+   Graph       ,"Graph"
    RoleAdmin   ,"Role Administration"
    UserAdmin   ,"User Administration"
    Password    ,"Password"

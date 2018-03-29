@@ -26,7 +26,7 @@
                      (T ,"Report"
                         (,"Remains"  (and (may Report) "app/remains.l"))
                         (,"Analytic" (and (may Report) "app/analytic.l"))
-                        (,"Charts"   (and (may Chart)  "app/chart.l")) ) ) )
+                        (,"Graphs"   (and (may Graph)  "app/graph.l")) ) ) )
                ((NIL NIL 'main)
                   (<div> @ (run Prg 1)) ) ) ) ) ) )
 
@@ -260,7 +260,7 @@
          (range @Bpr @@ buyprice)
          (tolr @Nts @@ notes) ) ) )
 
-(de choChart (Dst)
+(de choGraph (Dst)
    (diaform '(Dst)
       (<tab>
          (,"Remains"
@@ -273,17 +273,12 @@
                (gui '(+OnClick +Button)
                   (draw::display
                      "RemainsChart"
-                     '((labels T "Red" "Blue" "Yellow" "Green" "Purple" "Orange")
+                     "line"
+                     '((labels T "Red" "Blue" "Yellow" "Green" "Purple")
                         (datasets T
                            ((label . "Votes")
-                             (data T 1 2 3 98 2 1)
-                             (backgroundColor T
-                                "rgba(255, 99, 132, 0.2)"
-                                "rgba(54, 162, 235, 0.2)"
-                                "rgba(255, 206, 86, 0.2)"
-                                "rgba(75, 192, 192, 0.2)"
-                                "rgba(153, 102, 255, 0.2)"
-                                "rgba(255, 159, 64, 0.2)" ) ) ) ) )
+                             (backgroundColor T "#3e95cd" "#8e5ea2" "#3cba9f" "#e8c3b9" "#c45850")
+                             (data T 1 2 3 98 2) ) ) ) )
                   "Показать") )
                (draw::chart "RemainsChart" 1024 768) )
           ) ) )
