@@ -12,31 +12,8 @@
                      (prin " - ")
                      (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*TTill 10) )
                ,"Category" (gui 'category '(+Var +TextField) '*TCat 10)
-               (resetButton '(datfrom dattill))
-               (gui '(+OnClick +Button)
-                  (let S (collect 'nr '+Event)
-                     (chart::bar
-                        "RemainsChart"
-                        (head 20 (ttls))
-                        (head 20 (qtys)) ) )
-                  "Показать")
-               NIL )
-               (chart::new "RemainsChart" 1024 768) )
-         (,"Sells"
-            (<grid> "--"
-               ,"Date"
-                  (prog
-                     (gui 'datfrom '(+Init +Var +DateField) (apply min (utils::dates)) '*TFrom 10)
-                     (prin " - ")
-                     (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*TTill 10) )
-               ,"Category" (gui 'category '(+Var +TextField) '*TCat 10)
-               (resetButton '(datfrom dattill))
-               (gui '(+OnClick +Button)
-                  (chart::bar
-                     "SellsChart"
-                     (head 100 (ttls))
-                     (head 100 (qtys)) )
-                  "Показать")
-               NIL )
-               (chart::new "SellsChart" 1024 768) ) ) ) )
+               (resetButton '(datfrom dattill rem))
+               (searchButton '(init> (: home rem))) )
+               (gui 'rem '(+ChartJS) 'bar 1024 768 '(ttls) '(qtys) )
+            NIL ) ) ) )
 

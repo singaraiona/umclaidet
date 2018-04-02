@@ -1,30 +1,25 @@
 
-### Create Chart
-(de chart::new (Id W H)
-   (javascript "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js")
-   (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" Id W H)) )
-
 ### Color
 (de rgba (R G B A)
    (text "rgba(@1,@2,@3,@4)" R G B A) )
 
 ### String repr
-(de tostr (V)
+(de toStr (V)
    (if (str? V)
       (link (text "\"@1\"" V))
       (link V) ) )
 
 ### Inspired by standart json.l
-(de chart::dict (Item)
+(de jsDict (Item)
    (pack
       (make
          (cond
-            ((atom Item) (if Item (tostr @) (link "{}")))
+            ((atom Item) (if Item (toStr @) (link "{}")))
             ((=T (car Item))
                (link "[")
                (map
                   '((X)
-                     (link (chart::dict (car X)))
+                     (link (jsDict (car X)))
                      (and (cdr X) (link ", ")) )
                   (cdr Item) )
                (link "]") )
@@ -34,30 +29,25 @@
                   '((X)
                      (link (caar X))
                      (link ": ")
-                     (link (chart::dict (cdar X)))
+                     (link (jsDict (cdar X)))
                      (and (cdr X) (link ", ")) )
                   Item )
                (link "}") ) ) ) ) )
 
-### Show Chart
-(de chart::display (Id Tp Dt . Ops)
-   (text
-      "new Chart(document.getElementById(\"@1\"),
-      {type:'@2',data:@3,options:@4});return false;"
-      Id Tp
-      (chart::dict Dt)
-      (chart::dict Ops) ) )
+(de clrs (L)
+   (make
+      (link "backgroundColor" T)
+      (mapc
+         '((X)
+            (link (rgba (rand 0 255) (rand 0 255) (rand 0 255) 1)) )
+         L ) ) )
 
-### Chart assemble macro
-(de chart::build Args
-   (let (Id (eval (pop 'Args))
-         Tp (eval (pop 'Args))
-         Lbls (eval (pop 'Args))
+### Chart.js data[] assemble macro
+(de chData Args
+   (let (Lbls (eval (pop 'Args))
          Dset (eval (pop 'Args))
-         Opts (eval (pop 'Args)) )
+         Clrs (eval (pop 'Args)) )
       (seed (time))
-      (chart::display
-         Id Tp
          (make
             (link
                (make
@@ -69,23 +59,48 @@
                   (link
                      (make
                         (link
-                           '("label" . "Данные") )
-                        (link
                            (make
                               (link "data" T)
                               (mapc link Dset) ) )
-                        (link
-                           (make
-                              (link "backgroundColor" T)
-                              (mapc
-                                 '((X)
-                                    (link (rgba (rand 0 255) (rand 0 255) (rand 0 255) 1)) )
-                                 Dset ) ) ) ) ) ) ) ) ) ) )
+                              (link Clrs) ) ) ) ) ) ) )
 
-### Draw Bar chart
-(de chart::bar (Id Lbls Dset)
-   (chart::build Id "bar" Lbls Dset) )
+### Pisolisp wrapper for https://www.chartjs.org/
+(class +ChartJS +gui)
 
-### Draw Pie chart
-(de chart::pie (Id Lbls Dset)
-   (chart::build Id "pie" Lbls Dset) )
+(dm js> ())
+(dm put> () (msg "PUT"))
+
+(dm T (Tp Wdth Hght UpLbls UpData)
+   (=: id (text "_chart_@1_@2" (date) (time)))
+   (=: tp Tp)
+   (=: width Wdth)
+   (=: height Hght)
+   (=: uplbls UpLbls)
+   (=: updata UpData)
+   (super) )
+
+(dm init> ()
+   (=: labels (head 10 (eval (: uplbls))))
+   (=: data (head 10 (eval (: updata))))
+   (=: colors (clrs (: labels))) )
+
+#(dm set> (L V)
+#   (and L V
+#     (=: labels L)
+#     (=: colors (clrs L))
+#     (=: data V)) )
+
+(dm clr> ()
+   (=: labels NIL)
+   (=: data NIL)
+   )
+
+(dm show> ("Var")
+   (prin "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js\"></script>")
+   (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" (: id) (: width) (: height)))
+   (prin (text
+      "<script>new Chart(document.getElementById(\"@1\"),{type:'@2',data:@3,options:@4});</script>"
+      (: id)
+      (: tp)
+      (jsDict (chData (: labels) (: data) (: colors)))
+      (jsDict (: opts)) ) ) )
