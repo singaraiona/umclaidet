@@ -15,7 +15,14 @@
                (resetButton  '(datfrom dattill rem))
                (chartJSButton '(rem)) )
                (gui 'rem '(+ChartJS) 'bar 1024 768
-                  '(ttls)
-                  '(qtys) )
+                  '(solve
+                     (quote
+                        @Nr NIL
+                        @Dt (cons *InvFrom (or *InvTill T))
+                        (select (@@)
+                           ((nr +Event @Nr) (date +Event @Dt))
+                              (range @Nr @@ nr)
+                              (range @Dt @@ date) ) ) )
+                  '((: product title) (: quantity)) )
             NIL ) ) ) )
 

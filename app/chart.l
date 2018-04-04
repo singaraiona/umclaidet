@@ -42,7 +42,7 @@
             (link (rgba (rand 0 255) (rand 0 255) (rand 0 255) 1)) )
          L ) ) )
 
-### Chart.js data[] assemble macro
+### Chart.js data[] assembly macro
 (de chData Args
    (let (Lbls (eval (pop 'Args))
          Dset (eval (pop 'Args))
@@ -67,23 +67,23 @@
 ### Pisolisp wrapper for https://www.chartjs.org/
 (class +ChartJS +gui)
 
-(dm T (Tp Wdth Hght Lbls Data)
+(dm T (Tp Wdth Hght Qry Put)
    (=: cid (text "_chart_@1_@2" (date) (time)))
    (=: tp Tp)
    (=: width Wdth)
    (=: height Hght)
-   (=: lQry Lbls)
-   (=: dQry Data)
+   (=: iniQ Qry)
+   (=: put Put)
    (super) )
 
-(dm upd> ())
-
-(dm js> ())
-
 (dm init> ()
-   (=: labels (eval (: lQry)))
-   (=: data (eval (: dQry)))
-   (=: colors (clrs (: labels))) )
+   (let L (: put)
+      (mapc
+         '((X)
+            (queue 'labels (with (; X @@) (eval (car L))))
+            (queue 'data (with (; X @@) (eval (cadr L)))) )
+         (eval (: iniQ)) )
+    (set> This labels data) )
 
 (dm set> (L D)
    (and L D
@@ -107,6 +107,7 @@
       (jsDict (chData (: labels) (: data) (: colors)))
       (jsDict (: opts)) ) ) )
 
+### Class for ChartJS displaying
 (class +ChartJSButton +JS +Tip +Button)
 
 (dm T (Lbl Lst . @)
