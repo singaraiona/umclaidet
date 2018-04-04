@@ -67,40 +67,53 @@
 ### Pisolisp wrapper for https://www.chartjs.org/
 (class +ChartJS +gui)
 
-(dm js> ())
-(dm put> () (msg "PUT"))
-
-(dm T (Tp Wdth Hght UpLbls UpData)
-   (=: id (text "_chart_@1_@2" (date) (time)))
+(dm T (Tp Wdth Hght Lbls Data)
+   (=: cid (text "_chart_@1_@2" (date) (time)))
    (=: tp Tp)
    (=: width Wdth)
    (=: height Hght)
-   (=: uplbls UpLbls)
-   (=: updata UpData)
+   (=: lQry Lbls)
+   (=: dQry Data)
    (super) )
 
+(dm upd> ())
+
+(dm js> ())
+
 (dm init> ()
-   (=: labels (head 10 (eval (: uplbls))))
-   (=: data (head 10 (eval (: updata))))
+   (=: labels (eval (: lQry)))
+   (=: data (eval (: dQry)))
    (=: colors (clrs (: labels))) )
 
-#(dm set> (L V)
-#   (and L V
-#     (=: labels L)
-#     (=: colors (clrs L))
-#     (=: data V)) )
+(dm set> (L D)
+   (and L D
+     (prog
+        (=: labels L)
+        (=: colors (clrs L))
+        (=: data D) ) ) )
 
 (dm clr> ()
    (=: labels NIL)
    (=: data NIL)
-   )
+   (=: colors (clrs NIL)) )
 
 (dm show> ("Var")
    (prin "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js\"></script>")
-   (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" (: id) (: width) (: height)))
+   (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" (: cid) (: width) (: height)))
    (prin (text
       "<script>new Chart(document.getElementById(\"@1\"),{type:'@2',data:@3,options:@4});</script>"
-      (: id)
+      (: cid)
       (: tp)
       (jsDict (chData (: labels) (: data) (: colors)))
       (jsDict (: opts)) ) ) )
+
+(class +ChartJSButton +JS +Tip +Button)
+
+(dm T (Lbl Lst . @)
+   (=: chrts Lst)
+   (pass super ,"Show charts" Lbl
+      '(for X (: chrts)
+         (init> (field X)) ) ) )
+
+(de chartJSButton (Lst)
+   (gui '(+Rid +Force +ChartJSButton) T ,"Show" Lst) )

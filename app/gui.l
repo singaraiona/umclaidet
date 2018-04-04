@@ -49,7 +49,7 @@
          ,"Number" (gui 'nr '(+Var +NumField) '*SupNr 10)
          (searchButton '(init> (: home query)))
          ,"Name" (gui 'name '(+Focus +Var +TextField) '*SupNm 30)
-         (resetButton '(nr name)) )
+         (resetButton '(nr name query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote
@@ -84,7 +84,7 @@
          ,"Code" (gui 'nr '(+Var +NumField) '*CatNr 10)
          (searchButton '(init> (: home query)))
          ,"Name" (gui 'name '(+Focus +Var +TextField) '*CatNm 30)
-         (resetButton '(nr name)) )
+         (resetButton '(nr name query)) )
       (gui 'query '(+QueryChart) (cho)
          '(goal
             (quote

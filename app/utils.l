@@ -201,17 +201,16 @@
 
 (de utils::preload ())
 
-
 (de ttls ()
    (make
       (mapc
          '((X)
             (link (with X (: product title))) )
-            (collect 'nr '+Event) ) ) )
+            (head 10 (collect 'nr '+Event)) ) ) )
 
 (de qtys ()
    (make
       (mapc
          '((X)
             (link (with X (/ (: quantity) 100))) )
-            (collect 'nr '+Event) ) ) )
+            (head 10 (collect 'nr '+Event)) ) ) )

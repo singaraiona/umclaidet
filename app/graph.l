@@ -12,8 +12,10 @@
                      (prin " - ")
                      (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*TTill 10) )
                ,"Category" (gui 'category '(+Var +TextField) '*TCat 10)
-               (resetButton '(datfrom dattill rem))
-               (searchButton '(init> (: home rem))) )
-               (gui 'rem '(+ChartJS) 'bar 1024 768 '(ttls) '(qtys) )
+               (resetButton  '(datfrom dattill rem))
+               (chartJSButton '(rem)) )
+               (gui 'rem '(+ChartJS) 'bar 1024 768
+                  '(ttls)
+                  '(qtys) )
             NIL ) ) ) )
 
