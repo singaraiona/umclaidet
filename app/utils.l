@@ -199,39 +199,4 @@
    (utils::load  "init/income"   utils::uevts)
    (commit) )
 
-(de cc (Q Lst)
-   (mapc
-      '((X)
-         (msg
-            (with
-               (; X @@)
-               (eval (cadr Lst)) ) ) )
-      (eval Q) ) )
-
-(de utils::preload ()
-   (cc
-      '(solve
-         (quote
-            @Nr NIL
-            @Dt NIL
-            (select (@@)
-               ((nr +Event @Nr) (date +Event @Dt))
-                  (range @Nr @@ nr)
-                  (range @Dt @@ date) ) ) )
-      '((: product title) (: quantity)) ) )
-
-
-
-(de ttls ()
-   (make
-      (mapc
-         '((X)
-            (link (with X (: product title))) )
-            (head 10 (collect 'nr '+Event)) ) ) )
-
-(de qtys ()
-   (make
-      (mapc
-         '((X)
-            (link (with X (/ (: quantity) 100))) )
-            (head 10 (collect 'nr '+Event)) ) ) )
+(de utils::preload ())

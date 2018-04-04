@@ -76,14 +76,21 @@
    (=: put Put)
    (super) )
 
-(dm init> ()
-   (let L (: put)
+(dm js> ())
+
+(dm query> ()
+   (let (L (: put)
+         lbls NIL
+         dt NIL )
       (mapc
          '((X)
-            (queue 'labels (with (; X @@) (eval (car L))))
-            (queue 'data (with (; X @@) (eval (cadr L)))) )
+            (queue 'lbls (with (; X @@) (eval (car L))))
+            (queue 'dt (with (; X @@) (eval (cadr L)))) )
          (eval (: iniQ)) )
-    (set> This labels data) )
+      (set> This lbls dt) ) )
+
+(dm init> ()
+   (clr> This) )
 
 (dm set> (L D)
    (and L D
@@ -114,7 +121,7 @@
    (=: chrts Lst)
    (pass super ,"Show charts" Lbl
       '(for X (: chrts)
-         (init> (field X)) ) ) )
+         (query> (field X)) ) ) )
 
 (de chartJSButton (Lst)
    (gui '(+Rid +Force +ChartJSButton) T ,"Show" Lst) )
