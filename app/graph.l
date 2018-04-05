@@ -12,19 +12,26 @@
                      (prin " - ")
                      (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*TTill 10) )
                ,"Quantity" (gui 'qty '(+Var +NumField) '*TQty 10)
+               ,"Chart type" (gui '(+Set +Var +Map +TextField)
+                  '((V) (and V (type> (: home rem) V)) V)
+                  '*TType
+                  '((*Bar . "bar") (*Pie . "pie") (*Dough . "doughnut")) '(*Bar *Pie *Dough) )
                (resetButton  '(datfrom dattill rem))
                (chartJSButton '(rem)) )
                (gui 'rem '(+ChartJS) 'bar 1024 768
-                  '(head *TQty
-                     (solve
-                        (quote
-                           @Nr NIL
-                           @Cat *TCat
-                           @Dt (cons *TFrom (or *TTill T))
-                           (select (@@)
-                              ((nr +Event @Nr) (date +Event @Dt))
-                                 (range @Nr @@ nr)
-                                 (range @Dt @@ date) ) ) ) )
+                  '(tail *TQty
+                     (by
+                        '((X) (with (; X @@) (: quantity)))
+                        sort
+                        (solve
+                           (quote
+                              @Nr NIL
+                              @Cat *TCat
+                              @Dt (cons *TFrom (or *TTill T))
+                              (select (@@)
+                                 ((nr +Event @Nr) (date +Event @Dt))
+                                    (range @Nr @@ nr)
+                                    (range @Dt @@ date) ) ) ) ) )
                   '((: product title) (/ (: quantity) 100)) )
             NIL ) ) ) )
 

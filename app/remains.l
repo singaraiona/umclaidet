@@ -48,7 +48,6 @@
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
       (resetButton '(datfrom dattill)) ) )
 
-
 (de pgroup (L)
    (mapc
       '((P)

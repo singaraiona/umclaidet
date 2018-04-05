@@ -104,6 +104,9 @@
    (=: data NIL)
    (=: colors (clrs NIL)) )
 
+(dm type> (Tp)
+   (=: tp Tp) )
+
 (dm show> ("Var")
    (prin "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js\"></script>")
    (prin (text "<canvas id=\"@1\" width=\"@2\" height=\"@3\"></canvas>" (: cid) (: width) (: height)))

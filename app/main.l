@@ -18,7 +18,9 @@
 (setq *ObjQty "Количество объектов: ")
 (setq *Pdf "Печать")
 (setq *ProdsInCat 1000)
-(setq *ChartJs "js/chart.js")
+(setq *Bar "Колоночный")
+(setq *Pie "Круговой")
+(setq *Dough "Радиальный")
 
 (locale "RU" "ru" "app/loc/")
 
