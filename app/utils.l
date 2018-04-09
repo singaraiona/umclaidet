@@ -65,13 +65,13 @@
 ### Removes all non-numbers from
 ### string to be formatted
 (de utils::format (L)
-    (format
-       (pack
-          (make
-             (mapc
-                '((C) (if (= C ",") (link ".") (and (format C) (link C))))
-                (chop L) ) ) )
-       2 ) )
+    (let (F NIL
+          S (pack
+               (make
+                  (mapc
+                     '((C) (if (= C ",") (prog (setq F T) (link ".")) (and (format C) (link C))))
+                     (chop L) ) ) ) )
+          (if F (format S 2) (* (format S) 100)) ) )
 
 ### Creates GUI element for uploading files
 (de utils::upfile Args
