@@ -9,7 +9,10 @@
          (prog
             (gui 'datfrom '(+Init +Var +DateField) (apply min (utils::dates)) '*InvFrom 10)
             (prin " - ")
-            (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*InvTill 10) ) )
+            (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*InvTill 10) )
+         ,"Category" (choCat 0) (gui 'cat '(+Var +Obj +TextField)
+               '*InvCat
+               '(name +Category) 10) )
       (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
@@ -30,7 +33,9 @@
                         (align ,"Charge")
                         (NIL   ,"Supplier") ) )
                      (let Nr 0
-                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T)))))
+                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T))
+
+                        (; *InvCat name) )))
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Total:")
@@ -46,7 +51,7 @@
                      (<+> ,"Date till")
                      (<-> (datStr *InvTill)) )
                   (at (0 . 10000) (or (flush) (throw))) ) ) ) ) )
-      (resetButton '(datfrom dattill)) ) )
+      (resetButton '(datfrom dattill cat)) ) )
 
 (de pgroup (L)
    (mapc
@@ -89,13 +94,16 @@
                 (dec 'Ssum (* (: sellprice) (: quantity)))
                 (dec 'Bsum (* (: buyprice) (: quantity))) ) ) ) )
 
-(de rem::find (Rng)
+(de rem::find (Dt Cat)
    (solve
       (quote
          @Nr '(NIL . T)
-         @Rng Rng
-            (select (@Event)
-               ((nr +Event @Nr) (date +Event @Rng))
+         @Dt '(NIL . T)
+         @Cat Cat
+             (select (@Event)
+               ((nr +Event @Nr)
+                (date +Event @Dt) )
                   (range @Nr @Event nr)
-                  (range @Rng @Event date) ) )
+                  (range @Dt @Event date)
+                  (same @Cat @Event product category name) ) )
       @Event ) )
