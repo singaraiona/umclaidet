@@ -38,7 +38,7 @@
             NIL )
 
          # --- Sellings
-         (,"Sellings"
+         (,"Selling"
             (<grid> "--"
                ,"Date"
                   (prog
