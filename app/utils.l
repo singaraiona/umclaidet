@@ -25,9 +25,9 @@
                L ) ) ) ) )
 
 ### Prepare string for storing as object field
-(de utils::normalize (Ln Sep)
+(de utils::normalize (Ln)
    (mapcar '((X) (pack (make (link (uppc (car X))) (link (cdr X)))))
-      (mapcar utils::clip (split (chop Ln) Sep))) )
+      (mapcar utils::clip (split (chop Ln) "|"))) )
 
 ### Same as (obj) except evaluates fields
 (de utils::obj Lst
@@ -42,17 +42,14 @@
       (put> Obj (pop 'Lst) (eval (pop 'Lst))) )
    Obj) )
 
-(de ident::sep (Fl) "|" )
-
 ### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
-   (let Sep (ident::sep Fl)
       (in Fl
          (let (Fail NIL Ln 0)
             (while (and (not Fail) (line))
                (inc 'Ln)
-               (setq Fail (Clb (utils::normalize @ Sep)) ) )
-         (and Fail (prog (msg (text "FILE:@1 LINE:@2" Fl Ln)) Fail)) ) ) ) )
+               (setq Fail (Clb (utils::normalize @)) ) )
+         (and Fail (prog (msg (text "FILE:@1 LINE:@2" Fl Ln)) Fail)) ) ) )
 
 ### Generate next key for +Category
 (de utils::catkey ()
