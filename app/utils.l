@@ -45,10 +45,11 @@
 ### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
    (in Fl
-      (let Fail NIL
+      (let (Fail NIL Ln 0)
          (while (and (not Fail) (line))
+            (inc 'Ln)
             (setq Fail (Clb (utils::normalize @)) ) )
-      Fail ) ) )
+      (and Fail (prog (msg (text "FILE:@1 LINE:@2" Fl Ln)) Fail)) ) ) )
 
 ### Generate next key for +Category
 (de utils::catkey ()
@@ -122,7 +123,7 @@
    (utils::parsefile Fl
       '((L)
          (let
-            (Nm (pop L)
+            (Nm (and L (pop L))
              Nr (or (with (last (utils::supplier Nm)) (: nr)) (genKey 'nr '+Supplier)) )
                 (utils::obj ((+Supplier) nr Nr) name Nm))
             NIL ) ) )
@@ -132,7 +133,7 @@
    (utils::parsefile Fl
       '((L)
          (let
-            (Nm (pop L)
+            (Nm (and L (pop L))
              Nr (or (with (last (utils::category Nm)) (: nr)) (genKey 'nr '+Category)) )
                 (utils::obj ((+Category) nr Nr) name Nm))
             NIL ) ) )
@@ -144,9 +145,9 @@
       '((L)
          (match '(@Cat @Ttl @Sup) L)
          (let
-            (Cat (utils::category (pop @Cat))
-             Ttl (pop @Ttl)
-             Sup (utils::supplier (pop @Sup))
+            (Cat (utils::category (and @Cat (pop @Cat)))
+             Ttl (and @Ttl (pop @Ttl))
+             Sup (utils::supplier (and @Sup (pop @Sup)))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
             (if (and Cat Ttl)
                (prog
@@ -162,18 +163,18 @@
    (utils::parsefile
       Fl
       '((L)
-         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr @Nts) L)
+         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr) L)
          (let
-            (Dt   (expDat (pop @Dat))
-             Tp   (utils::tpStr (pop @Tp))
-             Cat  (utils::category (pop @Cat))
-             Ttl  (pop @Ttl)
+            (Dt   (expDat (and @Dat (pop @Dat)))
+             Tp   (utils::tpStr (and @Tp (pop @Tp)))
+             Cat  (utils::category (and @Cat (pop @Cat)))
+             Ttl  (and @Ttl (pop @Ttl))
              Prod (utils::product Cat Ttl)
-             Qty  (utils::format (pop @Qty))
-             Spr  (utils::format (pop @Spr))
-             Bpr  (utils::format (pop @Bpr))
-             Nts  (pop (or @Nts '(""))) )
-            #(msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
+             Qty  (utils::format (and @Qty (pop @Qty)))
+             Spr  (utils::format (and @Spr (pop @Spr)))
+             Bpr  0
+             Nts  "" )
+            (msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
             (if
                (and Dt Tp Cat Prod)
                (prog

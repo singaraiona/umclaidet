@@ -33,9 +33,7 @@
                         (align ,"Charge")
                         (NIL   ,"Supplier") ) )
                      (let Nr 0
-                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T))
-
-                        (; *InvCat name) )))
+                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T)) (; *InvCat name))))
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Total:")
