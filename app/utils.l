@@ -25,9 +25,9 @@
                L ) ) ) ) )
 
 ### Prepare string for storing as object field
-(de utils::normalize (Ln)
+(de utils::normalize (Ln Sep)
    (mapcar '((X) (pack (make (link (uppc (car X))) (link (cdr X)))))
-      (mapcar utils::clip (split (chop Ln) "|"))) )
+      (mapcar utils::clip (split (chop Ln) Sep))) )
 
 ### Same as (obj) except evaluates fields
 (de utils::obj Lst
@@ -42,14 +42,20 @@
       (put> Obj (pop 'Lst) (eval (pop 'Lst))) )
    Obj) )
 
+(de ident::sep (Fl)
+   (in Fl
+      (let Ln (chop (line))
+        (or (find '((X) (= X "^I")) Ln) "|") ) ) )
+
 ### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
-   (in Fl
-      (let (Fail NIL Ln 0)
-         (while (and (not Fail) (line))
-            (inc 'Ln)
-            (setq Fail (Clb (utils::normalize @)) ) )
-      (and Fail (prog (msg (text "FILE:@1 LINE:@2" Fl Ln)) Fail)) ) ) )
+   (let Sep (ident::sep Fl)
+      (in Fl
+         (let (Fail NIL Ln 0)
+            (while (and (not Fail) (line))
+               (inc 'Ln)
+               (setq Fail (Clb (utils::normalize @ Sep)) ) )
+         (and Fail (prog (msg (text "FILE:@1 LINE:@2" Fl Ln)) Fail)) ) ) ) )
 
 ### Generate next key for +Category
 (de utils::catkey ()
@@ -145,10 +151,11 @@
       '((L)
          (match '(@Cat @Ttl @Sup) L)
          (let
-            (Cat (utils::category (and @Cat (pop @Cat)))
+            (Cat (and @Cat (utils::category (pop @Cat)))
              Ttl (and @Ttl (pop @Ttl))
-             Sup (utils::supplier (and @Sup (pop @Sup)))
+             Sup (and @Sup (utils::supplier (pop @Sup)))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
+            #(msg (text "Cat:@1 Ttl:@2" Cat Ttl))
             (if (and Cat Ttl)
                (prog
                   (utils::obj ((+Product) nr Nr)
@@ -165,16 +172,16 @@
       '((L)
          (match '(@Dat @Tp @Cat @Ttl @Qty @Spr) L)
          (let
-            (Dt   (expDat (and @Dat (pop @Dat)))
-             Tp   (utils::tpStr (and @Tp (pop @Tp)))
-             Cat  (utils::category (and @Cat (pop @Cat)))
+            (Dt   (and @Dat (expDat (pop @Dat)))
+             Tp   (and @Tp (utils::tpStr (pop @Tp)))
+             Cat  (and @Cat (utils::category (pop @Cat)))
              Ttl  (and @Ttl (pop @Ttl))
              Prod (utils::product Cat Ttl)
              Qty  (utils::format (and @Qty (pop @Qty)))
              Spr  (utils::format (and @Spr (pop @Spr)))
              Bpr  0
              Nts  "" )
-            (msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
+            #(msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
             (if
                (and Dt Tp Cat Prod)
                (prog
