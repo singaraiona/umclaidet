@@ -42,10 +42,7 @@
       (put> Obj (pop 'Lst) (eval (pop 'Lst))) )
    Obj) )
 
-(de ident::sep (Fl)
-   (in Fl
-      (let Ln (chop (line))
-        (or (find '((X) (= X "^I")) Ln) "|") ) ) )
+(de ident::sep (Fl) "|" )
 
 ### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
