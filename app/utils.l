@@ -103,7 +103,6 @@
 
 ### Search a category specified by name
 (de utils::category (Nm)
-   (msg "CATG: " Nm)
    (pilog
       (quote
          @Nm Nm
@@ -149,7 +148,7 @@
              Ttl (and @Ttl (pop @Ttl))
              Sup (and @Sup (utils::supplier (pop @Sup)))
              Nr (or (with (utils::product Cat Ttl) (: nr)) (utils::prodkey Cat)) )
-            (msg (text "Nr:@1 Cat:@2 Ttl:@3" Nr Cat Ttl))
+            (msg (text "PROD IMPORT --- Nr:@1 Cat:@2 Ttl:@3" Nr Cat Ttl))
             (if (and Cat Ttl)
                (prog
                   (utils::obj ((+Product) nr Nr)
@@ -175,9 +174,9 @@
              Spr  (and @Spr (utils::format (pop @Spr)))
              Bpr  0
              Nts  "" )
-            #(msg (text "Dt: @1 Tp: @2 Cat @3 Prod @4" Dt Tp Cat Prod))
+            (msg (text "EVENT IMPORT --- Dt: @1 Tp: @2 Cat @3 Ttl @4 Prod @5" Dt Tp Cat Ttl Prod))
             (if
-               (and Dt Tp Cat Prod Qty Spr)
+               (and Dt Tp Cat Ttl Prod Qty Spr)
                (prog
                   (utils::obj ((+Event) nr (genKey 'nr '+Event))
                      date Dt

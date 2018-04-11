@@ -17,7 +17,7 @@
 (setq *Expense "Расход")
 (setq *ObjQty "Количество объектов: ")
 (setq *Pdf "Печать")
-(setq *ProdsInCat 1000)
+(setq *ProdsInCat 10000)
 (setq *Bar "Колоночный")
 (setq *Pie "Круговой")
 (setq *Dough "Радиальный")
