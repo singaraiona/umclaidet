@@ -171,7 +171,7 @@
          '((This) (list This
                      (: nr)
                      (: date)
-                     (utils::strTp (: tp))
+                     (utils::tpStr (: tp))
                      (: product)
                      (: quantity)
                      (: sellprice)

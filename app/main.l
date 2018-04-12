@@ -21,6 +21,7 @@
 (setq *Bar "Колоночный")
 (setq *Pie "Круговой")
 (setq *Dough "Радиальный")
+(setq *CsvSep "|")
 
 (locale "RU" "ru" "app/loc/")
 

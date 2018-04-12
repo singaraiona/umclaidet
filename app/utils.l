@@ -4,11 +4,11 @@
    (collect 'date '+Event NIL T 'date) )
 
 ### +Event type to string
-(de utils::strTp (Tp)
+(de utils::tpStr (Tp)
    (if (= Tp 1) *Income (if (= Tp 2) *Expense NIL) ) )
 
 ### string to +Event type
-(de utils::tpStr (S)
+(de utils::strTp (S)
    (if (= S *Income) 1 (if (= S *Expense) 2 NIL) ) )
 
 ### Removes all spaces from sides of L and inside one
@@ -27,7 +27,7 @@
 ### Prepare string for storing as object field
 (de utils::normalize (Ln)
    (mapcar '((X) (pack (make (link (uppc (car X))) (link (cdr X)))))
-      (mapcar utils::clip (split (chop Ln) "|"))) )
+      (mapcar utils::clip (split (chop Ln) *CsvSep))) )
 
 ### Same as (obj) except evaluates fields
 (de utils::obj Lst
@@ -171,17 +171,17 @@
    (utils::parsefile
       Fl
       '((L)
-         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr) L)
+         (match '(@Dat @Tp @Cat @Ttl @Qty @Spr @Bpr @Nts) L)
          (let
             (Dt   (and @Dat (expDat (pop @Dat)))
-             Tp   (and @Tp (utils::tpStr (pop @Tp)))
+             Tp   (and @Tp (utils::strTp (pop @Tp)))
              Cat  (and @Cat (utils::category (pop @Cat)))
              Ttl  (and @Ttl (pop @Ttl))
              Prod (utils::product Cat Ttl)
              Qty  (and @Qty (utils::format (pop @Qty)))
              Spr  (and @Spr (utils::format (pop @Spr)))
-             Bpr  0
-             Nts  "" )
+             Bpr  (and @Bpr (pop @Bpr))
+             Nts  (and @Nts (pop @Nts)) )
             (msg (text "EVENT IMPORT --- Dt: @1 Tp: @2 Cat @3 Ttl @4 Prod @5" Dt Tp Cat Ttl Prod))
             (if
                (and Dt Tp Cat Ttl Prod Qty Spr)
@@ -197,6 +197,7 @@
                   NIL )
                "Invalid events file!" ) ) ) ) )
 
+### Import from CSV
 (de utils::load (Dir Clb)
    (msg (pack Dir " --loading..."))
    (mapc '((X) (Clb (glue "/" (list Dir X)))) (dir Dir) )
@@ -209,4 +210,72 @@
    (utils::load  "init/prihod" utils::uevts)
    (commit) )
 
-(de utils::preload ())
+### Export back to CSV
+(de utils::upload Args
+   (eval
+      (let (Fl (eval (pop 'Args)) Clb (pop 'Args) Lst (pop 'Args))
+         (make
+            (link 'out Fl)
+            (link
+               (make
+                  (link 'mapc)
+                  # --- Callback
+                  (link
+                     (make
+                        (link 'quote)
+                        (link '(X)
+                           (make
+                              (link 'prinl)
+                              (link
+                                 (make
+                                    (link 'with 'X)
+                                    (link
+                                       (make
+                                          (link 'glue *CsvSep Clb) ) ) ) ) ) ) ) )
+                  (link Lst) ) ) ) ) ) )
+
+(de utils::esups (Dir)
+   (utils::upload
+      (glue "/" (list Dir "suppliers.csv"))
+      (list (: name))
+      (collect 'nr '+Supplier) ) )
+
+(de utils::ecats (Dir)
+   (utils::upload
+      (glue "/" (list Dir "categories.csv"))
+      (list (: name))
+      (collect 'nr '+Category) ) )
+
+(de utils::eprods (Dir)
+   (utils::upload
+      (glue "/" (list Dir "products.csv"))
+      (list
+         (: category name)
+         (: title)
+         (: supplier name) )
+      (collect 'nr '+Product) ) )
+
+(de utils::eevts (Dir)
+   (utils::upload
+      (glue "/" (list Dir "events.csv"))
+      (list
+         (datStr (: date))
+         (utils::tpStr (: tp))
+         (: product category name)
+         (: product title)
+         (money (: quantity))
+         (money (: sellprice))
+         (money (: buyprice))
+         (: notes) )
+      (collect 'nr '+Event) ) )
+
+(de utils::export (Dir Clb)
+   (msg (text "--exporting @1..." Clb))
+   ((eval Clb) Dir)
+   (msg " --done.") )
+
+(de utils::preload ()
+   (utils::export "export" 'utils::esups)
+   (utils::export "export" 'utils::ecats)
+   (utils::export "export" 'utils::eprods)
+   (utils::export "export" 'utils::eevts) )
