@@ -56,17 +56,18 @@
 
 ### Generate next key for +Product
 (de utils::prodkey (Cat)
-   (let (Cnt 0
+   (let (Ord (+ (with Cat (* (- (: nr) 1) *ProdsInCat)) 1)
+         Cnt 0
          Nrs (sort (make (mapc '((X) (link (with X (: nr))) (inc 'Cnt)) (with Cat (: products)))))
          Last (last Nrs) )
        (cond
           ((= Cnt *ProdsInCat) NIL)
-          ((= Cnt 0) (+ (with Cat (* (- (: nr) 1) *ProdsInCat)) 1))
-          ((= Cnt 1) (+ (with Cat (* (- (: nr) 1) *ProdsInCat)) 2))
+          ((= Cnt 0) Ord)
+          ((= Cnt 1) (+ Ord 1))
           (T
              (car
                 (diff
-                   (range (car Nrs) (inc Last))
+                   (range Ord (inc Last))
                    Nrs ) ) ) ) ) )
 
 ### Removes all non-numbers from
