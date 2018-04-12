@@ -144,9 +144,10 @@
                (gui 5 '(+ObjView +TextField) '(: name)) ) ) )
       (<spread>
          (scroll (cho))
-         (newButton T Dst '(+Product)
-            'nr (utils::prodkey (val> (: home category)))
-            'title *ProdTtl )
+          (newButton T Dst '(+Product)
+            'category  (or (val> (: home category)) (car (collect 'nr '+Category)))
+            'nr (utils::prodkey (or (val> (: home category)) (car (collect 'nr '+Category))))
+            'ttl *ProdTtl )
          (cancelButton) ) ) )
 
 (de choEvt (Dst)

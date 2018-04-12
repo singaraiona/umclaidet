@@ -20,5 +20,5 @@
                (gui '(+E/R +Obj +TextField) '(supplier : home obj) '(name +Supplier) 10) )
         (<hr>)
         (newButton T Dst '(+Product)
-            'nr (utils::prodkey (val> (: home category)))
-            'category  (val> (: home category)) ) ) )
+            'category  (or (val> (: home category)) (car (collect 'nr '+Category)))
+            'nr (utils::prodkey (or (val> (: home category)) (car (collect 'nr '+Category)))) ) ) )
