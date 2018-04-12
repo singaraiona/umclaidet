@@ -59,8 +59,12 @@
       @User) ) )
 
 # Load Db data from files
-(de imp ()
+(de imprt ()
    (utils::import) )
+
+# Export Db data to files
+(de exprt ()
+   (utils::export) )
 
 (de go (Rpc)
    (when Rpc

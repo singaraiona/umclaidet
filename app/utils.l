@@ -45,10 +45,11 @@
 ### Read file line by line and passes each line to callback fn
 (de utils::parsefile (Fl Clb)
       (in Fl
-         (let Fail NIL
+         (let (Fail NIL Ln 0)
             (while (and (not Fail) (line))
+               (inc 'Ln)
                (setq Fail (Clb (utils::normalize @)) ) )
-         Fail ) ) )
+         (and Fail (msg (text "Failed: @1::@2" Fl Ln) ) ) ) ) )
 
 ### Generate next key for +Category
 (de utils::catkey ()
@@ -180,7 +181,7 @@
              Prod (utils::product Cat Ttl)
              Qty  (and @Qty (utils::format (pop @Qty)))
              Spr  (and @Spr (utils::format (pop @Spr)))
-             Bpr  (and @Bpr (pop @Bpr))
+             Bpr  (and @Bpr (utils::format (pop @Bpr)))
              Nts  (and @Nts (pop @Nts)) )
             (msg (text "EVENT IMPORT --- Dt: @1 Tp: @2 Cat @3 Ttl @4 Prod @5" Dt Tp Cat Ttl Prod))
             (if
@@ -269,13 +270,15 @@
          (: notes) )
       (collect 'nr '+Event) ) )
 
-(de utils::export (Dir Clb)
+(de utils::upclb (Dir Clb)
    (msg (text "--exporting @1..." Clb))
    ((eval Clb) Dir)
    (msg " --done.") )
 
-(de utils::preload ()
-   (utils::export "export" 'utils::esups)
-   (utils::export "export" 'utils::ecats)
-   (utils::export "export" 'utils::eprods)
-   (utils::export "export" 'utils::eevts) )
+(de utils::export ()
+   (utils::upclb "init/suppliers" 'utils::esups)
+   (utils::upclb "init/categories" 'utils::ecats)
+   (utils::upclb "init/tovar" 'utils::eprods)
+   (utils::upclb "init/prihod" 'utils::eevts) )
+
+(de utils::preload ())
