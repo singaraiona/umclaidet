@@ -153,19 +153,23 @@
 (de choEvt (Dst)
    (diaform '(Dst)
       (<grid> "--.-..-"
-         ,"Number"     (gui 'nr '(+Var +NumField) '*EvtNr 10)
-         ,"Date"       (gui 'date '(+Var +DateField)     '*EvtDat 10)
+         ,"Number"  (gui 'nr '(+Var +NumField) '*EvtNr 10)
+         ,"Date"
+         (prog
+            (gui 'datfrom '(+Init +Var +DateField) (apply min (utils::dates)) '*EvtFrom 8)
+            (prin "- ")
+            (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*EvtTill 8) )
          ,"Event type" (gui 'tp '(+Var +Map +TextField)  '*EvtTp '((*Income . 1) (*Expense . 2)) '(*Income *Expense))
          (searchButton '(init> (: home query)))
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
-         ,"Quantity"   (gui 'quantity '(+Var +FixField)  '*EvtQt 2 10)
-         ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 10)
+         ,"Quantity"   (gui 'quantity '(+Var +FixField)  '*EvtQt 2 20)
+         ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 7)
          (resetButton '(nr date tp product quantity sellprice buyprice notes query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
-         ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 10)
+         ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 20)
          NIL NIL
          (gui '(+Button) *Pdf '(url (print::events (solve (gui::events) @@) (val> (: home tp))))) )
-      (gui 'query '(+QueryChart) (cho)
+         (gui 'query '(+QueryChart) (cho)
          '(goal (gui::events))
          12
          '((This) (list This
@@ -236,7 +240,7 @@
 (de gui::events ()
    (quote
       @Nr (and *EvtNr (cons @ T))
-      @Dt (and *EvtDat (cons @ T))
+      @Dt (cons *EvtFrom (or *EvtTill T))
       @Tp *EvtTp
       @Prd *EvtProd
       @Qt (and *EvtQt (cons @ T))
