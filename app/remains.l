@@ -13,9 +13,7 @@
          ,"Category" (choCat 0) (gui 'cat '(+Var +Obj +TextField)
                '*InvCat
                '(name +Category) 10)
-         ,"Title" (choProd 0) (gui 'prd '(+Var +Obj +TextField)
-               '*InvPrd
-               '(title +Product) 10) )
+         ,"Title" NIL (gui 'prd '(+Var +TextField) '*InvPrd 10) )
       (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
@@ -37,7 +35,7 @@
                         (align ,"Charge")
                         (NIL   ,"Supplier") ) )
                      (let Nr 0
-                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T)) (; *InvCat name))))
+                        (catch NIL (pgroup (rem::find (cons *InvFrom (or *InvTill T)) (; *InvCat name) *InvPrd)))
                   (<row> 'nil
                      (<+> NIL) (<+> NIL) (<+> NIL) (<+> NIL)
                      (<+> ,"Total:")
@@ -97,7 +95,7 @@
                 (dec 'Ssum (* (: sellprice) (: quantity)))
                 (dec 'Bsum (* (: buyprice) (: quantity)))))))
 
-(de rem::find (Dt Cat)
+(de rem::find (Dt Cat Prd)
    (solve
       (quote
          @Nr '(NIL . T)
@@ -106,9 +104,10 @@
          @Cat Cat
              (select (@Event)
                ((nr +Event @Nr)
-                (date +Event @Dt))
+                (date +Event @Dt)
+                (title +Product @Prd (product +Event)))
                (range @Nr @Event nr)
                (range @Dt @Event date)
                (tolr @Prd @Event product title)
                (same @Cat @Event product category name)))
-      @Event))
+      @Event ) )
