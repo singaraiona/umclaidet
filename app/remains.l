@@ -12,7 +12,10 @@
             (gui 'dattill '(+Init +Var +DateField) (apply max (utils::dates)) '*InvTill 10) )
          ,"Category" (choCat 0) (gui 'cat '(+Var +Obj +TextField)
                '*InvCat
-               '(name +Category) 10) )
+               '(name +Category) 10)
+         ,"Title" (choProd 0) (gui 'prd '(+Var +Obj +TextField)
+               '*InvPrd
+               '(title +Product) 10) )
       (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
@@ -23,6 +26,7 @@
                   (<!>
                      (quote
                         (align ,"#")
+                        (align ,"Code")
                         (NIL   ,"Category")
                         (NIL   ,"Title")
                         (align ,"Quantity")
@@ -66,9 +70,10 @@
          (with (car Grp)
             (let (Ssum (* (: sellprice) Qty)
                   Bsum (* (: buyprice) Qty)
-                  Chrg (- Ssum Bsum) )
+                  Chrg (- Ssum Bsum))
                (<row> (alternating)
                   (<+> Nr)
+                  (<+> (: product nr))
                   (<+> (: product category name))
                   (<+> (: product title))
                   (<+> (money Qty))
@@ -77,31 +82,33 @@
                   (<+> (money (: buyprice)))
                   (<+> (money (/ Bsum 100)))
                   (<+> (money (/ Chrg 100)))
-                  (<-> (: product supplier name)) )
+                  (<-> (: product supplier name)))
                (inc 'TotalSellSum Ssum)
                (inc 'TotalBuySum Bsum)
-               (inc 'TotalCharge Chrg) ) ) ) )
+               (inc 'TotalCharge Chrg)))))
 
 (de rem::proc (Rec)
    (with Rec
       (if (= (: tp) 1)
           (prog (inc 'Qty (: quantity))
                 (inc 'Ssum (* (: sellprice) (: quantity)))
-                (inc 'Bsum (* (: buyprice) (: quantity))) )
+                (inc 'Bsum (* (: buyprice) (: quantity))))
           (prog (dec 'Qty (: quantity))
                 (dec 'Ssum (* (: sellprice) (: quantity)))
-                (dec 'Bsum (* (: buyprice) (: quantity))) ) ) ) )
+                (dec 'Bsum (* (: buyprice) (: quantity)))))))
 
 (de rem::find (Dt Cat)
    (solve
       (quote
          @Nr '(NIL . T)
          @Dt '(NIL . T)
+         @Prd Prd
          @Cat Cat
              (select (@Event)
                ((nr +Event @Nr)
-                (date +Event @Dt) )
-                  (range @Nr @Event nr)
-                  (range @Dt @Event date)
-                  (same @Cat @Event product category name) ) )
-      @Event ) )
+                (date +Event @Dt))
+               (range @Nr @Event nr)
+               (range @Dt @Event date)
+               (tolr @Prd @Event product title)
+               (same @Cat @Event product category name)))
+      @Event))
