@@ -10,25 +10,26 @@
                 (<menu>
                    (T ,"Main menu"
                       (,"Home" "!work")
-                      (,"Logout" (and *Login "!stop")))
+                      (,"Logout" (and *Login "!stop")) )
                    (NIL (<hr>))
                    (T ,"Data"
                       (,"Suppliers" (and (may Supplier) "app/supplier.l"))
                       (,"Categories" (and (may Category) "app/category.l"))
-                      (,"Products" (and (may Product) "app/product.l")))
+                      (,"Products" (and (may Product) "app/product.l")) )
                    (NIL (<hr>))
                    (T ,"Registration"
-                      (,"Events" (and (may Event) "app/event.l")))
+                      (,"Events" (and (may Event) "app/event.l")) )
                    (NIL (<hr>))
                    (T ,"Import"
-                      (,"Import from CSV" (and (may Import) "app/import.l")))
+                      (,"Import from CSV" (and (may Import) "app/import.l")) )
                    (NIL (<hr>))
                    (T ,"Report"
                       (,"Remains"  (and (may Report) "app/remains.l"))
                       (,"Analytic" (and (may Report) "app/analytic.l"))
-                      (,"Graphs"   (and (may Graph)  "app/graph.l")))))
+                      (,"Graphs"   (and (may Graph)  "app/graph.l")) )
+                   (,"Settings"  (and (may Report) "app/settings.l") ) ) )
              ((NIL NIL 'main)
-              (<div> @ (run Prg 1))))))))
+              (<div> @ (run Prg 1)) ) ) ) ) ) )
 
 (de work ()
    (setq *Url "!work")
@@ -167,7 +168,7 @@
          (resetButton '(nr datfrom dattill tp product quantity sellprice buyprice notes code query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 20)
-         ,"Code"  (gui 'code '(+Var +NumField) '*EvtCode 10)
+         ,"Code"  (gui 'code '(+Var +NumField) '*EvtCode 20)
          (gui '(+Button) *Pdf '(url (print::events (solve (gui::events) @@) (val> (: home tp))))))
       (gui 'query '(+QueryChart) (cho)
        '(goal (gui::events))
@@ -219,7 +220,7 @@
          (scroll (cho))
          (newButton T Dst '(+Event)
             '(nr genKey 'nr '+Event)
-            'date (date)
+            'date (cond (= 1 *StgsDat) (date) (= 2 *StgsDat) (apply max (utils::dates)))
             'tp *EvTp))
       (cancelButton)))
 
