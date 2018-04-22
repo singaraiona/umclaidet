@@ -14,7 +14,9 @@
                                upfields '(product : home obj) '(title +Product) 10)
          ,"Quantity" NIL      (gui '(+E/R +FixField)  '(quantity : home obj) 2 10)
          ,"Sell price" NIL    (gui '(+E/R +FixField)  '(sellprice : home obj) 2 10)
-         ,"Buy price" NIL     (gui '(+E/R +FixField)  '(buyprice : home obj) 2 10)
+         ,"Buy price" NIL     (gui '(+Set +E/R +FixField) 
+             '((X) (ifn (= X (: home obj buyprice)) (/ (* X *StgsCurcy) 100) X))
+             '(buyprice : home obj) 2 10)
          ,"Notes" NIL         (gui '(+E/R +TextField) '(notes : home obj) 10))
       (<hr>)
       (newButton T Dst '(+Event)
@@ -34,8 +36,8 @@
                   Qty  (rem::qty Evts)
                   I    (last Evts) )
                (put!> This 'quantity Qty)
-               (put!> This 'sellprice (; I sellprice))
-               (put!> This 'buyprice  (; I buyprice)) ) ) ) )
+               (put!> This 'sellprice (with I (: sellprice)))
+               (put!> This 'buyprice  (with I (: buyprice))) ) ) ) )
    V )
 
 # Find the last Event record in db mathes `Prod
