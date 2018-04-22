@@ -164,16 +164,17 @@
          ,"Title"      (gui 'product '(+Var +TextField)  '*EvtProd 10)
          ,"Quantity"   (gui 'quantity '(+Var +FixField)  '*EvtQt 2 20)
          ,"Sell price" (gui 'sellprice '(+Var +FixField) '*EvtSpr 2 7)
-         (resetButton '(nr datfrom dattill tp product quantity sellprice buyprice notes query))
+         (resetButton '(nr datfrom dattill tp product quantity sellprice buyprice notes code query))
          ,"Buy price"  (gui 'buyprice '(+Var +FixField)  '*EvtBpr 2 10)
          ,"Notes"      (gui 'notes '(+Var +TextField)    '*EvtNts 20)
-         NIL NIL
+         ,"Code"  (gui 'code '(+Var +NumField) '*EvtCode 10)
          (gui '(+Button) *Pdf '(url (print::events (solve (gui::events) @@) (val> (: home tp))))))
       (gui 'query '(+QueryChart) (cho)
        '(goal (gui::events))
-       12
+       13
        '((This) (list This
                    (: nr)
+                   (: product nr)
                    (: date)
                    (utils::tpStr (: tp))
                    (: product)
@@ -188,6 +189,7 @@
          (quote
             (btn)
             (align, "#")
+            (NIL, "Code")
             (NIL ,"Date")
             (NIL ,"Event type")
             (NIL ,"Title")
@@ -202,16 +204,17 @@
             (<row> (alternating)
                (gui 1  '(+DstButton) Dst)
                (gui 2  '(+NumField))
-               (gui 3  '(+DateField))
-               (gui 4  '(+TextField))
-               (gui 5  '(+ObjView +TextField) '(: title))
-               (gui 6  '(+FixField) 2)
+               (gui 3  '(+NumField))
+               (gui 4  '(+DateField))
+               (gui 5  '(+TextField))
+               (gui 6  '(+ObjView +TextField) '(: title))
                (gui 7  '(+FixField) 2)
                (gui 8  '(+FixField) 2)
                (gui 9  '(+FixField) 2)
-               (gui 10 '(+FixField) 2)
+               (gui 10  '(+FixField) 2)
                (gui 11 '(+FixField) 2)
-               (gui 12 '(+TextField)))))
+               (gui 12 '(+FixField) 2)
+               (gui 13 '(+TextField)))))
       (<spread>
          (scroll (cho))
          (newButton T Dst '(+Event)
@@ -243,6 +246,7 @@
       @Dt (cons *EvtFrom (or *EvtTill T))
       @Tp *EvtTp
       @Prd *EvtProd
+      @Code *EvtCode
       @Qt *EvtQt
       @Spr *EvtSpr
       @Bpr *EvtBpr
@@ -257,6 +261,7 @@
           (buyprice +Event @Bpr)
           (notes +Event @Nts))
          (range @Nr @@ nr)
+         (same @Code @@ product nr)
          (range @Dt @@ date)
          (same @Tp @@ tp)
          (tolr @Prd @@ product title)
