@@ -19,7 +19,10 @@
       (<hr>)
       (newButton T Dst '(+Event)
          '(nr genKey 'nr '+Event)
-         'date (cond (= 1 *StgsDat) (date) (= 2 *StgsDat) (apply max (utils::dates)))
+         'date 
+            (cond 
+               ((= 1 *StgsDat) (date))
+               ((= 2 *StgsDat) (apply max (utils::dates))) )
          'tp (val> (: home tp)))))
 
 ### Update rest fields when Product has been changed

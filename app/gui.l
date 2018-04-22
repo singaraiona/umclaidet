@@ -220,7 +220,10 @@
          (scroll (cho))
          (newButton T Dst '(+Event)
             '(nr genKey 'nr '+Event)
-            'date (cond (= 1 *StgsDat) (date) (= 2 *StgsDat) (apply max (utils::dates)))
+            'date 
+               (cond 
+                  ((= 1 *StgsDat) (date))
+                  ((= 2 *StgsDat) (apply max (utils::dates))) )
             'tp *EvTp))
       (cancelButton)))
 
