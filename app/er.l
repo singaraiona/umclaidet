@@ -36,8 +36,15 @@
 
 (dm url> (Tab) (and (may Event) (list "app/event.l" '*ID This)) )
 
+### Settings
+(class +Settings +Entity)
+(rel getdate (+Ref +Number)) # Autofill Date in new event (1 - current 2 - last)
+(rel events_autofill (+Ref +Number))
+(rel currency_factor (+Ref +Number))
+
 ### Database sizes
 (dbs
    (3 +Role +User (+User pw))
    (1 +Category +Product +Event)
-   (2 +Supplier) )
+   (2 +Supplier)
+   (2 +Settings) )

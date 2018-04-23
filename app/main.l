@@ -22,9 +22,6 @@
 (setq *Pie "Круговой")
 (setq *Dough "Радиальный")
 (setq *CsvSep "|")
-(setq *StgsDat 1)
-(setq *StgsFlds 1)
-(setq *StgsCurcy 100)
 
 (locale "RU" "ru" "app/loc/")
 

@@ -281,4 +281,18 @@
    (utils::upclb "init/tovar" 'utils::eprods)
    (utils::upclb "init/prihod" 'utils::eevts) )
 
+### Read property from settings
+(de utils::settings::get Args
+   (eval
+      (let Fld (eval (pop 'Args))
+         (make
+            (link ';)
+            (link
+               (make
+                  (link 'car)
+                  (link
+                     (make
+                        (link 'collect ''getdate ''+Settings) ) ) ) )
+            (link Fld) ) ) ) )
+
 (de utils::preload ())
