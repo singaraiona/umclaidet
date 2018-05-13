@@ -24,7 +24,7 @@
          'date 
             (cond 
                ((= 1 *StgsDat) (date))
-               ((= 2 *StgsDat) (apply max (utils::dates))) )
+               ((= 2 *StgsDat) (utils::lastdate)) )
          'tp (val> (: home tp)))))
 
 ### Update rest fields when Product has been changed

@@ -11,6 +11,9 @@
 (de utils::strTp (S)
    (if (= S *Income) 1 (if (= S *Expense) 2 NIL) ) )
 
+(de utils::lastdate ()
+   (with (last (collect 'nr '+Event)) (: date)) )
+
 ### Removes all spaces from sides of L and inside one
 ### if there are more then one space at a time
 (de utils::clip (L)

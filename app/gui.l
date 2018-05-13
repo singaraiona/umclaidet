@@ -223,7 +223,7 @@
             'date 
                (cond 
                   ((= 1 *StgsDat) (date))
-                  ((= 2 *StgsDat) (apply max (utils::dates))) )
+                  ((= 2 *StgsDat) (utils::lastdate)) )
             'tp *EvTp))
       (cancelButton)))
 
