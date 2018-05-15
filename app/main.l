@@ -24,6 +24,7 @@
 (setq *CsvSep "|")
 (setq *StgsDat 2)
 (setq *StgsCurcy 1)
+(setq *StgsFilter 1)
 
 (locale "RU" "ru" "app/loc/")
 

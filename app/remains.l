@@ -13,7 +13,11 @@
          ,"Category" (choCat 0) (gui 'cat '(+Var +Obj +TextField)
                '*InvCat
                '(name +Category) 10)
-         ,"Title" NIL (gui 'prd '(+Var +TextField) '*InvPrd 10) )
+         ,"Title" NIL (gui 'prd '(+Var +TextField) '*InvPrd 10)
+         ,"Show" NIL (gui '(+Init +Set +Map +TextField)
+            *StgsFilter
+            '((X) (setq *StgsFilter X))
+            '(("Все" . 1) ("Отрицат." . 2)) '("Все" "Отрицат.")) )
       (--)
       (gui '(+ShowButton) NIL
          '(csv ,"Remains"
@@ -61,6 +65,13 @@
             (by '((X) (with X (: sellprice))) group P)) )
       (by '((I) (with I (: product))) group L) ) )
 
+(de grp::show (Grp Qty)
+   (with Grp
+      (let Mins (filter '((X) (> 0 X))
+         (list (: sellprice) (: buyprice) Qty
+            (- (* (: sellprice) Qty) (* (: buyprice) Qty)) ) )
+      (or (= 1 *StgsFilter) Mins) ) ) )
+
 (de rem::fold (Grp)
       (inc 'Nr)
       (let Qty 0
@@ -69,18 +80,19 @@
             (let (Ssum (* (: sellprice) Qty)
                   Bsum (* (: buyprice) Qty)
                   Chrg (- Ssum Bsum))
-               (<row> (alternating)
-                  (<+> Nr)
-                  (<+> (: product nr))
-                  (<+> (: product category name))
-                  (<+> (: product title))
-                  (<+> (money Qty))
-                  (<+> (money (: sellprice)))
-                  (<+> (money (/ Ssum 100)))
-                  (<+> (money (: buyprice)))
-                  (<+> (money (/ Bsum 100)))
-                  (<+> (money (/ Chrg 100)))
-                  (<-> (: product supplier name)))
+               (if (grp::show This Qty)
+                  (<row> (alternating)
+                     (<+> Nr)
+                     (<+> (: product nr))
+                     (<+> (: product category name))
+                     (<+> (: product title))
+                     (<+> (money Qty))
+                     (<+> (money (: sellprice)))
+                     (<+> (money (/ Ssum 100)))
+                     (<+> (money (: buyprice)))
+                     (<+> (money (/ Bsum 100)))
+                     (<+> (money (/ Chrg 100)))
+                     (<-> (: product supplier name))) )
                (inc 'TotalSellSum Ssum)
                (inc 'TotalBuySum Bsum)
                (inc 'TotalCharge Chrg)))))
